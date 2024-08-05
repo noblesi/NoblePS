@@ -1,0 +1,186 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\KGA\\Documents\\GitHub\\NoblePS\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{C68AE5C3-FD6A-4144-7303-11BC1C4BC620}|Assembly-CSharp.csproj|c:\\users\\kga\\documents\\github\\nobleps\\assets\\scripts\\playerinputactions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C68AE5C3-FD6A-4144-7303-11BC1C4BC620}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\playerinputactions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C68AE5C3-FD6A-4144-7303-11BC1C4BC620}|Assembly-CSharp.csproj|c:\\users\\kga\\documents\\github\\nobleps\\assets\\scripts\\monsterfsm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C68AE5C3-FD6A-4144-7303-11BC1C4BC620}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\monsterfsm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C68AE5C3-FD6A-4144-7303-11BC1C4BC620}|Assembly-CSharp.csproj|C:\\Users\\KGA\\Documents\\GitHub\\NoblePS\\assets\\scripts\\skeletonswordman.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C68AE5C3-FD6A-4144-7303-11BC1C4BC620}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\skeletonswordman.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C68AE5C3-FD6A-4144-7303-11BC1C4BC620}|Assembly-CSharp.csproj|C:\\Users\\KGA\\Documents\\GitHub\\NoblePS\\assets\\scripts\\skeletongrunt.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C68AE5C3-FD6A-4144-7303-11BC1C4BC620}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\skeletongrunt.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C68AE5C3-FD6A-4144-7303-11BC1C4BC620}|Assembly-CSharp.csproj|C:\\Users\\KGA\\Documents\\GitHub\\NoblePS\\assets\\scripts\\monster.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C68AE5C3-FD6A-4144-7303-11BC1C4BC620}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\monster.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C68AE5C3-FD6A-4144-7303-11BC1C4BC620}|Assembly-CSharp.csproj|C:\\Users\\KGA\\Documents\\GitHub\\NoblePS\\assets\\scripts\\playermovement.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C68AE5C3-FD6A-4144-7303-11BC1C4BC620}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\playermovement.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C68AE5C3-FD6A-4144-7303-11BC1C4BC620}|Assembly-CSharp.csproj|C:\\Users\\KGA\\Documents\\GitHub\\NoblePS\\assets\\scripts\\player.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C68AE5C3-FD6A-4144-7303-11BC1C4BC620}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\player.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C68AE5C3-FD6A-4144-7303-11BC1C4BC620}|Assembly-CSharp.csproj|C:\\Users\\KGA\\Documents\\GitHub\\NoblePS\\assets\\scripts\\characterbase.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C68AE5C3-FD6A-4144-7303-11BC1C4BC620}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\characterbase.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C68AE5C3-FD6A-4144-7303-11BC1C4BC620}|Assembly-CSharp.csproj|C:\\Users\\KGA\\Documents\\GitHub\\NoblePS\\assets\\scripts\\interface\\iattack.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C68AE5C3-FD6A-4144-7303-11BC1C4BC620}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\interface\\iattack.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C68AE5C3-FD6A-4144-7303-11BC1C4BC620}|Assembly-CSharp.csproj|C:\\Users\\KGA\\Documents\\GitHub\\NoblePS\\assets\\scripts\\interface\\idamageable.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C68AE5C3-FD6A-4144-7303-11BC1C4BC620}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\interface\\idamageable.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 234,
+          "SelectedChildIndex": 1,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "PlayerInputActions.cs",
+              "DocumentMoniker": "C:\\Users\\KGA\\Documents\\GitHub\\NoblePS\\Assets\\Scripts\\PlayerInputActions.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\PlayerInputActions.cs",
+              "ToolTip": "C:\\Users\\KGA\\Documents\\GitHub\\NoblePS\\Assets\\Scripts\\PlayerInputActions.cs",
+              "RelativeToolTip": "Assets\\Scripts\\PlayerInputActions.cs",
+              "ViewState": "AQIAAH4AAAAAAAAAAAAywAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-05T07:01:02.714Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "PlayerMovement.cs",
+              "DocumentMoniker": "C:\\Users\\KGA\\Documents\\GitHub\\NoblePS\\Assets\\Scripts\\PlayerMovement.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\PlayerMovement.cs",
+              "ToolTip": "C:\\Users\\KGA\\Documents\\GitHub\\NoblePS\\Assets\\Scripts\\PlayerMovement.cs",
+              "RelativeToolTip": "Assets\\Scripts\\PlayerMovement.cs",
+              "ViewState": "AQIAAA0AAAAAAAAAAAAowEUAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-05T06:58:57.679Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "SkeletonSwordman.cs",
+              "DocumentMoniker": "C:\\Users\\KGA\\Documents\\GitHub\\NoblePS\\Assets\\Scripts\\SkeletonSwordman.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\SkeletonSwordman.cs",
+              "ToolTip": "C:\\Users\\KGA\\Documents\\GitHub\\NoblePS\\Assets\\Scripts\\SkeletonSwordman.cs",
+              "RelativeToolTip": "Assets\\Scripts\\SkeletonSwordman.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAgAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-05T06:00:07.233Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "SkeletonGrunt.cs",
+              "DocumentMoniker": "C:\\Users\\KGA\\Documents\\GitHub\\NoblePS\\Assets\\Scripts\\SkeletonGrunt.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\SkeletonGrunt.cs",
+              "ToolTip": "C:\\Users\\KGA\\Documents\\GitHub\\NoblePS\\Assets\\Scripts\\SkeletonGrunt.cs",
+              "RelativeToolTip": "Assets\\Scripts\\SkeletonGrunt.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAgAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-05T05:59:59.932Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "MonsterFSM.cs",
+              "DocumentMoniker": "C:\\Users\\KGA\\Documents\\GitHub\\NoblePS\\Assets\\Scripts\\MonsterFSM.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\MonsterFSM.cs",
+              "ToolTip": "C:\\Users\\KGA\\Documents\\GitHub\\NoblePS\\Assets\\Scripts\\MonsterFSM.cs",
+              "RelativeToolTip": "Assets\\Scripts\\MonsterFSM.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAuwBcAAAASAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-05T05:59:08.614Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Monster.cs",
+              "DocumentMoniker": "C:\\Users\\KGA\\Documents\\GitHub\\NoblePS\\Assets\\Scripts\\Monster.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Monster.cs",
+              "ToolTip": "C:\\Users\\KGA\\Documents\\GitHub\\NoblePS\\Assets\\Scripts\\Monster.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Monster.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABoAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-05T05:58:40.197Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "Player.cs",
+              "DocumentMoniker": "C:\\Users\\KGA\\Documents\\GitHub\\NoblePS\\Assets\\Scripts\\Player.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Player.cs",
+              "ToolTip": "C:\\Users\\KGA\\Documents\\GitHub\\NoblePS\\Assets\\Scripts\\Player.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Player.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAD8AAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-05T05:57:34.499Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "CharacterBase.cs",
+              "DocumentMoniker": "C:\\Users\\KGA\\Documents\\GitHub\\NoblePS\\Assets\\Scripts\\CharacterBase.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\CharacterBase.cs",
+              "ToolTip": "C:\\Users\\KGA\\Documents\\GitHub\\NoblePS\\Assets\\Scripts\\CharacterBase.cs",
+              "RelativeToolTip": "Assets\\Scripts\\CharacterBase.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABwAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-05T05:57:00.453Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "IDamageable.cs",
+              "DocumentMoniker": "C:\\Users\\KGA\\Documents\\GitHub\\NoblePS\\Assets\\Scripts\\Interface\\IDamageable.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Interface\\IDamageable.cs",
+              "ToolTip": "C:\\Users\\KGA\\Documents\\GitHub\\NoblePS\\Assets\\Scripts\\Interface\\IDamageable.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Interface\\IDamageable.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAuwAMAAAABAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-05T05:56:20.412Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "IAttack.cs",
+              "DocumentMoniker": "C:\\Users\\KGA\\Documents\\GitHub\\NoblePS\\Assets\\Scripts\\Interface\\IAttack.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Interface\\IAttack.cs",
+              "ToolTip": "C:\\Users\\KGA\\Documents\\GitHub\\NoblePS\\Assets\\Scripts\\Interface\\IAttack.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Interface\\IAttack.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAMAAAABAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-05T05:56:13.69Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

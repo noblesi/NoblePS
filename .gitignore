@@ -5,3 +5,5 @@ Library
 *.sln
 *.vsconfig
 *.csproj
+obj
+Packages
