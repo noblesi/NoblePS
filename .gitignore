@@ -1,7 +1,7 @@
-﻿NoblePS/Library
-NoblePS/Logs
-NoblePS/UserSettings
-NoblePS/Temp
+﻿UserSettings
+Temp
+Logs
+Library
 *.sln
 *.vsconfig
 *.csproj
