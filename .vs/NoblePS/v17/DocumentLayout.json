@@ -1,0 +1,247 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\KGA\\Documents\\GitHub\\NoblePS\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{C68AE5C3-FD6A-4144-7303-11BC1C4BC620}|Assembly-CSharp.csproj|c:\\users\\kga\\documents\\github\\nobleps\\assets\\scripts\\data\\datamanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C68AE5C3-FD6A-4144-7303-11BC1C4BC620}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\data\\datamanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C68AE5C3-FD6A-4144-7303-11BC1C4BC620}|Assembly-CSharp.csproj|C:\\Users\\KGA\\Documents\\GitHub\\NoblePS\\assets\\scripts\\data\\datamapper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C68AE5C3-FD6A-4144-7303-11BC1C4BC620}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\data\\datamapper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C68AE5C3-FD6A-4144-7303-11BC1C4BC620}|Assembly-CSharp.csproj|c:\\users\\kga\\documents\\github\\nobleps\\assets\\scripts\\singleton.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C68AE5C3-FD6A-4144-7303-11BC1C4BC620}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\singleton.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C68AE5C3-FD6A-4144-7303-11BC1C4BC620}|Assembly-CSharp.csproj|C:\\Users\\KGA\\Documents\\GitHub\\NoblePS\\assets\\scripts\\playercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C68AE5C3-FD6A-4144-7303-11BC1C4BC620}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\playercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C68AE5C3-FD6A-4144-7303-11BC1C4BC620}|Assembly-CSharp.csproj|C:\\Users\\KGA\\Documents\\GitHub\\NoblePS\\assets\\scripts\\enemycontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C68AE5C3-FD6A-4144-7303-11BC1C4BC620}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\enemycontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C68AE5C3-FD6A-4144-7303-11BC1C4BC620}|Assembly-CSharp.csproj|C:\\Users\\KGA\\Documents\\GitHub\\NoblePS\\assets\\scripts\\player.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C68AE5C3-FD6A-4144-7303-11BC1C4BC620}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\player.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C68AE5C3-FD6A-4144-7303-11BC1C4BC620}|Assembly-CSharp.csproj|C:\\Users\\KGA\\Documents\\GitHub\\NoblePS\\assets\\scripts\\enemy.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C68AE5C3-FD6A-4144-7303-11BC1C4BC620}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\enemy.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C68AE5C3-FD6A-4144-7303-11BC1C4BC620}|Assembly-CSharp.csproj|C:\\Users\\KGA\\Documents\\GitHub\\NoblePS\\assets\\scripts\\enemychasestate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C68AE5C3-FD6A-4144-7303-11BC1C4BC620}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\enemychasestate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C68AE5C3-FD6A-4144-7303-11BC1C4BC620}|Assembly-CSharp.csproj|C:\\Users\\KGA\\Documents\\GitHub\\NoblePS\\assets\\scripts\\enemyattackstate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C68AE5C3-FD6A-4144-7303-11BC1C4BC620}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\enemyattackstate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C68AE5C3-FD6A-4144-7303-11BC1C4BC620}|Assembly-CSharp.csproj|C:\\Users\\KGA\\Documents\\GitHub\\NoblePS\\assets\\scripts\\enemyidlestate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C68AE5C3-FD6A-4144-7303-11BC1C4BC620}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\enemyidlestate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C68AE5C3-FD6A-4144-7303-11BC1C4BC620}|Assembly-CSharp.csproj|C:\\Users\\KGA\\Documents\\GitHub\\NoblePS\\assets\\scripts\\interface\\ienemystate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C68AE5C3-FD6A-4144-7303-11BC1C4BC620}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\interface\\ienemystate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C68AE5C3-FD6A-4144-7303-11BC1C4BC620}|Assembly-CSharp.csproj|C:\\Users\\KGA\\Documents\\GitHub\\NoblePS\\assets\\scripts\\interface\\idamageable.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C68AE5C3-FD6A-4144-7303-11BC1C4BC620}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\interface\\idamageable.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\KGA\\Documents\\GitHub\\NoblePS\\assets\\scripts\\playerdata.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:assets\\scripts\\playerdata.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\KGA\\Documents\\GitHub\\NoblePS\\assets\\scripts\\enemydata.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:assets\\scripts\\enemydata.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 1,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "DataMapper.cs",
+              "DocumentMoniker": "C:\\Users\\KGA\\Documents\\GitHub\\NoblePS\\Assets\\Scripts\\Data\\DataMapper.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Data\\DataMapper.cs",
+              "ToolTip": "C:\\Users\\KGA\\Documents\\GitHub\\NoblePS\\Assets\\Scripts\\Data\\DataMapper.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Data\\DataMapper.cs",
+              "ViewState": "AQIAAAsAAAAAAAAAAABFwBoAAAAwAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-20T06:25:53.85Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "DataManager.cs",
+              "DocumentMoniker": "C:\\Users\\KGA\\Documents\\GitHub\\NoblePS\\Assets\\Scripts\\Data\\DataManager.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Data\\DataManager.cs",
+              "ToolTip": "C:\\Users\\KGA\\Documents\\GitHub\\NoblePS\\Assets\\Scripts\\Data\\DataManager.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Data\\DataManager.cs",
+              "ViewState": "AQIAAI0AAAAAAAAAAAAqwKYAAAAlAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-20T06:42:38.449Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Singleton.cs",
+              "DocumentMoniker": "C:\\Users\\KGA\\Documents\\GitHub\\NoblePS\\Assets\\Scripts\\Singleton.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Singleton.cs",
+              "ToolTip": "C:\\Users\\KGA\\Documents\\GitHub\\NoblePS\\Assets\\Scripts\\Singleton.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Singleton.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAC8AAAABAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-20T07:01:53.799Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Player.cs",
+              "DocumentMoniker": "C:\\Users\\KGA\\Documents\\GitHub\\NoblePS\\Assets\\Scripts\\Player.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Player.cs",
+              "ToolTip": "C:\\Users\\KGA\\Documents\\GitHub\\NoblePS\\Assets\\Scripts\\Player.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Player.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAQAAAATAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-20T06:37:31.828Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "Enemy.cs",
+              "DocumentMoniker": "C:\\Users\\KGA\\Documents\\GitHub\\NoblePS\\Assets\\Scripts\\Enemy.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Enemy.cs",
+              "ToolTip": "C:\\Users\\KGA\\Documents\\GitHub\\NoblePS\\Assets\\Scripts\\Enemy.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Enemy.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAIAAAASAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-20T06:37:25.819Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "EnemyIdleState.cs",
+              "DocumentMoniker": "C:\\Users\\KGA\\Documents\\GitHub\\NoblePS\\Assets\\Scripts\\EnemyIdleState.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\EnemyIdleState.cs",
+              "ToolTip": "C:\\Users\\KGA\\Documents\\GitHub\\NoblePS\\Assets\\Scripts\\EnemyIdleState.cs",
+              "RelativeToolTip": "Assets\\Scripts\\EnemyIdleState.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA4AAAAgAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-20T04:36:27.604Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "EnemyChaseState.cs",
+              "DocumentMoniker": "C:\\Users\\KGA\\Documents\\GitHub\\NoblePS\\Assets\\Scripts\\EnemyChaseState.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\EnemyChaseState.cs",
+              "ToolTip": "C:\\Users\\KGA\\Documents\\GitHub\\NoblePS\\Assets\\Scripts\\EnemyChaseState.cs",
+              "RelativeToolTip": "Assets\\Scripts\\EnemyChaseState.cs",
+              "ViewState": "AQIAAAEAAAAAAAAAAAAzwBkAAAAYAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-20T04:36:24.832Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "EnemyAttackState.cs",
+              "DocumentMoniker": "C:\\Users\\KGA\\Documents\\GitHub\\NoblePS\\Assets\\Scripts\\EnemyAttackState.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\EnemyAttackState.cs",
+              "ToolTip": "C:\\Users\\KGA\\Documents\\GitHub\\NoblePS\\Assets\\Scripts\\EnemyAttackState.cs",
+              "RelativeToolTip": "Assets\\Scripts\\EnemyAttackState.cs",
+              "ViewState": "AQIAAAEAAAAAAAAAAAAzwBAAAAAOAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-20T04:36:22.432Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "IEnemyState.cs",
+              "DocumentMoniker": "C:\\Users\\KGA\\Documents\\GitHub\\NoblePS\\Assets\\Scripts\\Interface\\IEnemyState.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Interface\\IEnemyState.cs",
+              "ToolTip": "C:\\Users\\KGA\\Documents\\GitHub\\NoblePS\\Assets\\Scripts\\Interface\\IEnemyState.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Interface\\IEnemyState.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAuwAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-20T04:32:37.879Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "EnemyData.cs",
+              "DocumentMoniker": "C:\\Users\\KGA\\Documents\\GitHub\\NoblePS\\Assets\\Scripts\\EnemyData.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\EnemyData.cs",
+              "ToolTip": "C:\\Users\\KGA\\Documents\\GitHub\\NoblePS\\Assets\\Scripts\\EnemyData.cs",
+              "RelativeToolTip": "Assets\\Scripts\\EnemyData.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-20T04:31:54.668Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "EnemyController.cs",
+              "DocumentMoniker": "C:\\Users\\KGA\\Documents\\GitHub\\NoblePS\\Assets\\Scripts\\EnemyController.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\EnemyController.cs",
+              "ToolTip": "C:\\Users\\KGA\\Documents\\GitHub\\NoblePS\\Assets\\Scripts\\EnemyController.cs",
+              "RelativeToolTip": "Assets\\Scripts\\EnemyController.cs",
+              "ViewState": "AQIAAEEAAAAAAAAAAAAqwEwAAAAjAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-20T04:31:19.448Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "IDamageable.cs",
+              "DocumentMoniker": "C:\\Users\\KGA\\Documents\\GitHub\\NoblePS\\Assets\\Scripts\\Interface\\IDamageable.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Interface\\IDamageable.cs",
+              "ToolTip": "C:\\Users\\KGA\\Documents\\GitHub\\NoblePS\\Assets\\Scripts\\Interface\\IDamageable.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Interface\\IDamageable.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAuwAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-20T04:28:00.615Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "PlayerController.cs",
+              "DocumentMoniker": "C:\\Users\\KGA\\Documents\\GitHub\\NoblePS\\Assets\\Scripts\\PlayerController.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\PlayerController.cs",
+              "ToolTip": "C:\\Users\\KGA\\Documents\\GitHub\\NoblePS\\Assets\\Scripts\\PlayerController.cs",
+              "RelativeToolTip": "Assets\\Scripts\\PlayerController.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAYAAAAYAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-19T08:32:31.283Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "PlayerData.cs",
+              "DocumentMoniker": "C:\\Users\\KGA\\Documents\\GitHub\\NoblePS\\Assets\\Scripts\\PlayerData.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\PlayerData.cs",
+              "ToolTip": "C:\\Users\\KGA\\Documents\\GitHub\\NoblePS\\Assets\\Scripts\\PlayerData.cs",
+              "RelativeToolTip": "Assets\\Scripts\\PlayerData.cs",
+              "ViewState": "AQIAABsAAAAAAAAAAAAswDMAAAAaAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-19T08:21:07.222Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

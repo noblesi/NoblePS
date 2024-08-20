@@ -1,63 +1,60 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
-using UnityEngine.Events;
 
-public class Player : CharacterBase
+public class Player : MonoBehaviour
 {
-    public int experience;
-    public int level;
+    public int Level { get; private set; } = 1;
+    public int Experience { get; private set; } = 0;
+    public int Health { get; private set; } = 100;
+    public int Stamina { get; private set; } = 100;
 
-    private PlayerInputActions inputActions;
-    private PlayerMovement playerMovement;
+    private const int MaxHealth = 100;
+    private const int MaxStamina = 100;
 
-    [Header("Events")]
-    public UnityEvent<Vector2> onMove;
-    public UnityEvent onAttack;
-
-    private void Awake()
+    public void TakeDamage(int damage)
     {
-        inputActions = new PlayerInputActions();
-        playerMovement = GetComponent<PlayerMovement>();
-
-        inputActions.Player.Move.performed += context => onMove.Invoke(context.ReadValue<Vector2>());
-        inputActions.Player.Attack.performed += context => { if (context.ReadValue<float>() > 0) onAttack.Invoke(); };
-    }
-
-    private void OnEnable()
-    {
-        inputActions.Enable();
-    }
-
-    private void OnDisable()
-    {
-        inputActions.Disable();
-    }
-
-    private void Start()
-    {
-        onMove.AddListener(playerMovement.MoveToPointer);
-        onAttack.AddListener(playerMovement.TriggerAttack);
-    }
-
-    public override void TakeDamage(int damage)
-    {
-        base.TakeDamage(damage);
-        playerMovement.TriggerHit();
-
-        if (health <= 0)
+        Health -= damage;
+        if (Health < 0)
         {
-            playerMovement.TriggerDie();
+            Health = 0;
+            // 플레이어 사망 처리
         }
     }
 
-    public override void Move(Vector3 direction)
+    public void Heal(int amount)
     {
-        // This method can be left empty or refactored if needed
+        Health += amount;
+        if (Health > MaxHealth)
+        {
+            Health = MaxHealth;
+        }
     }
 
-    protected override void Die()
+    public void UseStamina(int amount)
     {
-        playerMovement.TriggerDie();
-        // Implement player death logic
+        Stamina -= amount;
+        if (Stamina < 0)
+        {
+            Stamina = 0;
+        }
+    }
+
+    public void GainExperience(int amount)
+    {
+        Experience += amount;
+        if (Experience >= Level * 100) // 레벨업 조건 예시
+        {
+            LevelUp();
+        }
+    }
+
+    private void LevelUp()
+    {
+        Level++;
+        Experience = 0;
+        Health = MaxHealth;
+        Stamina = MaxStamina;
+        // 레벨업에 따른 추가 처리가 필요할 수 있음
     }
 }
