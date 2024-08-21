@@ -91,15 +91,16 @@ public class DataManager : Singleton<DataManager>
 
     private PlayerData ParsePlayerData(XElement data)
     {
-        var tempPlayerData =  new PlayerData
+        var playerName = data.Attribute(nameof(PlayerData.PlayerName)).Value;
+
+        var tempPlayerData = new PlayerData(playerName)
         {
-            PlayerName = data.Attribute(nameof(PlayerData.PlayerName)).Value,
             PlayerLevel = int.Parse(data.Attribute(nameof(PlayerData.PlayerLevel)).Value),
             PlayerHP = int.Parse(data.Attribute(nameof(PlayerData.PlayerHP)).Value),
             PlayerMP = int.Parse(data.Attribute(nameof(PlayerData.PlayerMP)).Value),
             Strength = int.Parse(data.Attribute(nameof(PlayerData.Strength)).Value),
             Dexterity = int.Parse(data.Attribute(nameof(PlayerData.Dexterity)).Value),
-            Inteligence = int.Parse(data.Attribute(nameof(PlayerData.Inteligence)).Value),
+            Intelligence = int.Parse(data.Attribute(nameof(PlayerData.Intelligence)).Value),
             PlayerEXP = int.Parse(data.Attribute(nameof(PlayerData.PlayerEXP)).Value)
         };
 
@@ -108,17 +109,18 @@ public class DataManager : Singleton<DataManager>
         return tempPlayerData;
     }
 
+
     private EnemyData ParseEnemyData(XElement data)
     {
-        var tempEnemyData = new EnemyData
-        {
-            EnemyName = data.Attribute(nameof(EnemyData.EnemyName)).Value,
-            EnemyHP = int.Parse(data.Attribute(nameof(EnemyData.EnemyHP)).Value),
-            EnemyMP = int.Parse(data.Attribute(nameof(EnemyData.EnemyMP)).Value),
-            EnemyATK = int.Parse(data.Attribute(nameof(EnemyData.EnemyATK)).Value),
-            EnemyDEF = int.Parse(data.Attribute(nameof(EnemyData.EnemyDEF)).Value),
-            EnemyEXP = int.Parse(data.Attribute(nameof(EnemyData.EnemyHP)).Value)
-        };
+        string enemyName = data.Attribute(nameof(EnemyData.EnemyName)).Value;
+        int enemyLevel = int.Parse(data.Attribute(nameof(EnemyData.EnemyLevel)).Value);
+        int enemyHP = int.Parse(data.Attribute(nameof(EnemyData.EnemyHP)).Value);
+        int enemyMP = int.Parse(data.Attribute(nameof(EnemyData.EnemyMP)).Value);
+        int enemyATK = int.Parse(data.Attribute(nameof(EnemyData.EnemyATK)).Value);
+        int enemyDEF = int.Parse(data.Attribute(nameof(EnemyData.EnemyDEF)).Value);
+        int enemyEXP = int.Parse(data.Attribute(nameof(EnemyData.EnemyEXP)).Value);
+
+        var tempEnemyData = new EnemyData(enemyName, enemyLevel, enemyHP, enemyMP, enemyATK, enemyDEF, enemyEXP);
 
         SetDataList(out tempEnemyData.EnemyDropList, data, "EnemyDropList");
 
