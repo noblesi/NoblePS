@@ -15,16 +15,43 @@ public class InputManager : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            HandleAttack();
+        }
 
-            RaycastHit hit;
+        if (Input.GetMouseButtonDown(1))
+        {
+            HandleMove();
+        }
+    }
 
-            if(Physics.Raycast(ray, out hit))
+    private void HandleAttack()
+    {
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        if (Physics.Raycast(ray, out RaycastHit hit))
+        {
+            if (hit.collider.gameObject.CompareTag("Enemy"))
             {
-                if(hit.collider.gameObject.CompareTag("Map"))
-                { 
-                    player.GetComponent<PlayerFSM>().MoveTo(hit.point);
-                }
+                player.GetComponent<PlayerFSM>().AttackEnemy(hit.collider.gameObject);
+            }
+            else
+            {
+                player.GetComponent<PlayerFSM>().AttackEnemy(null);
+            }
+        }
+        else
+        {
+            player.GetComponent<PlayerFSM>().AttackEnemy(null);
+        }
+    }
+
+    private void HandleMove()
+    {
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        if (Physics.Raycast(ray, out RaycastHit hit))
+        {
+            if (hit.collider.gameObject.CompareTag("Map"))
+            {
+                player.GetComponent<PlayerFSM>().MoveTo(hit.point);
             }
         }
     }
