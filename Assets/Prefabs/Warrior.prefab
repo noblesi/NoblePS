@@ -695,7 +695,7 @@ GameObject:
   - component: {fileID: 7374878882708007231}
   - component: {fileID: 6269917169877348008}
   - component: {fileID: 8213276153868040948}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Warrior
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -759,6 +759,12 @@ MonoBehaviour:
   moveSpeed: 2
   attackDelay: 2
   attackTimer: 0
+  hitBoxSpawnPoint: {fileID: 0}
+  hitBoxRadius: 1.5
+  damage: 20
+  enemyLayer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!114 &8213276153868040948
 MonoBehaviour:
   m_ObjectHideFlags: 0

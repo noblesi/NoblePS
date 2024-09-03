@@ -29,11 +29,16 @@ public class EnemyFSM : MonoBehaviour
     private int enemyHP = 100;
     private float deathDelay = 2f;
 
+    public Transform hitBoxSpawnPoint;
+    public float hitBoxRadius = 1.5f;
+    public int damage = 15;
+
+    public LayerMask playerLayer;
+
     private void Start()
     {
         enemyAnim = GetComponent<EnemyAnimation>();
         ChangeState(State.Idle, EnemyAnimation.ANIM_IDLE);
-
         player = GameObject.FindGameObjectWithTag("Player").transform;
     }
 
@@ -96,7 +101,10 @@ public class EnemyFSM : MonoBehaviour
     {
         if(GetDistanceFromPlayer() < attackDistance)
         {
-            ChangeState(State.Attack, EnemyAnimation.ANIM_ATTACK);
+            if (IsPlayerInRange())
+            {
+                ChangeState(State.Attack, EnemyAnimation.ANIM_ATTACK);
+            }
         }
         else
         {
@@ -124,6 +132,12 @@ public class EnemyFSM : MonoBehaviour
 
             attackTimer += Time.deltaTime;
         }
+    }
+
+    private bool IsPlayerInRange()
+    {
+        Collider[] hitPlayers = Physics.OverlapSphere(hitBoxSpawnPoint.position, hitBoxRadius, playerLayer);
+        return hitPlayers.Length > 0;
     }
 
     private void HitState()
@@ -173,5 +187,14 @@ public class EnemyFSM : MonoBehaviour
     private void Update()
     {
         UpdateState();
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        if(hitBoxSpawnPoint != null)
+        {
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireSphere(hitBoxSpawnPoint.position, hitBoxRadius);
+        }
     }
 }

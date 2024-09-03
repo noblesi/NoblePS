@@ -61,16 +61,23 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\Data\DataMapper.cs" />
-    <Compile Include="Assets\Scripts\PlayerAnimation.cs" />
+    <Compile Include="Assets\Scripts\Inventory\InventorySlot.cs" />
+    <Compile Include="Assets\Scripts\Enemy\EnemyFSM.cs" />
     <Compile Include="Assets\_Sources\GUI\Fantasy Wooden GUI  Package\Script\FontPressed.cs" />
-    <Compile Include="Assets\Scripts\HitBox.cs" />
+    <Compile Include="Assets\Scripts\Player\PlayerFSM.cs" />
+    <Compile Include="Assets\Scripts\Manager\UIManager.cs" />
+    <Compile Include="Assets\Scripts\Inventory\Tooltip.cs" />
+    <Compile Include="Assets\Scripts\Inventory\InventoryModel.cs" />
+    <Compile Include="Assets\Scripts\Manager\InputManager.cs" />
+    <Compile Include="Assets\Scripts\Inventory\InventoryView.cs" />
     <Compile Include="Assets\Scripts\Data\DataManager.cs" />
-    <Compile Include="Assets\Scripts\InputManager.cs" />
-    <Compile Include="Assets\Scripts\Singleton.cs" />
+    <Compile Include="Assets\Scripts\Manager\UIInputManager.cs" />
+    <Compile Include="Assets\Scripts\Inventory\InventoryPresenter.cs" />
+    <Compile Include="Assets\Scripts\Misc\Singleton.cs" />
     <Compile Include="Assets\_Sources\Map\L_FG_Assets_Pack1.0\Demo\cameraMove.cs" />
-    <Compile Include="Assets\Scripts\EnemyFSM.cs" />
-    <Compile Include="Assets\Scripts\EnemyAnimation.cs" />
-    <Compile Include="Assets\Scripts\PlayerFSM.cs" />
+    <Compile Include="Assets\Scripts\Enemy\EnemyAnimation.cs" />
+    <Compile Include="Assets\Scripts\Player\PlayerAnimation.cs" />
+    <Compile Include="Assets\Scripts\Interface\IInventoryView.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\_Sources\Enemy\BitGem\Skeleton_Mage\Animations\skeleton_mage_animation_list.txt" />
@@ -980,10 +987,6 @@
     </Reference>
     <Reference Include="Unity.VisualScripting.Core.Editor">
       <HintPath>Library\ScriptAssemblies\Unity.VisualScripting.Core.Editor.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Unity.Rider.Editor">
-      <HintPath>Library\ScriptAssemblies\Unity.Rider.Editor.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Unity.RenderPipelines.Universal.Config.Runtime">

@@ -10,18 +10,21 @@ public class DataManager : Singleton<DataManager>
     private string filePath;
     public Dictionary<string, PlayerData> LoadedPlayerData {  get; private set; }
     public Dictionary<string, EnemyData> LoadedEnemyData { get; private set; }
+    public Dictionary<int, Item> LoadedItemData { get; private set; }
 
     private readonly string _dataRootPath = Application.streamingAssetsPath;
 
     protected void Awake()
     {
         filePath = Application.persistentDataPath + "/Data.json";
+        ReadAllDataOnAwake();
     }
 
     private void ReadAllDataOnAwake()
     {
         LoadedPlayerData = LoadDataTable(nameof(PlayerData), ParsePlayerData, pd => pd.PlayerName);
         LoadedEnemyData = LoadDataTable(nameof(EnemyData), ParseEnemyData, ed => ed.EnemyName);
+        LoadedItemData = LoadDataTable(nameof(Item), ParseItemData, item => item.ItemID);
     }
 
     private void CopyFileToPersistentPath(string fileName)
@@ -74,11 +77,19 @@ public class DataManager : Singleton<DataManager>
             XDocument doc = XDocument.Load(filePath);
             var dataElements = doc.Descendants("data");
 
-            foreach(var data in dataElements)
+            foreach (var data in dataElements)
             {
                 TValue value = parseElement(data);
                 TKey key = getKey(value);
-                dataTable.Add(key, value);
+                
+                if (!dataTable.ContainsKey(key))
+                {
+                    dataTable.Add(key, value);
+                }
+                else
+                {
+                    Debug.LogError($"Duplicate key found: {key} in {fileName}");
+                }
             }
         }
         else
@@ -87,44 +98,6 @@ public class DataManager : Singleton<DataManager>
         }
 
         return dataTable;
-    }
-
-    private PlayerData ParsePlayerData(XElement data)
-    {
-        var playerName = data.Attribute(nameof(PlayerData.PlayerName)).Value;
-
-        var tempPlayerData = new PlayerData(playerName)
-        {
-            PlayerLevel = int.Parse(data.Attribute(nameof(PlayerData.PlayerLevel)).Value),
-            PlayerHP = int.Parse(data.Attribute(nameof(PlayerData.PlayerHP)).Value),
-            PlayerMP = int.Parse(data.Attribute(nameof(PlayerData.PlayerMP)).Value),
-            Strength = int.Parse(data.Attribute(nameof(PlayerData.Strength)).Value),
-            Dexterity = int.Parse(data.Attribute(nameof(PlayerData.Dexterity)).Value),
-            Intelligence = int.Parse(data.Attribute(nameof(PlayerData.Intelligence)).Value),
-            PlayerEXP = int.Parse(data.Attribute(nameof(PlayerData.PlayerEXP)).Value)
-        };
-
-        SetDataList(out tempPlayerData.PlayerInventory, data, "PlayerInventory");
-
-        return tempPlayerData;
-    }
-
-
-    private EnemyData ParseEnemyData(XElement data)
-    {
-        string enemyName = data.Attribute(nameof(EnemyData.EnemyName)).Value;
-        int enemyLevel = int.Parse(data.Attribute(nameof(EnemyData.EnemyLevel)).Value);
-        int enemyHP = int.Parse(data.Attribute(nameof(EnemyData.EnemyHP)).Value);
-        int enemyMP = int.Parse(data.Attribute(nameof(EnemyData.EnemyMP)).Value);
-        int enemyATK = int.Parse(data.Attribute(nameof(EnemyData.EnemyATK)).Value);
-        int enemyDEF = int.Parse(data.Attribute(nameof(EnemyData.EnemyDEF)).Value);
-        int enemyEXP = int.Parse(data.Attribute(nameof(EnemyData.EnemyEXP)).Value);
-
-        var tempEnemyData = new EnemyData(enemyName, enemyLevel, enemyHP, enemyMP, enemyATK, enemyDEF, enemyEXP);
-
-        SetDataList(out tempEnemyData.EnemyDropList, data, "EnemyDropList");
-
-        return tempEnemyData;
     }
 
     private void SetDataList<T>(out List<T> usingList, XElement data, string listName, Func<string, T> parseElement = null)
@@ -169,6 +142,13 @@ public class DataManager : Singleton<DataManager>
         return LoadedEnemyData[name];
     }
 
+    public Item GetItemData(int itemID)
+    {
+        if(LoadedItemData.Count == 0 || !LoadedItemData.ContainsKey(itemID)) return null;
+
+        return LoadedItemData[itemID];
+    }
+
     public string RemoveTextAfterParenthsis(string input)
     {
         int index = input.IndexOf('(');
@@ -176,5 +156,51 @@ public class DataManager : Singleton<DataManager>
         if (index == -1) return input;
 
         return input.Substring(0, index).Trim();
+    }
+
+    private PlayerData ParsePlayerData(XElement data)
+    {
+        return new PlayerData
+        {
+            PlayerName = data.Attribute(nameof(PlayerData.PlayerName))?.Value,
+            PlayerLevel = int.Parse(data.Attribute(nameof(PlayerData.PlayerLevel))?.Value ?? "0"),
+            PlayerHP = int.Parse(data.Attribute(nameof(PlayerData.PlayerHP))?.Value ?? "0"),
+            PlayerMP = int.Parse(data.Attribute(nameof(PlayerData.PlayerMP))?.Value ?? "0"),
+            Strength = int.Parse(data.Attribute(nameof(PlayerData.Strength))?.Value ?? "0"),
+            Dexterity = int.Parse(data.Attribute(nameof(PlayerData.Dexterity))?.Value ?? "0"),
+            Intelligence = int.Parse(data.Attribute(nameof(PlayerData.Intelligence))?.Value ?? "0"),
+            PlayerEXP = int.Parse(data.Attribute(nameof(PlayerData.PlayerEXP))?.Value ?? "0"),
+            StatPoints = int.Parse(data.Attribute(nameof(PlayerData.StatPoints))?.Value ?? "0")
+        };
+    }
+
+    private EnemyData ParseEnemyData(XElement data)
+    {
+        var enemyData = new EnemyData
+        {
+            EnemyName = data.Attribute(nameof(EnemyData.EnemyName))?.Value,
+            EnemyLevel = int.Parse(data.Attribute(nameof(EnemyData.EnemyLevel))?.Value ?? "0"),
+            EnemyHP = int.Parse(data.Attribute(nameof(EnemyData.EnemyHP))?.Value ?? "0"),
+            EnemyMP = int.Parse(data.Attribute(nameof(EnemyData.EnemyMP))?.Value ?? "0"),
+            EnemyATK = int.Parse(data.Attribute(nameof(EnemyData.EnemyATK))?.Value ?? "0"),
+            EnemyDEF = int.Parse(data.Attribute(nameof(EnemyData.EnemyDEF))?.Value ?? "0"),
+            EnemyEXP = int.Parse(data.Attribute(nameof(EnemyData.EnemyEXP))?.Value ?? "0")
+        };
+
+        SetDataList(out enemyData.EnemyDropList, data, nameof(EnemyData.EnemyDropList), int.Parse);
+
+        return enemyData;
+    }
+
+    private Item ParseItemData(XElement data)
+    {
+        return new Item
+        {
+            ItemID = int.Parse(data.Attribute(nameof(Item.ItemID))?.Value ?? "0"),
+            ItemName = data.Attribute(nameof(Item.ItemName))?.Value,
+            // 아이콘은 리소스 로딩 방식에 따라 추가 구현 필요
+            Type = (ItemType)Enum.Parse(typeof(ItemType), data.Attribute(nameof(Item.Type))?.Value ?? "Misc"),
+            Description = data.Attribute(nameof(Item.Description))?.Value
+        };
     }
 }

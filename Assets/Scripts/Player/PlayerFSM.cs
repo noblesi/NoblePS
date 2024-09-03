@@ -12,31 +12,27 @@ public class PlayerFSM : MonoBehaviour
     public State currentState = State.Idle;
 
     private Vector3 currentTargetPos;
-
     private GameObject currentEnemy;
 
     public float rotAnglePerSecond = 360f;
-
     public float moveSpeed = 2f;
 
     [SerializeField] private float attackDelay = 2f;
-
     [SerializeField] private float attackTimer = 0f;
 
-    public GameObject hitBoxPrefsb;
     public Transform hitBoxSpawnPoint;
+    public float hitBoxRadius = 1.5f;
+    public int damage = 20;
 
-    private float attackDistance = 1.5f;
+    public LayerMask enemyLayer;
 
     private PlayerAnimation playerAnim;
-
     private int playerHP = 100;
     private float hitRecoveryTime = 1f;
 
     private void Start()
     {
         playerAnim = GetComponent<PlayerAnimation>();
-
         ChangeState(State.Idle, PlayerAnimation.ANIM_IDLE);
     }
 
@@ -115,11 +111,15 @@ public class PlayerFSM : MonoBehaviour
 
         transform.LookAt(currentTargetPos);
 
-        if(hitBoxPrefsb != null && hitBoxSpawnPoint != null)
+        Collider[] hitEnemies = Physics.OverlapSphere(hitBoxSpawnPoint.position, hitBoxRadius, enemyLayer);
+        foreach(Collider enemy in hitEnemies)
         {
-            Instantiate(hitBoxSpawnPoint, hitBoxSpawnPoint.position, hitBoxSpawnPoint.rotation);
+            EnemyFSM enemyFSM = enemy.GetComponent<EnemyFSM>();
+            if(enemyFSM != null)
+            {
+                enemyFSM.TakeDamage(damage);
+            }
         }
-
         ChangeState(State.AttackWait, PlayerAnimation.ANIM_ATTACKIDLE);
     }
 
