@@ -8,19 +8,29 @@ public class Tooltip : MonoBehaviour
     public Text tooltipText;
     public GameObject tooltipPanel;
 
+    private RectTransform panelRectTransform;
+
     private void Start()
     {
+        panelRectTransform = tooltipPanel.GetComponent<RectTransform>();
         HideTooltip();
     }
 
     public void ShowTooltip(string text)
     {
-        tooltipPanel.SetActive(false);
         tooltipText.text = text;
+        AdjustTooltipSize();
+        tooltipPanel.SetActive(true);
     }
 
     public void HideTooltip()
     {
         tooltipPanel.SetActive(false);
+    }
+
+    private void AdjustTooltipSize()
+    {
+        Vector2 textSize = tooltipText.GetComponent<RectTransform>().sizeDelta;
+        panelRectTransform.sizeDelta = new Vector2(panelRectTransform.sizeDelta.x, textSize.y + 20);  // 여유 공간 추가
     }
 }

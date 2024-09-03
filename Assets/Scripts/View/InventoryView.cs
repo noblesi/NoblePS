@@ -9,7 +9,6 @@ public class InventoryView : MonoBehaviour, IInventoryView
     public GameObject inventorySlotPrefab;
 
     private List<GameObject> slots = new List<GameObject>();
-
     private InventoryPresenter presenter;
 
     private void Start()
@@ -53,7 +52,7 @@ public class InventoryView : MonoBehaviour, IInventoryView
 
     private void RemoveItemFromUI(Item item)
     {
-        var slotToRemove = slots.Find(slot => slot.GetComponentInChildren<Text>().text == item.ItemName);
+        var slotToRemove = slots.Find(slot => slot.GetComponent<InventorySlot>().GetItem() == item);
         if(slotToRemove != null)
         {
             slots.Remove(slotToRemove);
