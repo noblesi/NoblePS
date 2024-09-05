@@ -7,25 +7,21 @@ public class InventoryView : MonoBehaviour, IInventoryView
 {
     public Transform itemsParent;
     public GameObject inventorySlotPrefab;
+    public Tooltip tooltip;
 
-    private List<GameObject> slots = new List<GameObject>();
-    private InventoryPresenter presenter;
+    private List<InventorySlot> slots = new List<InventorySlot>();
 
-    private void Start()
+    private InventoryPresenter inventoryPresenter;
+
+    public void Initialize(InventoryPresenter presenter)
     {
-        InventoryModel model = new InventoryModel();
-        presenter = new InventoryPresenter(this, model);
-        presenter.Initialize();
+        inventoryPresenter = presenter;
+        inventoryPresenter.Initialize();
     }
 
     public void ShowItems(List<Item> items)
     {
-        foreach(var slot in slots)
-        {
-            Destroy(slot);
-        }
-        slots.Clear();
-
+        ClearSlots();
         foreach(var item in items)
         {
             AddItemToUI(item);
@@ -42,21 +38,49 @@ public class InventoryView : MonoBehaviour, IInventoryView
         RemoveItemFromUI(item);
     }
 
+    public void UpdateView()
+    {
+        foreach(var slot in slots)
+        {
+            slot.UpdateSlot();
+        }
+    }
+
     private void AddItemToUI(Item item)
     {
-        GameObject slot = Instantiate(inventorySlotPrefab, itemsParent);
-        InventorySlot inventorySlot = slot.GetComponent<InventorySlot>();
-        inventorySlot.Initialize(item, presenter, FindObjectOfType<Tooltip>());
-        slots.Add(slot);
+        GameObject slotGO = Instantiate(inventorySlotPrefab, itemsParent);
+        InventorySlot slot = slotGO.GetComponent<InventorySlot>();
+        slot.Initialize(inventoryPresenter, tooltip);  // 슬롯에 프리젠터와 툴팁 설정
+        slot.AddItem(item);  // 슬롯에 아이템 추가
+        slots.Add(slot);  // 슬롯 리스트에 추가
     }
 
     private void RemoveItemFromUI(Item item)
     {
-        var slotToRemove = slots.Find(slot => slot.GetComponent<InventorySlot>().GetItem() == item);
-        if(slotToRemove != null)
+        InventorySlot slotToRemove = slots.Find(slot => slot.item == item);
+        if (slotToRemove != null)
         {
             slots.Remove(slotToRemove);
-            Destroy(slotToRemove);
+            Destroy(slotToRemove.gameObject);  // 슬롯을 제거
         }
+    }
+
+    private void ClearSlots()
+    {
+        foreach(var slot in slots)
+        {
+            Destroy(slot.gameObject);
+        }
+        slots.Clear();
+    }
+
+    public void ShowTooltip(string description)
+    {
+        tooltip.ShowTooltip(description);
+    }
+
+    public void HideTooltip()
+    {
+        tooltip.HideTooltip();
     }
 }

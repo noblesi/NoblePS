@@ -46,14 +46,14 @@ public class InventoryModel
 [System.Serializable]
 public class InventoryData
 {
-    public List<ItemData> items;
+    public List<InventoryItemData> items;
 
     public InventoryData(List<Item> items)
     {
-        this.items = new List<ItemData>();
+        this.items = new List<InventoryItemData>();
         foreach(var item in items)
         {
-            this.items.Add(new ItemData(item));
+            this.items.Add(new InventoryItemData(item));
         }
     }
 
@@ -69,29 +69,54 @@ public class InventoryData
 }
 
 [System.Serializable]
-public class ItemData
+public class InventoryItemData
 {
     public int ItemID;
     public string ItemName;
     public ItemType Type;
+    public EquipmentType EquipmentType;
     public int Quantity;
+
     public int StrengthBonus;
     public int DexterityBonus;
     public int IntelligenceBonus;
 
-    public ItemData(Item item)
+    public int HealthRestore;
+    public int ManaRestore;
+
+    public InventoryItemData(Item item)
     {
         ItemID = item.ItemID;
         ItemName = item.ItemName;
         Type = item.Type;
         Quantity = item.Quantity;
-        StrengthBonus = item.StrengthBonus;
-        DexterityBonus = item.DexterityBonus;
-        IntelligenceBonus = item.IntelligenceBonus;
+        
+        if(item is Equipment equipment)
+        {
+            EquipmentType = equipment.EquipmentType;
+            StrengthBonus = equipment.StrengthBonus;
+            DexterityBonus = equipment.DexterityBonus;
+            IntelligenceBonus = equipment.IntelligenceBonus;
+        }
+        else if(item is Consumable consumable)
+        {
+            HealthRestore = consumable.HealthRestore;
+            ManaRestore = consumable.ManaRestore;
+        }
     }
 
     public Item ToItem()
     {
-        return new Item(ItemID, ItemName, null, Type, "", Quantity, StrengthBonus, DexterityBonus, IntelligenceBonus);
+        switch (Type)
+        {
+            case ItemType.Equipment:
+                return new Equipment(ItemID, ItemName, null, null, "", Quantity, EquipmentType, StrengthBonus, DexterityBonus, IntelligenceBonus);
+            case ItemType.Consumable:
+                return new Consumable(ItemID, ItemName, null, null, "", Quantity, HealthRestore, ManaRestore);
+            case ItemType.Misc:
+                return new Misc(ItemID, ItemName, null, null, "", Quantity);
+            default:
+                return null;
+        }
     }
 }

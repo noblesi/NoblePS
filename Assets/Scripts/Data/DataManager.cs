@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class DataManager : MonoBehaviour
+public class DataManager : Singleton<DataManager>
 {
     private StatusModel statusModel;
     private InventoryModel inventoryModel;
@@ -30,27 +30,18 @@ public class DataManager : MonoBehaviour
         equipmentModel.SaveEquipmentData(); // 장비 데이터 저장
     }
 
-    private InventoryModel LoadInventoryData()
+    public InventoryModel GetInventoryModel()
     {
-        // 인벤토리 데이터를 로드하는 로직
-        // JSON, XML, DB 등에서 데이터를 불러와 InventoryModel을 생성하고 반환
+        return inventoryModel;
     }
 
-    private void SaveInventoryData(InventoryModel model)
+    public StatusModel GetStatusModel()
     {
-        // 인벤토리 데이터를 저장하는 로직
-        // JSON, XML, DB 등으로 데이터를 저장
+        return statusModel;
     }
 
-    private EquipmentModel LoadEquipmentData()
+    public EquipmentModel GetEquipmentModel()
     {
-        // 장비 데이터를 로드하는 로직
-        // JSON, XML, DB 등에서 데이터를 불러와 EquipmentModel을 생성하고 반환
-    }
-
-    private void SaveEquipmentData(EquipmentModel model)
-    {
-        // 장비 데이터를 저장하는 로직
-        // JSON, XML, DB 등으로 데이터를 저장
+        return equipmentModel;
     }
 }

@@ -7,4 +7,7 @@ public interface IInventoryView
     void ShowItems(List<Item> items);
     void OnItemAdded(Item item);
     void OnItemRemoved(Item item);
+    void UpdateView();
+    void ShowTooltip(string description);
+    void HideTooltip();
 }

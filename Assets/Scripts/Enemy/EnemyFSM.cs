@@ -35,6 +35,11 @@ public class EnemyFSM : MonoBehaviour
 
     public LayerMask playerLayer;
 
+    public List<DropItemData> dropList;
+    public int monsterEXP = 50;
+
+    public ItemLoader itemLoader;
+
     private void Start()
     {
         enemyAnim = GetComponent<EnemyAnimation>();
@@ -153,19 +158,40 @@ public class EnemyFSM : MonoBehaviour
         }
     }
 
-    private void ReturnToChaseState()
-    {
-        if(currentState == State.Hit)
-        {
-            ChangeState(State.Chase, EnemyAnimation.ANIM_MOVE);
-        }
-    }
-
     private void DeadState()
     {
         enemyAnim.ChangeAnim(EnemyAnimation.ANIM_DIE);
 
+        DropItems();
+        GrantPlayerEXP();
+
         Destroy(gameObject, deathDelay);
+    }
+
+    private void DropItems()
+    {
+        foreach(var dropItem in dropList)
+        {
+            int chance = Random.Range(0, 100);
+            if(chance < dropItem.DropRate)
+            {
+                Item item = itemLoader.GetItemByID(dropItem.ItemID);
+                if(item != null && item.ItemPrefab != null)
+                {
+                    Vector3 dropPosition = transform.position;
+                    Instantiate(item.ItemPrefab, dropPosition, Quaternion.identity);
+                }
+            }
+        }
+    }
+
+    private void GrantPlayerEXP()
+    {
+        PlayerFSM playerFSM = player.GetComponent<PlayerFSM>();
+        if(playerFSM != null)
+        {
+            playerFSM.GainEXP(monsterEXP);
+        }
     }
 
     private void TurnToDestination()

@@ -1,11 +1,11 @@
 public class EquipmentPresenter
 {
-    private IEquipmentView equipmentView;
+    private EquipmentView equipmentView;
     private EquipmentModel equipmentModel;
     private InventoryPresenter inventoryPresenter;
     private StatusPresenter statusPresenter;
 
-    public EquipmentPresenter(IEquipmentView view, EquipmentModel model, InventoryPresenter inventory, StatusPresenter status)
+    public EquipmentPresenter(EquipmentView view, EquipmentModel model, InventoryPresenter inventory, StatusPresenter status)
     {
         equipmentView = view;
         equipmentModel = model;
@@ -20,27 +20,49 @@ public class EquipmentPresenter
 
     public void EquipItem(Item item)
     {
-        Item previousItem = equipmentModel.Equip(item);
-        if (previousItem != null)
+        if (item == null || !(item is Equipment equipment)) return;
+
+        Equipment previousItem = equipmentModel.Equip(equipment);
+        if(previousItem != null)
         {
             inventoryPresenter.AddItem(previousItem);
             statusPresenter.ApplyItemBonus(previousItem, false);
         }
 
-        inventoryPresenter.RemoveItem(item);
-        statusPresenter.ApplyItemBonus(item, true);
+        inventoryPresenter.RemoveItem(equipment);
+        statusPresenter.ApplyItemBonus(equipment, true);
         equipmentView.DisplayEquipment(equipmentModel);
     }
 
-    public void UnequipItem(ItemType itemType)
+    public void UnequipItem(EquipmentType equipmentType)
     {
-        Item unequippedItem = equipmentModel.Unequip(itemType);
-        if (unequippedItem != null)
+        Equipment unequippedItem = equipmentModel.Unequip(equipmentType);
+        if(unequippedItem != null)
         {
             inventoryPresenter.AddItem(unequippedItem);
-            statusPresenter.ApplyItemBonus(unequippedItem, false);  // 장비 해제 시 능력치 제거
+            statusPresenter.ApplyItemBonus(unequippedItem, false);
         }
 
         equipmentView.DisplayEquipment(equipmentModel);
+    }
+
+    public bool IsEquipable(Item item)
+    {
+        return item is Equipment;
+    }
+
+    public Item GetItemInSlot(EquipmentType equipmentType)
+    {
+        return equipmentModel.GetItemByType(equipmentType);
+    }
+
+    public void ShowItemDescription(string description)
+    {
+        equipmentView.ShowItemDescription(description);
+    }
+
+    public void HideItemDescription()
+    {
+        equipmentView.HideItemDescription();
     }
 }

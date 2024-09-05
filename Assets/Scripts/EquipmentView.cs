@@ -1,36 +1,43 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class EquipmentView : MonoBehaviour, IEquipmentView
+public class EquipmentView : MonoBehaviour
 {
-    public Image weaponIcon;
-    public Image armorIcon;
-    public Image helmetIcon;
-    public Image bootsIcon;
+    public EquipmentSlot weaponSlot;
+    public EquipmentSlot armorSlot;
+    public EquipmentSlot helmetSlot;
+    public EquipmentSlot bootsSlot;
+
+    public Text itemDescriptionText;
 
     private EquipmentPresenter presenter;
 
     public void Initialize(EquipmentPresenter equipmentPresenter)
     {
         presenter = equipmentPresenter;
-        presenter.Initialize();
+
+        weaponSlot.Initialize(presenter, EquipmentType.Weapon);
+        armorSlot.Initialize(presenter, EquipmentType.Armor);
+        helmetSlot.Initialize(presenter, EquipmentType.Helmet);
+        bootsSlot.Initialize(presenter, EquipmentType.Boots);
     }
 
     public void DisplayEquipment(EquipmentModel equipment)
     {
-        weaponIcon.sprite = equipment.Weapon != null ? equipment.Weapon.Icon : null;
-        armorIcon.sprite = equipment.Armor != null ? equipment.Armor.Icon : null;
-        helmetIcon.sprite = equipment.Helmet != null ? equipment.Helmet.Icon : null;
-        bootsIcon.sprite = equipment.Boots != null ? equipment.Boots.Icon : null;
+        weaponSlot.UpdateSlot();
+        armorSlot.UpdateSlot();
+        helmetSlot.UpdateSlot();
+        bootsSlot.UpdateSlot();
     }
 
-    public void OnEquipButtonClicked(Item item)
+    public void ShowItemDescription(string description)
     {
-        presenter.EquipItem(item);  // 버튼 클릭 시 아이템 장착
+        itemDescriptionText.text = description;
+        itemDescriptionText.gameObject.SetActive(true);
     }
 
-    public void OnUnequipButtonClicked(ItemType itemType)
+    public void HideItemDescription()
     {
-        presenter.UnequipItem(itemType);  // 버튼 클릭 시 아이템 해제
+        itemDescriptionText.gameObject.SetActive(false);
     }
 }

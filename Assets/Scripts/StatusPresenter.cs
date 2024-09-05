@@ -1,4 +1,4 @@
-public class StatusPresenter 
+public class StatusPresenter
 {
     private IStatusView statusView;
     private StatusModel statusModel;
@@ -20,7 +20,7 @@ public class StatusPresenter
         statusView.DisplayStatus(statusModel);
     }
 
-    public void ApplyItemBonus(Item item, bool equip)
+    public void ApplyItemBonus(Equipment item, bool equip)
     {
         statusModel.ApplyItemBonus(item, equip);
         statusView.DisplayStatus(statusModel);

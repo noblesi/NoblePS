@@ -3,12 +3,17 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
+public enum EquipmentType
+{
+    Weapon, Armor, Helmet, Boots
+}
+
 public class EquipmentModel
 {
-    public Item Weapon { get; set; }
-    public Item Armor { get; set; }
-    public Item Helmet { get; set; }
-    public Item Boots { get; set; }
+    public Equipment Weapon { get; set; }
+    public Equipment Armor { get; set; }
+    public Equipment Helmet { get; set; }
+    public Equipment Boots { get; set; }
 
     private const string SaveFileName = "equipmentData.json";
 
@@ -17,25 +22,37 @@ public class EquipmentModel
         LoadEquipmentData();
     }
 
-    public Item Equip(Item item)
+    public Equipment GetItemByType(EquipmentType equipmentType)
     {
-        Item previousItem = null;
-
-        switch (item.Type)
+        return equipmentType switch
         {
-            case ItemType.Weapon:
+            EquipmentType.Weapon => Weapon,
+            EquipmentType.Armor => Armor,
+            EquipmentType.Helmet => Helmet,
+            EquipmentType.Boots => Boots,
+            _ => null,
+        };
+    }
+
+    public Equipment Equip(Equipment item)
+    {
+        Equipment previousItem = null;
+
+        switch (item.EquipmentType)
+        {
+            case EquipmentType.Weapon:
                 previousItem = Weapon;
                 Weapon = item;
                 break;
-            case ItemType.Armor:
+            case EquipmentType.Armor:
                 previousItem = Armor;
                 Armor = item;
                 break;
-            case ItemType.Helmet:
+            case EquipmentType.Helmet:
                 previousItem = Helmet;
                 Helmet = item;
                 break;
-            case ItemType.Boots:
+            case EquipmentType.Boots:
                 previousItem = Boots;
                 Boots = item;
                 break;
@@ -45,25 +62,25 @@ public class EquipmentModel
         return previousItem;  // 기존 장착된 아이템 반환
     }
 
-    public Item Unequip(ItemType itemType)
+    public Equipment Unequip(EquipmentType equipmentType)
     {
-        Item unequippedItem = null;
+        Equipment unequippedItem = null;
 
-        switch (itemType)
+        switch (equipmentType)
         {
-            case ItemType.Weapon:
+            case EquipmentType.Weapon:
                 unequippedItem = Weapon;
                 Weapon = null;
                 break;
-            case ItemType.Armor:
+            case EquipmentType.Armor:
                 unequippedItem = Armor;
                 Armor = null;
                 break;
-            case ItemType.Helmet:
+            case EquipmentType.Helmet:
                 unequippedItem = Helmet;
                 Helmet = null;
                 break;
-            case ItemType.Boots:
+            case EquipmentType.Boots:
                 unequippedItem = Boots;
                 Boots = null;
                 break;
@@ -82,23 +99,33 @@ public class EquipmentModel
 
     public void LoadEquipmentData()
     {
+        string filePath = Path.Combine(Application.persistentDataPath, SaveFileName);
+        if(File.Exists(filePath))
+        {
+            string json = File.ReadAllText(filePath);
+            EquipmentData data = JsonUtility.FromJson<EquipmentData>(json);
 
+            Weapon = data.Weapon != null ? (Equipment)data.Weapon.ToItem() : null;
+            Armor = data.Armor != null ? (Equipment)data.Armor.ToItem() : null;
+            Helmet = data.Helmet != null ? (Equipment)data.Helmet.ToItem() : null;
+            Boots = data.Boots != null ? (Equipment)data.Boots.ToItem() : null;
+        }
     }
 }
 
 [System.Serializable]
 public class EquipmentData
 {
-    public ItemData Weapon;
-    public ItemData Armor;
-    public ItemData Helmet;
-    public ItemData Boots;
+    public InventoryItemData Weapon;
+    public InventoryItemData Armor;
+    public InventoryItemData Helmet;
+    public InventoryItemData Boots;
 
     public EquipmentData(Item weapon, Item armor, Item helmet, Item boots)
     {
-        Weapon = weapon != null ? new ItemData(weapon) : null;
-        Armor = armor != null ? new ItemData(armor) : null;
-        Helmet = helmet != null ? new ItemData(helmet) : null;
-        Boots = boots != null ? new ItemData(boots) : null;
+        Weapon = weapon != null ? new InventoryItemData(weapon) : null;
+        Armor = armor != null ? new InventoryItemData(armor) : null;
+        Helmet = helmet != null ? new InventoryItemData(helmet) : null;
+        Boots = boots != null ? new InventoryItemData(boots) : null;
     }
 }

@@ -20,9 +20,22 @@ public class StatusModel
     private int dexterityBonus;
     private int intelligenceBonus;
 
+    public int GetStatPoints() => statPoints;
+
+    public int GetCurrentExp() => currentExp;
+    public int GetExpToNextLevel() => expToNextLevel;
+
     public int Strength => BaseStrength + strengthBonus;
     public int Dexterity => BaseDexterity + dexterityBonus;
-    public int Intelligence => Intelligence + intelligenceBonus;
+    public int Intelligence => BaseIntelligence + intelligenceBonus;
+
+    public int GetBaseStrength() => BaseStrength;
+    public int GetBaseDexterity() => BaseDexterity;
+    public int GetBaseIntelligence() => BaseIntelligence;
+
+    public int GetStrengthBonus() => strengthBonus;
+    public int GetDexterityBonus() => dexterityBonus;
+    public int GetIntelligenceBonus() => intelligenceBonus;
 
     private const string SaveFileName = "statusData.json";
 
@@ -102,7 +115,7 @@ public class StatusModel
         }
     }
 
-    public void ApplyItemBonus(Item item, bool equip)
+    public void ApplyItemBonus(Equipment item, bool equip)
     {
         int multiplier = equip ? 1 : -1;
 
@@ -142,7 +155,5 @@ public class StatusModel
         }
     }
 
-    public int GetCurrentExp() => currentExp;
-    public int GetExpToNextLevel() => expToNextLevel;
-    public int GetStatPoints() => statPoints;
+
 }

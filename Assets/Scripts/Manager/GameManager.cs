@@ -2,10 +2,33 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    private DataManager dataManager;
+    public PlayerFSM playerFSM;
+    public StatusView statusView;
+    public InventoryView inventoryView;
+    public EquipmentView equipmentView;
 
-    private void OnApplicationQuit()
+    private PlayerData playerData;
+    private StatusPresenter statusPresenter;
+    private InventoryPresenter inventoryPresenter;
+    private EquipmentPresenter equipmentPresenter;
+
+    private void Start()
     {
-        dataManager.SaveAllData();
+        playerData = new PlayerData();
+
+        // Status
+        statusPresenter = new StatusPresenter(statusView, playerData.Status);
+        statusView.Initialize(statusPresenter);
+
+        // Equipment
+        equipmentPresenter = new EquipmentPresenter(equipmentView, playerData.Equipment, inventoryPresenter, statusPresenter);
+        equipmentView.Initialize(equipmentPresenter);
+
+        // Inventory
+        inventoryPresenter = new InventoryPresenter(inventoryView, playerData.Inventory, equipmentPresenter, playerData);
+        inventoryView.Initialize(inventoryPresenter);
+
+        // PlayerFSM
+        playerFSM.SetPlayerData(playerData); // PlayerFSM¿¡ PlayerData Àü´Þ
     }
 }

@@ -9,7 +9,7 @@ public class StatusView : MonoBehaviour, IStatusView
     public Text strengthText;
     public Text dexterityText;
     public Text intelligenceText;
-    public Slider expSlider;
+    public Text expText;
     public Text statPointsText;
 
     private StatusPresenter presenter;
@@ -22,16 +22,17 @@ public class StatusView : MonoBehaviour, IStatusView
 
     public void DisplayStatus(StatusModel status)
     {
-        levelText.text = "Level: " + status.Level;
-        hpText.text = "HP: " + status.HP;
-        mpText.text = "MP: " + status.MP;
-        strengthText.text = "Strength: " + status.Strength;
-        dexterityText.text = "Dexterity: " + status.Dexterity;
-        intelligenceText.text = "Intelligence: " + status.Intelligence;
+        levelText.text = "Level : " + status.Level;
+        hpText.text = "HP : " + status.HP;
+        mpText.text = "MP : " + status.MP;
 
-        expSlider.maxValue = status.GetExpToNextLevel();
-        expSlider.value = status.GetCurrentExp();
-        statPointsText.text = "Stat Points: " + status.GetStatPoints();
+        strengthText.text = $"STR : <color=#FFFFFF>{status.BaseStrength}</color> <color=#00FF00>(+{status.GetStrengthBonus()})</color>";
+        dexterityText.text = $"DEX : <color=#FFFFFF>{status.BaseDexterity}</color> <color=#00FF00>(+{status.GetDexterityBonus()})</color>";
+        intelligenceText.text = $"INT : <color=#FFFFFF>{status.BaseIntelligence}</color> <color=#00FF00>(+{status.GetIntelligenceBonus()})</color>";
+
+        expText.text = $"EXP : {status.GetCurrentExp()} / {status.GetExpToNextLevel()}";
+
+        statPointsText.text = "Stat Points : " + status.GetStatPoints();
     }
 
     public void OnStrengthIncrease()

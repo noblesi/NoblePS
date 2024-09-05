@@ -27,12 +27,14 @@ public class PlayerFSM : MonoBehaviour
     public LayerMask enemyLayer;
 
     private PlayerAnimation playerAnim;
-    private int playerHP = 100;
     private float hitRecoveryTime = 1f;
+
+    private PlayerData playerData;
 
     private void Start()
     {
         playerAnim = GetComponent<PlayerAnimation>();
+        playerData = new PlayerData();
         ChangeState(State.Idle, PlayerAnimation.ANIM_IDLE);
     }
 
@@ -47,8 +49,8 @@ public class PlayerFSM : MonoBehaviour
     {
         if(currentState != State.Dead)
         {
-            playerHP -= damage;
-            if(playerHP <= 0)
+            playerData.Status.HP -= damage;
+            if(playerData.Status.HP <= 0)
             {
                 ChangeState(State.Hit, PlayerAnimation.ANIM_HIT);
             }
@@ -56,6 +58,8 @@ public class PlayerFSM : MonoBehaviour
             {
                 ChangeState(State.Dead, PlayerAnimation.ANIM_DIE);
             }
+
+            playerData.SavePlayerData();
         }
     }
 
@@ -179,5 +183,16 @@ public class PlayerFSM : MonoBehaviour
     private void Update()
     {
         UpdateState();
+    }
+
+    public void GainEXP(int exp)
+    {
+        playerData.Status.GainExp(exp);
+        playerData.SavePlayerData();
+    }
+
+    public void SetPlayerData(PlayerData data)
+    {
+        playerData = data;
     }
 }
