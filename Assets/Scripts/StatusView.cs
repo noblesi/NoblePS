@@ -12,12 +12,20 @@ public class StatusView : MonoBehaviour, IStatusView
     public Text expText;
     public Text statPointsText;
 
+    public Button strengthButton;
+    public Button dexterityButton;
+    public Button intelligenceButton;
+
     private StatusPresenter presenter;
 
     public void Initialize(StatusPresenter statusPresenter)
     {
         presenter = statusPresenter;
         presenter.Initialize();
+
+        strengthButton.onClick.AddListener(OnStrengthIncrease);
+        dexterityButton.onClick.AddListener(OnDexterityIncrease);
+        intelligenceButton.onClick.AddListener(OnIntelligenceIncrease);
     }
 
     public void DisplayStatus(StatusModel status)
@@ -33,6 +41,11 @@ public class StatusView : MonoBehaviour, IStatusView
         expText.text = $"EXP : {status.GetCurrentExp()} / {status.GetExpToNextLevel()}";
 
         statPointsText.text = "Stat Points : " + status.GetStatPoints();
+
+        bool hasStatPoints = status.GetStatPoints() > 0;
+        strengthButton.interactable = hasStatPoints;
+        dexterityButton.interactable = hasStatPoints;
+        intelligenceButton.interactable = hasStatPoints;
     }
 
     public void OnStrengthIncrease()

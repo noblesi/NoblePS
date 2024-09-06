@@ -11,20 +11,30 @@ public class Item
 {
     public int ItemID { get; set; }
     public string ItemName { get; set; }
-    public Sprite Icon { get; set; } // Á÷·ÄÈ­ X
-    public GameObject ItemPrefab { get; set; }
+    public string IconPath { get; set; } 
+    public string PrefabPath { get; set; }
     public ItemType Type { get; set; }
     public string Description { get; set; }
     public int Quantity { get; set; }
 
-    public Item(int id, string name, Sprite icon, GameObject itemPrefab, ItemType type, string description, int quantity)
+    public Item(int id, string name, string iconPath, string prefabPath, ItemType type, string description, int quantity)
     {
         ItemID = id;
         ItemName = name;
-        Icon = icon;
-        ItemPrefab = itemPrefab;
+        IconPath = iconPath;
+        PrefabPath = prefabPath;
         Type = type;
         Description = description;
         Quantity = quantity;
+    }
+
+    public Sprite GetIcon()
+    {
+        return Resources.Load<Sprite>(IconPath);
+    }
+
+    public GameObject GetPrefab()
+    {
+        return Resources.Load<GameObject>(PrefabPath);
     }
 }

@@ -215,6 +215,37 @@ Transform:
   - {fileID: 6727557746728730874}
   m_Father: {fileID: 5184480721125044892}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &537710934550959565
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5593660839035561891}
+  m_Layer: 6
+  m_Name: HitBoxSphere
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5593660839035561891
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 537710934550959565}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.75, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3717923048023302346}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &558464014681380011
 GameObject:
   m_ObjectHideFlags: 0
@@ -695,6 +726,7 @@ GameObject:
   - component: {fileID: 7374878882708007231}
   - component: {fileID: 6269917169877348008}
   - component: {fileID: 8213276153868040948}
+  - component: {fileID: 8048581135957762997}
   m_Layer: 6
   m_Name: Warrior
   m_TagString: Player
@@ -719,6 +751,7 @@ Transform:
   - {fileID: 4923737696732581547}
   - {fileID: 6236482672991991932}
   - {fileID: 601875552162210274}
+  - {fileID: 5593660839035561891}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &7374878882708007231
@@ -759,12 +792,12 @@ MonoBehaviour:
   moveSpeed: 2
   attackDelay: 2
   attackTimer: 0
-  hitBoxSpawnPoint: {fileID: 0}
+  hitBoxSpawnPoint: {fileID: 5593660839035561891}
   hitBoxRadius: 1.5
   damage: 20
   enemyLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 128
 --- !u!114 &8213276153868040948
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -778,6 +811,29 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   anim: {fileID: 0}
+--- !u!136 &8048581135957762997
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1767003430247264265}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Height: 1.683412
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.8371653, z: 0}
 --- !u!1 &1779733639103152930
 GameObject:
   m_ObjectHideFlags: 0

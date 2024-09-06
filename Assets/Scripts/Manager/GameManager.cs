@@ -20,13 +20,15 @@ public class GameManager : MonoBehaviour
         statusPresenter = new StatusPresenter(statusView, playerData.Status);
         statusView.Initialize(statusPresenter);
 
+        // Inventory
+        inventoryPresenter = new InventoryPresenter(inventoryView, playerData.Inventory, equipmentPresenter, playerData);
+        inventoryView.Initialize(inventoryPresenter);
+
         // Equipment
         equipmentPresenter = new EquipmentPresenter(equipmentView, playerData.Equipment, inventoryPresenter, statusPresenter);
         equipmentView.Initialize(equipmentPresenter);
 
-        // Inventory
-        inventoryPresenter = new InventoryPresenter(inventoryView, playerData.Inventory, equipmentPresenter, playerData);
-        inventoryView.Initialize(inventoryPresenter);
+        inventoryPresenter.SetEquipmentPresenter(equipmentPresenter);
 
         // PlayerFSM
         playerFSM.SetPlayerData(playerData); // PlayerFSM¿¡ PlayerData Àü´Þ

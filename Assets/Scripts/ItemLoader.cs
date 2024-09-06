@@ -33,8 +33,8 @@ public class ItemLoader : MonoBehaviour
                         newItem = new Equipment(
                             itemData.ItemID,
                             itemData.ItemName,
-                            Resources.Load<Sprite>(itemData.IconPath),
-                            Resources.Load<GameObject>(itemData.PrefabPath),
+                            itemData.IconPath,
+                            itemData.PrefabPath,
                             itemData.Description,
                             itemData.Quantity,
                             equipmentType,
@@ -48,8 +48,8 @@ public class ItemLoader : MonoBehaviour
                         newItem = new Consumable(
                             itemData.ItemID,
                             itemData.ItemName,
-                            Resources.Load<Sprite>(itemData.IconPath),
-                            Resources.Load<GameObject>(itemData.PrefabPath),
+                            itemData.IconPath,
+                            itemData.PrefabPath,
                             itemData.Description,
                             itemData.Quantity,
                             itemData.HealthRestore,
@@ -61,8 +61,8 @@ public class ItemLoader : MonoBehaviour
                         newItem = new Misc(
                             itemData.ItemID,
                             itemData.ItemName,
-                            Resources.Load<Sprite>(itemData.IconPath),
-                            Resources.Load<GameObject>(itemData.PrefabPath),
+                            itemData.IconPath,
+                            itemData.PrefabPath,
                             itemData.Description,
                             itemData.Quantity
                         );

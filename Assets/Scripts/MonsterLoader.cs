@@ -23,6 +23,13 @@ public class MonsterLoader : MonoBehaviour
 
             foreach(var monsterData in monsterDataArray.monsters)
             {
+                // 드랍 리스트 데이터 출력 (디버깅용)
+                Debug.Log($"Loading Monster: {monsterData.MonsterName}, Drop List Count: {monsterData.DropList.Count}");
+                foreach (var dropItem in monsterData.DropList)
+                {
+                    Debug.Log($"ItemID: {dropItem.ItemID}, DropRate: {dropItem.DropRate}");
+                }
+
                 Monster monster = new Monster(
                     monsterData.MonsterID,
                     monsterData.MonsterName,

@@ -18,6 +18,11 @@ public class InventoryPresenter
         inventoryView.ShowItems(inventoryModel.GetItems());
     }
 
+    public void SetEquipmentPresenter(EquipmentPresenter equipment)
+    {
+        equipmentPresenter = equipment; 
+    }
+
     public void EquipItem(Item item)
     {
         if (equipmentPresenter.IsEquipable(item))

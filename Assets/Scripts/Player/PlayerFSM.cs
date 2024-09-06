@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class PlayerFSM : MonoBehaviour
 {
@@ -30,12 +31,18 @@ public class PlayerFSM : MonoBehaviour
     private float hitRecoveryTime = 1f;
 
     private PlayerData playerData;
+    private InventoryPresenter inventoryPresenter;
 
     private void Start()
     {
         playerAnim = GetComponent<PlayerAnimation>();
         playerData = new PlayerData();
         ChangeState(State.Idle, PlayerAnimation.ANIM_IDLE);
+    }
+
+    public void SetInventoryPresenter(InventoryPresenter presenter)
+    {
+        inventoryPresenter = presenter;
     }
 
     public void AttackEnemy(GameObject enemy)
@@ -52,11 +59,11 @@ public class PlayerFSM : MonoBehaviour
             playerData.Status.HP -= damage;
             if(playerData.Status.HP <= 0)
             {
-                ChangeState(State.Hit, PlayerAnimation.ANIM_HIT);
+                ChangeState(State.Dead, PlayerAnimation.ANIM_DIE);
             }
             else
             {
-                ChangeState(State.Dead, PlayerAnimation.ANIM_DIE);
+                ChangeState(State.Hit, PlayerAnimation.ANIM_HIT);
             }
 
             playerData.SavePlayerData();
@@ -182,6 +189,8 @@ public class PlayerFSM : MonoBehaviour
 
     private void Update()
     {
+        if (EventSystem.current.IsPointerOverGameObject()) return;
+
         UpdateState();
     }
 
@@ -194,5 +203,14 @@ public class PlayerFSM : MonoBehaviour
     public void SetPlayerData(PlayerData data)
     {
         playerData = data;
+    }
+
+    public void PickupItem(Item item)
+    {
+        if (inventoryPresenter != null)
+        {
+            inventoryPresenter.AddItem(item);
+            Debug.Log($"¾ÆÀÌÅÛ {item.ItemName}À» È¹µæÇß½À´Ï´Ù.");
+        }
     }
 }

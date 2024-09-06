@@ -25,7 +25,7 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler, IPointerEnterH
     {
         if (item != null)
         {
-            icon.sprite = item.Icon;
+            icon.sprite = item.GetIcon ();
             icon.enabled = true;
 
             // 아이템 수량이 2개 이상일 때만 수량을 표시
@@ -70,7 +70,10 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler, IPointerEnterH
     // 마우스가 벗어났을 때 장비 설명 숨김
     public void OnPointerExit(PointerEventData eventData)
     {
-        tooltip.HideTooltip();
+        if (item != null)
+        {
+            tooltip.HideTooltip();
+        }
     }
 
     // 드래그 시작 시 원래 위치 저장

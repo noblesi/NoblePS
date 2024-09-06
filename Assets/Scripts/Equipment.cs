@@ -9,9 +9,9 @@ public class Equipment : Item
     public int DexterityBonus { get; set; }
     public int IntelligenceBonus { get; set; }
 
-    public Equipment(int id, string name, Sprite icon, GameObject itemPrefab, string description, int quantity,
+    public Equipment(int id, string name, string iconPath, string prefabPath, string description, int quantity,
                      EquipmentType equipmentType, int strengthBonus, int dexterityBonus, int intelligenceBonus)
-        : base(id, name, icon, itemPrefab, ItemType.Equipment, description, quantity)
+        : base(id, name, iconPath, prefabPath, ItemType.Equipment, description, quantity)
     {
         EquipmentType = equipmentType;   // 세부 분류 설정
         StrengthBonus = strengthBonus;

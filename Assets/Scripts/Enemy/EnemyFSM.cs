@@ -35,16 +35,32 @@ public class EnemyFSM : MonoBehaviour
 
     public LayerMask playerLayer;
 
-    public List<DropItemData> dropList;
     public int monsterEXP = 50;
 
-    public ItemLoader itemLoader;
+    public int MonsterID;
+    private MonsterLoader monsterLoader;
+    private ItemLoader itemLoader;
+    private Monster monsterData;
+
+    private bool isDead = false;
 
     private void Start()
     {
         enemyAnim = GetComponent<EnemyAnimation>();
         ChangeState(State.Idle, EnemyAnimation.ANIM_IDLE);
         player = GameObject.FindGameObjectWithTag("Player").transform;
+
+        monsterLoader = FindObjectOfType<MonsterLoader>();
+        itemLoader = FindObjectOfType<ItemLoader>();
+
+        if (monsterLoader != null)
+        {
+            monsterData = monsterLoader.GetMonsterByID(MonsterID);
+            if (monsterData != null)
+            {
+                enemyHP = monsterData.HP; // 몬스터 HP 설정
+            }
+        }
     }
 
     private void UpdateState()
@@ -160,29 +176,39 @@ public class EnemyFSM : MonoBehaviour
 
     private void DeadState()
     {
-        enemyAnim.ChangeAnim(EnemyAnimation.ANIM_DIE);
+        if (!isDead)
+        {
+            isDead = true;
+            enemyAnim.ChangeAnim(EnemyAnimation.ANIM_DIE);
+            //GrantPlayerEXP(); //추후에 제대로 구현할 예정.
 
-        DropItems();
-        GrantPlayerEXP();
+            StartCoroutine(HandleDeath());
+        }
 
-        Destroy(gameObject, deathDelay);
+
+
+
     }
 
-    private void DropItems()
+    private IEnumerator HandleDeath()
     {
-        foreach(var dropItem in dropList)
+        yield return new WaitForSeconds(deathDelay);
+
+        if (monsterData != null && itemLoader != null)
         {
-            int chance = Random.Range(0, 100);
-            if(chance < dropItem.DropRate)
+            List<Item> droppedItems = monsterData.GetDroppedItems(itemLoader);
+
+            foreach (var item in droppedItems)
             {
-                Item item = itemLoader.GetItemByID(dropItem.ItemID);
-                if(item != null && item.ItemPrefab != null)
-                {
-                    Vector3 dropPosition = transform.position;
-                    Instantiate(item.ItemPrefab, dropPosition, Quaternion.identity);
-                }
+                Debug.Log($"Dropped item: {item.ItemName}");
+
+                GameObject itemObject = item.GetPrefab();
+
+                Instantiate(itemObject, transform.position, Quaternion.identity);
             }
         }
+
+        Destroy(gameObject);
     }
 
     private void GrantPlayerEXP()
@@ -212,6 +238,14 @@ public class EnemyFSM : MonoBehaviour
 
     private void Update()
     {
+        //디버깅용 F키를 누르면 몬스터 사망
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            Debug.Log("디버깅 : 몬스터가 즉시 사망합니다.");
+            SimulateDeath();
+        }
+
+
         UpdateState();
     }
 
@@ -222,5 +256,11 @@ public class EnemyFSM : MonoBehaviour
             Gizmos.color = Color.red;
             Gizmos.DrawWireSphere(hitBoxSpawnPoint.position, hitBoxRadius);
         }
+    }
+
+    private void SimulateDeath()
+    {
+        enemyHP = 0;
+        ChangeState(State.Dead, EnemyAnimation.ANIM_DIE);
     }
 }
