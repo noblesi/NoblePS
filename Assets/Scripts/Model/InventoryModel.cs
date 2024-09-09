@@ -86,6 +86,12 @@ public class InventoryItemData
 
     public InventoryItemData(Item item)
     {
+        if(item == null)
+        {
+            Debug.LogError("Item is null in InventoryItemData constructor.");
+            return;
+        }
+
         ItemID = item.ItemID;
         ItemName = item.ItemName;
         Type = item.Type;

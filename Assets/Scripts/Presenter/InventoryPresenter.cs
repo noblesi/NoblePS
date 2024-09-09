@@ -29,7 +29,6 @@ public class InventoryPresenter
         {
             inventoryModel.RemoveItem(item);
             equipmentPresenter.EquipItem(item);
-            inventoryView.UpdateView();
             playerData.SavePlayerData(); // 데이터 저장
         }
     }
@@ -61,16 +60,6 @@ public class InventoryPresenter
             inventoryView.ShowItems(inventoryModel.GetItems());
             playerData.SavePlayerData(); // 데이터 저장
         }
-    }
-
-    public void ShowItemDescription(string description)
-    {
-        inventoryView.ShowTooltip(description);
-    }
-
-    public void HideItemDescription()
-    {
-        inventoryView.HideTooltip();
     }
 
     public bool CanEquipItem(Item item)

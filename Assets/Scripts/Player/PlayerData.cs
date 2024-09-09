@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerData
 {
-    public StatusModel Status {  get; set; }
+    public StatusModel Status { get; set; }
     public InventoryModel Inventory { get; set; }
     public EquipmentModel Equipment { get; set; }
 
@@ -12,7 +12,7 @@ public class PlayerData
 
     public PlayerData()
     {
-        Status = new StatusModel();
+        Status = new StatusModel(1, 100, 50, 10, 10, 10);
         Inventory = new InventoryModel();
         Equipment = new EquipmentModel();
         LoadPlayerData();
@@ -32,11 +32,20 @@ public class PlayerData
         {
             string json = System.IO.File.ReadAllText(filePath);
             PlayerDataSerializable data = JsonUtility.FromJson<PlayerDataSerializable>(json);
-            data.ApplyTo(this);
+
+            if (data != null)
+            {
+                data.ApplyTo(this);
+            }
+            else
+            {
+                Debug.LogWarning("Player data is null. Using default values.");
+            }
         }
         else
         {
-            // 기본 초기화는 각 모델의 기본 생성자에서 처리
+            Debug.LogWarning("Player data file not found. Using default values.");
+            // 파일이 없을 때는 기본값으로 시작
         }
     }
 }
@@ -50,15 +59,15 @@ public class PlayerDataSerializable
 
     public PlayerDataSerializable(StatusModel status, InventoryModel inventory, EquipmentModel equipment)
     {
-        Status = status;
-        Inventory = inventory;
-        Equipment = equipment;
+        Status = status ?? new StatusModel(1, 100, 50, 10, 10, 10); // 기본 값
+        Inventory = inventory ?? new InventoryModel(); // 빈 인벤토리로 초기화
+        Equipment = equipment ?? new EquipmentModel(); // 빈 장비 슬롯으로 초기화
     }
 
     public void ApplyTo(PlayerData playerData)
     {
-        playerData.Status = Status;
-        playerData.Inventory = Inventory;
-        playerData.Equipment = Equipment;
+        playerData.Status = Status ?? new StatusModel(1, 100, 50, 10, 10, 10); // 기본 값 설정
+        playerData.Inventory = Inventory ?? new InventoryModel(); // 기본 인벤토리 설정
+        playerData.Equipment = Equipment ?? new EquipmentModel(); // 기본 장비 설정
     }
 }

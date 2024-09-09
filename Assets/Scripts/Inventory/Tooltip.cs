@@ -6,31 +6,41 @@ using UnityEngine.UI;
 public class Tooltip : MonoBehaviour
 {
     public Text tooltipText;
-    public GameObject tooltipPanel;
+    public RectTransform backgroundRectTransform;
 
-    private RectTransform panelRectTransform;
+    public RectTransform inventoryPanel;
+    private Vector3 offset = new Vector3(-10f, 0, 0);
 
-    private void Start()
+    private void Awake()
     {
-        panelRectTransform = tooltipPanel.GetComponent<RectTransform>();
+        if(tooltipText == null || backgroundRectTransform == null)
+        {
+            Debug.LogError("Tooltip : Missing UI Components");
+            return;
+        }
+
         HideTooltip();
     }
 
-    public void ShowTooltip(string text)
+    public void ShowTooltip(Item item)
     {
-        tooltipText.text = text;
-        AdjustTooltipSize();
-        tooltipPanel.SetActive(true);
+        if (tooltipText == null || backgroundRectTransform == null)
+        {
+            Debug.LogError("Tooltip: UI components are not initialized.");
+            return;
+        }
+
+        gameObject.SetActive(true);
+        
+        string tooltipContent = $"<b>{item.ItemName}</b>\n" +
+                                $"Type: {item.Type}\n" +
+                                $"{item.Description}";
+
+        tooltipText.text = tooltipContent;
     }
 
     public void HideTooltip()
     {
-        tooltipPanel.SetActive(false);
-    }
-
-    private void AdjustTooltipSize()
-    {
-        Vector2 textSize = tooltipText.GetComponent<RectTransform>().sizeDelta;
-        panelRectTransform.sizeDelta = new Vector2(panelRectTransform.sizeDelta.x, textSize.y + 20);  // 여유 공간 추가
+        gameObject.SetActive(false);
     }
 }

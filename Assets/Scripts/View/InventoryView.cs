@@ -9,7 +9,7 @@ public class InventoryView : MonoBehaviour, IInventoryView
     public GameObject inventorySlotPrefab;
     public Tooltip tooltip;
 
-    private List<InventorySlot> slots = new List<InventorySlot>();
+    [SerializeField]private List<InventorySlot> slots = new List<InventorySlot>();
 
     private InventoryPresenter inventoryPresenter;
 
@@ -17,11 +17,17 @@ public class InventoryView : MonoBehaviour, IInventoryView
     {
         inventoryPresenter = presenter;
         inventoryPresenter.Initialize();
+
+        foreach(var slot in slots)
+        {
+            slot.Initialize(inventoryPresenter, tooltip);
+        }
     }
 
     public void ShowItems(List<Item> items)
     {
         ClearSlots();
+
         foreach(var item in items)
         {
             AddItemToUI(item);
@@ -48,11 +54,17 @@ public class InventoryView : MonoBehaviour, IInventoryView
 
     private void AddItemToUI(Item item)
     {
-        GameObject slotGO = Instantiate(inventorySlotPrefab, itemsParent);
-        InventorySlot slot = slotGO.GetComponent<InventorySlot>();
-        slot.Initialize(inventoryPresenter, tooltip);  // 슬롯에 프리젠터와 툴팁 설정
-        slot.AddItem(item);  // 슬롯에 아이템 추가
-        slots.Add(slot);  // 슬롯 리스트에 추가
+        InventorySlot emptySlot = slots.Find(slot => slot.IsEmpty());
+
+        if(emptySlot != null)
+        {
+            emptySlot.AddItem(item);
+            emptySlot.UpdateSlot();
+        }
+        else
+        {
+            Debug.LogError("인벤토리가 가득 찼습니다.");
+        }
     }
 
     private void RemoveItemFromUI(Item item)
@@ -69,14 +81,8 @@ public class InventoryView : MonoBehaviour, IInventoryView
     {
         foreach(var slot in slots)
         {
-            Destroy(slot.gameObject);
+            slot.ClearSlot();
         }
-        slots.Clear();
-    }
-
-    public void ShowTooltip(string description)
-    {
-        tooltip.ShowTooltip(description);
     }
 
     public void HideTooltip()

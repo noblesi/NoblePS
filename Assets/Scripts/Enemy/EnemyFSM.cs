@@ -184,10 +184,6 @@ public class EnemyFSM : MonoBehaviour
 
             StartCoroutine(HandleDeath());
         }
-
-
-
-
     }
 
     private IEnumerator HandleDeath()
@@ -204,7 +200,18 @@ public class EnemyFSM : MonoBehaviour
 
                 GameObject itemObject = item.GetPrefab();
 
-                Instantiate(itemObject, transform.position, Quaternion.identity);
+                GameObject instantiatedItem = Instantiate(itemObject, transform.position, Quaternion.identity);
+
+                ItemPickup itemPickup = instantiatedItem.GetComponent<ItemPickup>();
+
+                if(itemPickup != null)
+                {
+                    itemPickup.Initialize(item);
+                }
+                else
+                {
+                    Debug.LogError("ItemPickup component not found on instantiated item.");
+                }
             }
         }
 

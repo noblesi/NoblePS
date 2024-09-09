@@ -20,13 +20,18 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler, IPointerEnterH
         UpdateSlot();
     }
 
+    public bool IsEmpty()
+    {
+        return item == null;
+    }
+
     // 슬롯 업데이트 (아이콘과 수량 표시)
     public void UpdateSlot()
     {
         if (item != null)
         {
-            icon.sprite = item.GetIcon ();
-            icon.enabled = true;
+            icon.sprite = item.GetIcon();
+            SetIconAlpha(1f);
 
             // 아이템 수량이 2개 이상일 때만 수량을 표시
             if (item.Quantity > 1)
@@ -41,7 +46,8 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler, IPointerEnterH
         }
         else
         {
-            icon.enabled = false;
+            icon.sprite = null;
+            SetIconAlpha(0f);
             quantityText.enabled = false;
         }
     }
@@ -63,7 +69,14 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler, IPointerEnterH
     {
         if (item != null && !string.IsNullOrEmpty(item.Description))
         {
-            tooltip.ShowTooltip(item.Description);
+            if (tooltip != null)
+            {
+                tooltip.ShowTooltip(item);
+            }
+            else
+            {
+                Debug.LogError("Tooltip is not assigned.");
+            }
         }
     }
 
@@ -129,5 +142,24 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler, IPointerEnterH
     {
         item = null;
         UpdateSlot();
+    }
+
+    private void SetIconAlpha(float alpha)
+    {
+        if (icon != null)
+        {
+            Color color = icon.color;
+            color.a = alpha;
+            icon.color = color;
+        }
+    }
+
+    public void ClearSlot()
+    {
+        item = null;
+        icon.sprite = null;
+        SetIconAlpha(0f);
+        quantityText.text = "";
+        quantityText.enabled = false;
     }
 }

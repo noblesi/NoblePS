@@ -10,16 +10,28 @@ public class UIManager : Singleton<UIManager>
 
     public void ToggleInventory()
     {
+        if(!inventoryPanel.activeSelf)
+        {
+            GameManager.Instance.InitializeInventory();
+        }
         TogglePanel(inventoryPanel);
     }
 
     public void ToggleEquipment()
     {
+        if (!equipmentPanel.activeSelf)
+        {
+            GameManager.Instance.InitializeEquipment();
+        }
         TogglePanel(equipmentPanel);
     }
 
     public void ToggleStatus()
     {
+        if (!statusPanel.activeSelf)
+        {
+            GameManager.Instance.InitializeStatus();
+        }
         TogglePanel(statusPanel);
     }
 

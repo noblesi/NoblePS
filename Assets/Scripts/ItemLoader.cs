@@ -5,76 +5,88 @@ using UnityEngine;
 
 public class ItemLoader : MonoBehaviour
 {
-    private string itemDataFilePath;
+    private string itemDataFilePath = "Assets/Json/ItemData.json";
 
     public Dictionary<int, Item> items = new Dictionary<int, Item>();
 
     private void Start()
     {
-        itemDataFilePath = Path.Combine(Application.dataPath, "Json/ItemData.json");
         LoadItems();
     }
 
     public void LoadItems()
     {
-        if(File.Exists(itemDataFilePath))
+        if (File.Exists(itemDataFilePath))
         {
             string jsonData = File.ReadAllText(itemDataFilePath);
             ItemDataArray loadedItemDataArray = JsonUtility.FromJson<ItemDataArray>(jsonData);
 
-            foreach(var itemData in loadedItemDataArray.items)
+            foreach (var itemData in loadedItemDataArray.items)
             {
                 Item newItem = null;
 
-                switch (itemData.ItemType)
+                // ItemType을 enum으로 변환
+                if (System.Enum.TryParse(itemData.ItemType, out ItemType itemType))
                 {
-                    case "Equipment":
-                        EquipmentType equipmentType = (EquipmentType)System.Enum.Parse(typeof(EquipmentType), itemData.EquipmentType);
-                        newItem = new Equipment(
-                            itemData.ItemID,
-                            itemData.ItemName,
-                            itemData.IconPath,
-                            itemData.PrefabPath,
-                            itemData.Description,
-                            itemData.Quantity,
-                            equipmentType,
-                            itemData.StrengthBonus,
-                            itemData.DexterityBonus,
-                            itemData.IntelligenceBonus
-                        );
-                        break;
+                    switch (itemType)
+                    {
+                        case ItemType.Equipment:
+                            // EquipmentType도 enum으로 변환
+                            if (System.Enum.TryParse(itemData.EquipmentType, out EquipmentType equipmentType))
+                            {
+                                newItem = new Equipment(
+                                    itemData.ItemID,
+                                    itemData.ItemName,
+                                    itemData.IconPath,
+                                    itemData.PrefabPath,
+                                    itemData.Description,
+                                    itemData.Quantity,
+                                    equipmentType,
+                                    itemData.StrengthBonus,
+                                    itemData.DexterityBonus,
+                                    itemData.IntelligenceBonus
+                                );
+                            }
+                            else
+                            {
+                                Debug.LogError($"Invalid EquipmentType: {itemData.EquipmentType}");
+                            }
+                            break;
 
-                    case "Consumable":
-                        newItem = new Consumable(
-                            itemData.ItemID,
-                            itemData.ItemName,
-                            itemData.IconPath,
-                            itemData.PrefabPath,
-                            itemData.Description,
-                            itemData.Quantity,
-                            itemData.HealthRestore,
-                            itemData.ManaRestore
-                        );
-                        break;
+                        case ItemType.Consumable:
+                            newItem = new Consumable(
+                                itemData.ItemID,
+                                itemData.ItemName,
+                                itemData.IconPath,
+                                itemData.PrefabPath,
+                                itemData.Description,
+                                itemData.Quantity,
+                                itemData.HealthRestore,
+                                itemData.ManaRestore
+                            );
+                            break;
 
-                    case "Misc":
-                        newItem = new Misc(
-                            itemData.ItemID,
-                            itemData.ItemName,
-                            itemData.IconPath,
-                            itemData.PrefabPath,
-                            itemData.Description,
-                            itemData.Quantity
-                        );
-                        break;
+                        case ItemType.Misc:
+                            newItem = new Misc(
+                                itemData.ItemID,
+                                itemData.ItemName,
+                                itemData.IconPath,
+                                itemData.PrefabPath,
+                                itemData.Description,
+                                itemData.Quantity
+                            );
+                            break;
+                    }
+
+                    if (newItem != null)
+                    {
+                        items.Add(newItem.ItemID, newItem);
+                    }
                 }
-
-                if(newItem != null)
+                else
                 {
-                    items.Add(newItem.ItemID, newItem);
+                    Debug.LogError($"Invalid ItemType: {itemData.ItemType}");
                 }
-
-                
             }
         }
         else

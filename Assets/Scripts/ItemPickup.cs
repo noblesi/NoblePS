@@ -8,7 +8,16 @@ public class ItemPickup : MonoBehaviour
 
     public void Initialize(Item itemData)
     {
-        item = itemData;
+        if(itemData != null)
+        {
+            item = itemData;
+        }
+        else
+        {
+            Debug.LogError("ItemPickup : Item data is null.");
+        }
+
+        
     }
 
     private void OnTriggerEnter(Collider other)
@@ -20,6 +29,10 @@ public class ItemPickup : MonoBehaviour
             {
                 playerFSM.PickupItem(item);
                 Destroy(gameObject);
+            }
+            else
+            {
+                Debug.LogError("ItemPickup: Player or Item i null.");
             }
         }
     }

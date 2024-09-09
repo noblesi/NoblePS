@@ -210,6 +210,7 @@ public class PlayerFSM : MonoBehaviour
         if (inventoryPresenter != null)
         {
             inventoryPresenter.AddItem(item);
+
             Debug.Log($"æ∆¿Ã≈€ {item.ItemName}¿ª »πµÊ«ﬂΩ¿¥œ¥Ÿ.");
         }
     }

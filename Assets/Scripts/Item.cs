@@ -30,11 +30,35 @@ public class Item
 
     public Sprite GetIcon()
     {
-        return Resources.Load<Sprite>(IconPath);
+        if (!string.IsNullOrEmpty(IconPath))
+        {
+            Sprite icon = Resources.Load<Sprite>(IconPath);
+            if (icon != null)
+            {
+                return icon;
+            }
+            else
+            {
+                Debug.LogError($"Icon not found at path: {IconPath}");
+            }
+        }
+        else
+        {
+            Debug.LogError("IconPath is null or empty");
+        }
+
+        // 기본 아이콘 반환 (기본 이미지 설정이 필요함)
+        return null;
     }
 
     public GameObject GetPrefab()
     {
-        return Resources.Load<GameObject>(PrefabPath);
+        if (!string.IsNullOrEmpty(PrefabPath))
+        {
+            return Resources.Load<GameObject>(PrefabPath);
+        }
+
+        Debug.LogError("PrefabPath is null or empty");
+        return null;
     }
 }
