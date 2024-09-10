@@ -30,6 +30,25 @@ public class EquipmentView : MonoBehaviour
         bootsSlot.UpdateSlot();
     }
 
+    public void UpdateSlot(EquipmentType equipmentType)
+    {
+        switch (equipmentType)
+        {
+            case EquipmentType.Weapon:
+                weaponSlot.UpdateSlot();
+                break;
+            case EquipmentType.Armor:
+                armorSlot.UpdateSlot();
+                break;
+            case EquipmentType.Helmet:
+                helmetSlot.UpdateSlot();
+                break;
+            case EquipmentType.Boots:
+                bootsSlot.UpdateSlot();
+                break;
+        }
+    }
+
     public void ShowItemDescription(string description)
     {
         itemDescriptionText.text = description;

@@ -22,7 +22,7 @@ public class EquipmentModel
         LoadEquipmentData();
     }
 
-    public Equipment GetItemByType(EquipmentType equipmentType)
+    public Equipment GetEquipmentInSlot(EquipmentType equipmentType)
     {
         return equipmentType switch
         {

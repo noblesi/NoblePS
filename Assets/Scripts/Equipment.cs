@@ -18,4 +18,14 @@ public class Equipment : Item
         DexterityBonus = dexterityBonus;
         IntelligenceBonus = intelligenceBonus;
     }
+
+    public string GetStatBonusText()
+    {
+        string statBonus = "";
+        if (StrengthBonus > 0) statBonus += $"Strength: +{StrengthBonus}\n";
+        if (DexterityBonus > 0) statBonus += $"Dexterity: +{DexterityBonus}\n";
+        if (IntelligenceBonus > 0) statBonus += $"Intelligence: +{IntelligenceBonus}\n";
+
+        return statBonus;
+    }
 }

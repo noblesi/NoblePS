@@ -21,7 +21,8 @@ public class EquipmentSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     public void UpdateSlot()
     {
         Equipment equippedItem = equipmentPresenter.GetItemInSlot(equipmentType) as Equipment;
-        if (equippedItem != null)
+        
+        if (equippedItem != null && !string.IsNullOrEmpty(equippedItem.IconPath))
         {
             icon.sprite = equippedItem.GetIcon();
             icon.gameObject.SetActive(true);
@@ -37,9 +38,11 @@ public class EquipmentSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        if(!string.IsNullOrEmpty(itemDescription))
+        Equipment equippedItem = equipmentPresenter.GetItemInSlot(equipmentType) as Equipment;
+
+        if(equippedItem != null)
         {
-            equipmentPresenter.ShowItemDescription(itemDescription);
+            equipmentPresenter.ShowItemDescription(equippedItem);
         }
     }
 

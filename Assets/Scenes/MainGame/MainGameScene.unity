@@ -1990,7 +1990,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -484, y: 0}
+  m_AnchoredPosition: {x: -674, y: -157}
   m_SizeDelta: {x: 400, y: 500}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &106828934
@@ -12485,55 +12485,8 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 2386692087498796433, guid: 0b8175585395440c99387aae7aa67499,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 642948819}
-    - targetCorrespondingSourceObject: {fileID: 2386692087498796433, guid: 0b8175585395440c99387aae7aa67499,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 642948818}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0b8175585395440c99387aae7aa67499, type: 3}
---- !u!1 &642948817 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2386692087498796433, guid: 0b8175585395440c99387aae7aa67499,
-    type: 3}
-  m_PrefabInstance: {fileID: 642948816}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &642948818
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 642948817}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3137dcdc93df34f49841400faa49b3d5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &642948819
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 642948817}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1bbbfa6190416f641b0bf9515d156f21, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  currentState: 0
-  hitBoxSpawnPoint: {fileID: 0}
-  hitBoxRadius: 1.5
-  damage: 15
-  playerLayer:
-    serializedVersion: 2
-    m_Bits: 64
-  monsterEXP: 50
-  MonsterID: 1
 --- !u!4 &643039006 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400000, guid: eaf5f30259284e240a72aa30e5674d6d,
@@ -16724,7 +16677,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 480, y: 100}
+  m_SizeDelta: {x: 460, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &822933393
 MonoBehaviour:
@@ -16748,10 +16701,10 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 14
+    m_FontSize: 20
     m_FontStyle: 0
     m_BestFit: 0
-    m_MinSize: 10
+    m_MinSize: 2
     m_MaxSize: 40
     m_Alignment: 0
     m_AlignByGeometry: 0
@@ -20458,7 +20411,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1020035876
 RectTransform:
   m_ObjectHideFlags: 0
@@ -20480,7 +20433,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: -674, y: 253}
   m_SizeDelta: {x: 500, y: 250}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1020035877
@@ -39504,8 +39457,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemsParent: {fileID: 1651117539}
-  inventorySlotPrefab: {fileID: 2882589406988490825, guid: b7286aad0d882434d8f473995dd42879,
-    type: 3}
   tooltip: {fileID: 8270621899960374076}
   slots:
   - {fileID: 5804788245243520034}

@@ -6,7 +6,6 @@ using UnityEngine;
 public class InventoryView : MonoBehaviour, IInventoryView
 {
     public Transform itemsParent;
-    public GameObject inventorySlotPrefab;
     public Tooltip tooltip;
 
     [SerializeField]private List<InventorySlot> slots = new List<InventorySlot>();
@@ -27,55 +26,32 @@ public class InventoryView : MonoBehaviour, IInventoryView
     public void ShowItems(List<Item> items)
     {
         ClearSlots();
-
         foreach(var item in items)
         {
-            AddItemToUI(item);
+            OnItemAdded(item);
         }
     }
 
     public void OnItemAdded(Item item)
     {
-        AddItemToUI(item);
-    }
-
-    public void OnItemRemoved(Item item)
-    {
-        RemoveItemFromUI(item);
-    }
-
-    public void UpdateView()
-    {
-        foreach(var slot in slots)
-        {
-            slot.UpdateSlot();
-        }
-    }
-
-    private void AddItemToUI(Item item)
-    {
         InventorySlot emptySlot = slots.Find(slot => slot.IsEmpty());
-
         if(emptySlot != null)
         {
             emptySlot.AddItem(item);
             emptySlot.UpdateSlot();
         }
-        else
+    }
+
+    public void OnItemRemoved(Item item)
+    {
+        InventorySlot slotToRemove = slots.Find(slot => slot.item == item);
+        if(slotToRemove != null)
         {
-            Debug.LogError("인벤토리가 가득 찼습니다.");
+            slotToRemove.ClearSlot();
         }
     }
 
-    private void RemoveItemFromUI(Item item)
-    {
-        InventorySlot slotToRemove = slots.Find(slot => slot.item == item);
-        if (slotToRemove != null)
-        {
-            slots.Remove(slotToRemove);
-            Destroy(slotToRemove.gameObject);  // 슬롯을 제거
-        }
-    }
+    
 
     private void ClearSlots()
     {
@@ -83,10 +59,5 @@ public class InventoryView : MonoBehaviour, IInventoryView
         {
             slot.ClearSlot();
         }
-    }
-
-    public void HideTooltip()
-    {
-        tooltip.HideTooltip();
     }
 }

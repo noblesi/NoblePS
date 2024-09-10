@@ -2,16 +2,13 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class InventorySlot : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler, IDragHandler, IEndDragHandler
+public class InventorySlot : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
 {
     public Item item;  // 슬롯에 있는 아이템
     public Image icon;  // 아이템 아이콘
     public Text quantityText;  // 아이템 수량 표시
     public InventoryPresenter inventoryPresenter;
     public Tooltip tooltip;
-
-    private Vector3 originalPosition;  // 원래 위치 저장
-    private bool isDragging = false;  // 드래그 상태 체크
 
     public void Initialize(InventoryPresenter presenter, Tooltip tooltip)
     {
@@ -28,105 +25,67 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler, IPointerEnterH
     // 슬롯 업데이트 (아이콘과 수량 표시)
     public void UpdateSlot()
     {
-        if (item != null)
+        if(item != null)
         {
             icon.sprite = item.GetIcon();
-            SetIconAlpha(1f);
+            icon.gameObject.SetActive(true);
 
-            // 아이템 수량이 2개 이상일 때만 수량을 표시
-            if (item.Quantity > 1)
-            {
-                quantityText.text = item.Quantity.ToString();
-                quantityText.enabled = true;
-            }
-            else
-            {
-                quantityText.enabled = false;
-            }
+            quantityText.text = item.Quantity > 1 ? item.Quantity.ToString() : "";
+            quantityText.enabled = item.Quantity > 1;
         }
         else
         {
-            icon.sprite = null;
-            SetIconAlpha(0f);
+            icon.gameObject.SetActive(false);
             quantityText.enabled = false;
         }
     }
 
-    // 우클릭 이벤트 처리 - 장비 착용
     public void OnPointerClick(PointerEventData eventData)
     {
         if (eventData.button == PointerEventData.InputButton.Right && item != null)
         {
-            if (inventoryPresenter.CanEquipItem(item))
-            {
-                inventoryPresenter.EquipItem(item);  // 장비 착용
-            }
+            EquipItemIfPossible();
         }
     }
 
-    // 마우스 오버 시 장비 설명 표시
     public void OnPointerEnter(PointerEventData eventData)
     {
-        if (item != null && !string.IsNullOrEmpty(item.Description))
-        {
-            if (tooltip != null)
-            {
-                tooltip.ShowTooltip(item);
-            }
-            else
-            {
-                Debug.LogError("Tooltip is not assigned.");
-            }
-        }
+        ShowTooltipIfNeeded();
     }
 
-    // 마우스가 벗어났을 때 장비 설명 숨김
     public void OnPointerExit(PointerEventData eventData)
     {
-        if (item != null)
+        HideTooltipIfNeeded();
+    }
+
+    private void ShowTooltipIfNeeded()
+    {
+        if (item != null && !string.IsNullOrEmpty(item.Description) && tooltip != null)
+        {
+            tooltip.ShowTooltip(item);
+        }
+    }
+
+    private void HideTooltipIfNeeded()
+    {
+        if (tooltip != null)
         {
             tooltip.HideTooltip();
         }
     }
 
-    // 드래그 시작 시 원래 위치 저장
-    public void OnBeginDrag(PointerEventData eventData)
+    private void EquipItemIfPossible()
     {
-        if (item != null)
-        {
-            originalPosition = transform.localPosition;
-            isDragging = true;
-            tooltip.HideTooltip();
-        }
-    }
+        if (item == null) return;
 
-    // 드래그 중
-    public void OnDrag(PointerEventData eventData)
-    {
-        if (isDragging)
+        if (inventoryPresenter.CanEquipItem(item))
         {
-            transform.position = eventData.position;
+            inventoryPresenter.EquipItem(item);  // 장비 착용
+            ClearSlot();
         }
-    }
-
-    // 드래그 종료 시 처리
-    public void OnEndDrag(PointerEventData eventData)
-    {
-        isDragging = false;
-
-        // 드랍된 슬롯이 장비창이면 장비 착용
-        if (eventData.pointerEnter != null && eventData.pointerEnter.CompareTag("EquipmentSlot"))
-        {
-            EquipmentSlot equipmentSlot = eventData.pointerEnter.GetComponent<EquipmentSlot>();
-            if (equipmentSlot != null && inventoryPresenter.CanEquipItem(item))
-            {
-                inventoryPresenter.EquipItem(item);  // 장비 착용
-            }
-        }
-        // 드랍된 곳이 인벤토리가 아니면 원래 자리로 복귀
         else
         {
-            transform.localPosition = originalPosition;
+            Debug.LogWarning("Cannot equip this item.");
         }
     }
 
@@ -144,21 +103,11 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler, IPointerEnterH
         UpdateSlot();
     }
 
-    private void SetIconAlpha(float alpha)
-    {
-        if (icon != null)
-        {
-            Color color = icon.color;
-            color.a = alpha;
-            icon.color = color;
-        }
-    }
-
     public void ClearSlot()
     {
         item = null;
         icon.sprite = null;
-        SetIconAlpha(0f);
+        icon.gameObject.SetActive(false);
         quantityText.text = "";
         quantityText.enabled = false;
     }

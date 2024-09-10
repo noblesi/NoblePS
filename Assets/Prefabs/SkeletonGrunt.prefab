@@ -587,8 +587,10 @@ GameObject:
   - component: {fileID: 3050321655741658923}
   - component: {fileID: 3305169469828288718}
   - component: {fileID: 4014526744825591408}
+  - component: {fileID: 1595632411832683173}
+  - component: {fileID: 286021075837619093}
   m_Layer: 0
-  m_Name: skeleton_grunt
+  m_Name: SkeletonGrunt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -655,6 +657,39 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 2.4687989, z: 1.5827242}
   m_Center: {x: 0, y: 0.73439956, z: 0.2913621}
+--- !u!114 &1595632411832683173
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2386692087498796433}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1bbbfa6190416f641b0bf9515d156f21, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentState: 0
+  hitBoxSpawnPoint: {fileID: 0}
+  hitBoxRadius: 1.5
+  damage: 15
+  playerLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  monsterEXP: 50
+  MonsterID: 1
+--- !u!114 &286021075837619093
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2386692087498796433}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3137dcdc93df34f49841400faa49b3d5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2402193063938381144
 GameObject:
   m_ObjectHideFlags: 0

@@ -22,43 +22,42 @@ public class EquipmentPresenter
     {
         if (item == null || !(item is Equipment equipment)) return;
 
-        Equipment previousItem = equipmentModel.Equip(equipment);
-        if(previousItem != null)
-        {
-            inventoryPresenter.AddItem(previousItem);
-            statusPresenter.ApplyItemBonus(previousItem, false);
-        }
+        equipmentModel.Equip(equipment);
 
         inventoryPresenter.RemoveItem(equipment);
         statusPresenter.ApplyItemBonus(equipment, true);
-        equipmentView.DisplayEquipment(equipmentModel);
+        equipmentView.UpdateSlot(equipment.EquipmentType);  // 특정 장비 슬롯만 업데이트
     }
 
     public void UnequipItem(EquipmentType equipmentType)
     {
         Equipment unequippedItem = equipmentModel.Unequip(equipmentType);
-        if(unequippedItem != null)
+        if (unequippedItem != null)
         {
             inventoryPresenter.AddItem(unequippedItem);
             statusPresenter.ApplyItemBonus(unequippedItem, false);
         }
 
-        equipmentView.DisplayEquipment(equipmentModel);
+        equipmentView.UpdateSlot(equipmentType);  // 특정 장비 슬롯만 업데이트
     }
 
     public bool IsEquipable(Item item)
     {
-        return item is Equipment;
+        return item is Equipment;  // Item이 Equipment일 때만 true 반환
     }
 
     public Item GetItemInSlot(EquipmentType equipmentType)
     {
-        return equipmentModel.GetItemByType(equipmentType);
+        return equipmentModel.GetEquipmentInSlot(equipmentType);
     }
 
-    public void ShowItemDescription(string description)
+    public void ShowItemDescription(Equipment equipment)
     {
-        equipmentView.ShowItemDescription(description);
+        string statBonus = equipment.GetStatBonusText();
+        string fullDescription = $"<b>{equipment.ItemName}</b>\n" +  // 아이템 이름
+                                 $"{statBonus}";                     // 스탯 상승량
+
+        equipmentView.ShowItemDescription(fullDescription);
     }
 
     public void HideItemDescription()

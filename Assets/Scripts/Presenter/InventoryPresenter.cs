@@ -27,8 +27,9 @@ public class InventoryPresenter
     {
         if (equipmentPresenter.IsEquipable(item))
         {
-            inventoryModel.RemoveItem(item);
             equipmentPresenter.EquipItem(item);
+            
+            inventoryView.OnItemRemoved(item);
             playerData.SavePlayerData(); // 데이터 저장
         }
     }
