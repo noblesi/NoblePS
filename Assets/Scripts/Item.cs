@@ -17,6 +17,12 @@ public class Item
     public string Description { get; set; }
     public int Quantity { get; set; }
 
+    public virtual Item ItemCopy()
+    {
+        return new  Item(ItemID, ItemName, IconPath, PrefabPath, Type, Description, Quantity);
+        
+    }
+
     public Item(int id, string name, string iconPath, string prefabPath, ItemType type, string description, int quantity)
     {
         ItemID = id;
@@ -42,11 +48,6 @@ public class Item
                 Debug.LogError($"Icon not found at path: {IconPath}");
             }
         }
-        else
-        {
-            Debug.LogError("IconPath is null or empty");
-        }
-
         // 기본 아이콘 반환 (기본 이미지 설정이 필요함)
         return null;
     }

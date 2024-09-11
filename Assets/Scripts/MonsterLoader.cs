@@ -5,21 +5,19 @@ using UnityEngine;
 
 public class MonsterLoader : MonoBehaviour
 {
-    private string MonsterDataFilePath;
-    public Dictionary<int, Monster> monsters = new Dictionary<int, Monster>();
+    [SerializeField] private Dictionary<int, Monster> monsters = new Dictionary<int, Monster>();
 
-    private void Start()
+    private void Awake()
     {
-        MonsterDataFilePath = Path.Combine(Application.dataPath, "Json/MonsterData.json");
         LoadMonsters();
     }
 
     public void LoadMonsters()
     {
-        if(File.Exists(MonsterDataFilePath))
+        TextAsset jsonData = Resources.Load<TextAsset>("Json/MonsterData");
+        if(jsonData != null)
         {
-            string jsonData = File.ReadAllText(MonsterDataFilePath);
-            MonsterDataArray monsterDataArray = JsonUtility.FromJson<MonsterDataArray>(jsonData);
+            MonsterDataArray monsterDataArray = JsonUtility.FromJson<MonsterDataArray>(jsonData.text);
 
             foreach(var monsterData in monsterDataArray.monsters)
             {

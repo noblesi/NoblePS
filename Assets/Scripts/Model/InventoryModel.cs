@@ -25,6 +25,11 @@ public class InventoryModel
         SaveInventoryData();
     }
 
+    public int GetItemSlot(Item item)
+    {
+        return items.IndexOf(item);
+    }
+
     public void SaveInventoryData()
     {
         string json = JsonUtility.ToJson(new InventoryData(items));

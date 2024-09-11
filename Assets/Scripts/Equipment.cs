@@ -19,6 +19,12 @@ public class Equipment : Item
         IntelligenceBonus = intelligenceBonus;
     }
 
+    public override Item ItemCopy()
+    {
+        return new Equipment(ItemID, ItemName, IconPath, PrefabPath, Description, Quantity, EquipmentType,
+            StrengthBonus, DexterityBonus, IntelligenceBonus);
+    }
+
     public string GetStatBonusText()
     {
         string statBonus = "";

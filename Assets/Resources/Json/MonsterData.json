@@ -1,0 +1,46 @@
+{
+  "monsters": [
+    {
+      "MonsterID": 1,
+      "MonsterName": "SkeletonGrunt",
+      "Level": 1,
+      "HP": 100,
+      "AttackPower": 10,
+      "Defence": 5,
+      "DropList": [
+        { "ItemID": 1, "DropRate": 100 },  // Sword of Power
+        { "ItemID": 2, "DropRate": 100 },  // Axe of Fury
+        { "ItemID": 3, "DropRate": 100 },  // Iron Helmet
+        { "ItemID": 4, "DropRate": 100 },  // Golden Helmet
+        { "ItemID": 5, "DropRate": 100 },  // Steel Armor
+        { "ItemID": 6, "DropRate": 100 },  // Leather Armor
+        { "ItemID": 7, "DropRate": 100 },  // Boots of Speed
+        { "ItemID": 8, "DropRate": 100 }   // Heavy Boots
+      ]
+    },
+    {
+      "MonsterID": 2,
+      "MonsterName": "SkeletonSwordman",
+      "Level": 2,
+      "HP": 150,
+      "AttackPower": 20,
+      "Defence": 10,
+      "DropList": [
+        { "ItemID": 9, "DropRate": 100 },  // Healing Potion
+        { "ItemID": 10, "DropRate": 100 }  // Mana Potion
+      ]
+    },
+    {
+      "MonsterID": 3,
+      "MonsterName": "SkeletonKing",
+      "Level": 5,
+      "HP": 300,
+      "AttackPower": 40,
+      "Defence": 20,
+      "DropList": [
+        { "ItemID": 5, "DropRate": 100 },  // Steel Armor
+        { "ItemID": 1, "DropRate": 50 }    // Sword of Power (50% chance)
+      ]
+    }
+  ]
+}

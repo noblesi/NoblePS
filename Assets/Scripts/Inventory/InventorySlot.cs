@@ -44,8 +44,61 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler, IPointerEnterH
     {
         if (eventData.button == PointerEventData.InputButton.Right && item != null)
         {
-            EquipItemIfPossible();
+            HandleRightClick();
         }
+    }
+
+    private void HandleRightClick()
+    {
+        if(item is Equipment)
+        {
+            EquipItem();
+        }
+        else if(item is Consumable)
+        {
+            UseConsumable();
+        }
+    }
+
+    private void EquipItem()
+    {
+        if (inventoryPresenter.CanEquipItem(item))
+        {
+            Equipment equipmentItem = item as Equipment;
+            if(equipmentItem != null)
+            {
+                inventoryPresenter.EquipItem(equipmentItem);
+                ClearSlot();
+            }
+        }
+        else
+        {
+            Debug.LogWarning("Cannot equip this item.");
+        }
+    }
+
+    private void UseConsumable()
+    {
+        Consumable consumableItem = item as Consumable;
+        if(consumableItem != null)
+        {
+            ApplyConsumableEffects(consumableItem);
+
+            item.Quantity--;
+            if(item.Quantity <= 0)
+            {
+                ClearSlot();
+            }
+            else
+            {
+                UpdateSlot();
+            }
+        }
+    }
+
+    private void ApplyConsumableEffects(Consumable consumable)
+    {
+        Debug.Log($"Used {consumable.ItemName}: Restored {consumable.HealthRestore} HP and {consumable.ManaRestore} MP");
     }
 
     public void OnPointerEnter(PointerEventData eventData)
@@ -74,20 +127,7 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler, IPointerEnterH
         }
     }
 
-    private void EquipItemIfPossible()
-    {
-        if (item == null) return;
-
-        if (inventoryPresenter.CanEquipItem(item))
-        {
-            inventoryPresenter.EquipItem(item);  // 장비 착용
-            ClearSlot();
-        }
-        else
-        {
-            Debug.LogWarning("Cannot equip this item.");
-        }
-    }
+    
 
     // 아이템 추가
     public void AddItem(Item newItem)

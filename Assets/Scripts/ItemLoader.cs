@@ -5,21 +5,19 @@ using UnityEngine;
 
 public class ItemLoader : MonoBehaviour
 {
-    private string itemDataFilePath = "Assets/Json/ItemData.json";
+    [SerializeField] private Dictionary<int, Item> items = new Dictionary<int, Item>();
 
-    public Dictionary<int, Item> items = new Dictionary<int, Item>();
-
-    private void Start()
+    private void Awake()
     {
         LoadItems();
     }
 
     public void LoadItems()
     {
-        if (File.Exists(itemDataFilePath))
+        TextAsset jsonData = Resources.Load<TextAsset>("Json/ItemData");
+        if (jsonData != null)
         {
-            string jsonData = File.ReadAllText(itemDataFilePath);
-            ItemDataArray loadedItemDataArray = JsonUtility.FromJson<ItemDataArray>(jsonData);
+            ItemDataArray loadedItemDataArray = JsonUtility.FromJson<ItemDataArray>(jsonData.text);
 
             foreach (var itemData in loadedItemDataArray.items)
             {

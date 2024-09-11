@@ -1,3 +1,5 @@
+using UnityEngine;
+
 public class EquipmentPresenter
 {
     private EquipmentView equipmentView;

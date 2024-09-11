@@ -1,3 +1,5 @@
+using UnityEngine;
+
 public class InventoryPresenter
 {
     private IInventoryView inventoryView;
@@ -23,14 +25,24 @@ public class InventoryPresenter
         equipmentPresenter = equipment; 
     }
 
-    public void EquipItem(Item item)
+    public void EquipItem(Equipment equipmentItem)
     {
-        if (equipmentPresenter.IsEquipable(item))
+        if (equipmentPresenter.IsEquipable(equipmentItem))
         {
-            equipmentPresenter.EquipItem(item);
-            
-            inventoryView.OnItemRemoved(item);
-            playerData.SavePlayerData(); // 데이터 저장
+            Item copiedItem = equipmentItem.ItemCopy();  // ItemCopy는 Item 반환
+
+            // 캐스팅 전에 안전하게 타입 체크
+            if (copiedItem is Equipment copiedEquipment)
+            {
+                equipmentPresenter.EquipItem(copiedEquipment);  // 장비 착용
+                inventoryModel.RemoveItem(equipmentItem);
+                inventoryView.OnItemRemoved(equipmentItem);
+                playerData.SavePlayerData(); // 데이터 저장
+            }
+            else
+            {
+                Debug.LogError($"EquipItem failed: Item {equipmentItem.ItemName} (ID: {equipmentItem.ItemID}) is not an Equipment.");
+            }
         }
     }
 
@@ -43,9 +55,13 @@ public class InventoryPresenter
 
     public void RemoveItem(Item item)
     {
-        inventoryModel.RemoveItem(item);
-        inventoryView.OnItemRemoved(item);
-        playerData.SavePlayerData(); // 데이터 저장
+        int itemSlotIndex = inventoryModel.GetItemSlot(item);
+        if(itemSlotIndex != -1)
+        {
+            inventoryModel.RemoveItem(item);
+            inventoryView.OnItemRemoved(item);
+            playerData.SavePlayerData(); // 데이터 저장
+        }
     }
 
     public void SwapItems(Item item1, Item item2)

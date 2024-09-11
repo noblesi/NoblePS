@@ -21,12 +21,20 @@ public class EquipmentSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     public void UpdateSlot()
     {
         Equipment equippedItem = equipmentPresenter.GetItemInSlot(equipmentType) as Equipment;
-        
-        if (equippedItem != null && !string.IsNullOrEmpty(equippedItem.IconPath))
+
+        if (equippedItem != null)
         {
-            icon.sprite = equippedItem.GetIcon();
-            icon.gameObject.SetActive(true);
-            itemDescription = equippedItem.Description;
+            Sprite itemIcon = equippedItem.GetIcon();
+            if (itemIcon != null)
+            {
+                icon.sprite = itemIcon;
+                icon.gameObject.SetActive(true);
+                itemDescription = equippedItem.Description;
+            }
+            else
+            {
+                icon.gameObject.SetActive(false);
+            }
         }
         else
         {

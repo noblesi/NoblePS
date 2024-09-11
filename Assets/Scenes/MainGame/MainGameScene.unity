@@ -16692,7 +16692,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -16700,7 +16700,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_Font: {fileID: 12800000, guid: 8508fb901c4e52c478cad6ad0a0f8929, type: 3}
     m_FontSize: 20
     m_FontStyle: 0
     m_BestFit: 0
@@ -16712,7 +16712,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: New Text
+  m_Text: 
 --- !u!222 &822933394
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -18844,6 +18844,74 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 353684039}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &947935915
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2386692087498796433, guid: 0b8175585395440c99387aae7aa67499,
+        type: 3}
+      propertyPath: m_Name
+      value: SkeletonGrunt (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3050321655741658923, guid: 0b8175585395440c99387aae7aa67499,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 1.29
+      objectReference: {fileID: 0}
+    - target: {fileID: 3050321655741658923, guid: 0b8175585395440c99387aae7aa67499,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3050321655741658923, guid: 0b8175585395440c99387aae7aa67499,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 11.79
+      objectReference: {fileID: 0}
+    - target: {fileID: 3050321655741658923, guid: 0b8175585395440c99387aae7aa67499,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3050321655741658923, guid: 0b8175585395440c99387aae7aa67499,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3050321655741658923, guid: 0b8175585395440c99387aae7aa67499,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3050321655741658923, guid: 0b8175585395440c99387aae7aa67499,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3050321655741658923, guid: 0b8175585395440c99387aae7aa67499,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3050321655741658923, guid: 0b8175585395440c99387aae7aa67499,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3050321655741658923, guid: 0b8175585395440c99387aae7aa67499,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 0b8175585395440c99387aae7aa67499, type: 3}
 --- !u!4 &947959079 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400000, guid: b5c0d48b81481894d98080cbf7031eff,
@@ -20411,7 +20479,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1020035876
 RectTransform:
   m_ObjectHideFlags: 0
@@ -43490,5 +43558,6 @@ SceneRoots:
   - {fileID: 1829839081}
   - {fileID: 1147380033}
   - {fileID: 642948816}
+  - {fileID: 947935915}
   - {fileID: 1947805315}
   - {fileID: 366491807}
