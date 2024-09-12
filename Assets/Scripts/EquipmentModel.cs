@@ -22,7 +22,13 @@ public class EquipmentModel
         LoadEquipmentData();
     }
 
-    public Equipment GetEquipmentInSlot(EquipmentType equipmentType)
+    public bool IsSlotEmpty(EquipmentType equipmentType)
+    {
+        Equipment equippedItem = GetEquipmentByType(equipmentType);
+        return equippedItem == null;
+    }
+
+    public Equipment GetEquipmentByType(EquipmentType equipmentType)
     {
         return equipmentType switch
         {
@@ -86,9 +92,16 @@ public class EquipmentModel
                 break;
         }
 
+        // 장비가 없을 경우 null을 반환
+        if (unequippedItem == null || unequippedItem.ItemID == 0)
+        {
+            return null;
+        }
+
         SaveEquipmentData();
         return unequippedItem;  // 해제된 아이템 반환
     }
+
 
     public void SaveEquipmentData()
     {

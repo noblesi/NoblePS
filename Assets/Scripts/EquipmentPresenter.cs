@@ -20,28 +20,50 @@ public class EquipmentPresenter
         equipmentView.DisplayEquipment(equipmentModel);
     }
 
-    public void EquipItem(Item item)
+    public void EquipItem(Equipment newEquipment)
     {
-        if (item == null || !(item is Equipment equipment)) return;
+        Equipment previousItem = equipmentModel.Equip(newEquipment);
 
-        equipmentModel.Equip(equipment);
+        // 기존 장비가 있을 때만 교체 작업 수행
+        if (previousItem != null && previousItem.ItemID != 0)
+        {
+            Debug.Log($"Replacing old item: {previousItem.ItemName}, ID: {previousItem.ItemID}");
 
-        inventoryPresenter.RemoveItem(equipment);
-        statusPresenter.ApplyItemBonus(equipment, true);
-        equipmentView.UpdateSlot(equipment.EquipmentType);  // 특정 장비 슬롯만 업데이트
+            inventoryPresenter.AddItem(previousItem);
+            statusPresenter.ApplyItemBonus(previousItem, false);
+        }
+
+        // 새 장비는 인벤토리에서 제거
+        inventoryPresenter.RemoveItem(newEquipment);
+        statusPresenter.ApplyItemBonus(newEquipment, true);
+
+        // 해당 장비 슬롯 업데이트
+        equipmentView.UpdateSlot(newEquipment.EquipmentType);
     }
+
 
     public void UnequipItem(EquipmentType equipmentType)
     {
+        // 해당 슬롯에 장비가 있는지 확인
         Equipment unequippedItem = equipmentModel.Unequip(equipmentType);
-        if (unequippedItem != null)
+
+        if (unequippedItem != null && unequippedItem.ItemID != 0)
         {
+            Debug.Log($"Unequipping item: {unequippedItem.ItemName}, ID: {unequippedItem.ItemID}");
+
             inventoryPresenter.AddItem(unequippedItem);
             statusPresenter.ApplyItemBonus(unequippedItem, false);
+        }
+        else
+        {
+            // 잘못된 아이템이나 빈 슬롯을 처리
+            Debug.LogWarning($"No valid item to unequip in {equipmentType} slot.");
+            return;
         }
 
         equipmentView.UpdateSlot(equipmentType);  // 특정 장비 슬롯만 업데이트
     }
+
 
     public bool IsEquipable(Item item)
     {
@@ -50,7 +72,7 @@ public class EquipmentPresenter
 
     public Item GetItemInSlot(EquipmentType equipmentType)
     {
-        return equipmentModel.GetEquipmentInSlot(equipmentType);
+        return equipmentModel.GetEquipmentByType(equipmentType);
     }
 
     public void ShowItemDescription(Equipment equipment)

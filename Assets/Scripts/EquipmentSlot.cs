@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class EquipmentSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+public class EquipmentSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
     public Image icon;
     public Image slotBackground;
@@ -64,15 +64,6 @@ public class EquipmentSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
         if(eventData.button == PointerEventData.InputButton.Right)
         {
             equipmentPresenter.UnequipItem(equipmentType);
-        }
-    }
-
-    public void OnDrop(PointerEventData eventData)
-    {
-        InventorySlot draggedItemSlot = eventData.pointerDrag.GetComponent<InventorySlot>();
-        if(draggedItemSlot != null && draggedItemSlot.item != null)
-        {
-            equipmentPresenter.EquipItem(draggedItemSlot.item);
         }
     }
 }

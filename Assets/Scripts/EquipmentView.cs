@@ -24,6 +24,8 @@ public class EquipmentView : MonoBehaviour
 
     public void DisplayEquipment(EquipmentModel equipment)
     {
+        Debug.Log("Displaying Equipment Slots");
+
         weaponSlot.UpdateSlot();
         armorSlot.UpdateSlot();
         helmetSlot.UpdateSlot();
@@ -32,6 +34,17 @@ public class EquipmentView : MonoBehaviour
 
     public void UpdateSlot(EquipmentType equipmentType)
     {
+        Equipment equippedItem = presenter.GetItemInSlot(equipmentType) as Equipment;
+
+        if (equippedItem != null)
+        {
+            Debug.Log($"Slot: {equipmentType} - Item: {equippedItem.ItemName}, ID: {equippedItem.ItemID}");
+        }
+        else
+        {
+            Debug.Log($"Slot: {equipmentType} is empty");
+        }
+
         switch (equipmentType)
         {
             case EquipmentType.Weapon:

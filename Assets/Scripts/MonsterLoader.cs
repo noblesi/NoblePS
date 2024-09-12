@@ -14,20 +14,13 @@ public class MonsterLoader : MonoBehaviour
 
     public void LoadMonsters()
     {
-        TextAsset jsonData = Resources.Load<TextAsset>("Json/MonsterData");
-        if(jsonData != null)
+        TextAsset monsterJsonData = Resources.Load<TextAsset>("Json/MonsterData");
+        if (monsterJsonData != null)
         {
-            MonsterDataArray monsterDataArray = JsonUtility.FromJson<MonsterDataArray>(jsonData.text);
+            MonsterDataArray monsterDataArray = JsonUtility.FromJson<MonsterDataArray>(monsterJsonData.text);
 
-            foreach(var monsterData in monsterDataArray.monsters)
+            foreach (var monsterData in monsterDataArray.monsters)
             {
-                // 드랍 리스트 데이터 출력 (디버깅용)
-                Debug.Log($"Loading Monster: {monsterData.MonsterName}, Drop List Count: {monsterData.DropList.Count}");
-                foreach (var dropItem in monsterData.DropList)
-                {
-                    Debug.Log($"ItemID: {dropItem.ItemID}, DropRate: {dropItem.DropRate}");
-                }
-
                 Monster monster = new Monster(
                     monsterData.MonsterID,
                     monsterData.MonsterName,
@@ -46,6 +39,8 @@ public class MonsterLoader : MonoBehaviour
             Debug.LogError("Monster data file not found");
         }
     }
+
+
 
     public Monster GetMonsterByID(int id)
     {

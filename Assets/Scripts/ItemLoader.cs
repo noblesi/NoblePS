@@ -14,12 +14,12 @@ public class ItemLoader : MonoBehaviour
 
     public void LoadItems()
     {
-        TextAsset jsonData = Resources.Load<TextAsset>("Json/ItemData");
-        if (jsonData != null)
+        TextAsset itemJsonData = Resources.Load<TextAsset>("Json/ItemData");
+        if (itemJsonData != null)
         {
-            ItemDataArray loadedItemDataArray = JsonUtility.FromJson<ItemDataArray>(jsonData.text);
+            ItemDataArray ItemDataArray = JsonUtility.FromJson<ItemDataArray>(itemJsonData.text);
 
-            foreach (var itemData in loadedItemDataArray.items)
+            foreach (var itemData in ItemDataArray.items)
             {
                 Item newItem = null;
 
