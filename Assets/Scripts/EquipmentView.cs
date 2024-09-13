@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,43 +10,38 @@ public class EquipmentView : MonoBehaviour
     public EquipmentSlot bootsSlot;
 
     public Text itemDescriptionText;
-
     private EquipmentPresenter presenter;
+
+    private Dictionary<EquipmentType, EquipmentSlot> slotDictionary = new Dictionary<EquipmentType, EquipmentSlot>();
 
     public void Initialize(EquipmentPresenter equipmentPresenter)
     {
         presenter = equipmentPresenter;
 
-        weaponSlot.Initialize(presenter, EquipmentType.Weapon);
-        armorSlot.Initialize(presenter, EquipmentType.Armor);
-        helmetSlot.Initialize(presenter, EquipmentType.Helmet);
-        bootsSlot.Initialize(presenter, EquipmentType.Boots);
-    }
+        slotDictionary[EquipmentType.Weapon] = weaponSlot;
+        slotDictionary[EquipmentType.Armor] = armorSlot;
+        slotDictionary[EquipmentType.Helmet] = helmetSlot;
+        slotDictionary[EquipmentType.Boots] = bootsSlot;
 
-    public void DisplayEquipment(EquipmentModel equipment)
-    {
-        weaponSlot.UpdateSlot();
-        armorSlot.UpdateSlot();
-        helmetSlot.UpdateSlot();
-        bootsSlot.UpdateSlot();
-    }
-
-    public void UpdateSlot(EquipmentType equipmentType)
-    {
-        switch (equipmentType)
+        foreach(var slot in slotDictionary.Values)
         {
-            case EquipmentType.Weapon:
-                weaponSlot.UpdateSlot();
-                break;
-            case EquipmentType.Armor:
-                armorSlot.UpdateSlot();
-                break;
-            case EquipmentType.Helmet:
-                helmetSlot.UpdateSlot();
-                break;
-            case EquipmentType.Boots:
-                bootsSlot.UpdateSlot();
-                break;
+            slot.Initialize(equipmentPresenter, slot.equipmentType);
+        }
+    }
+
+    public void DisplayEquipment(Dictionary<EquipmentType, Equipment> equippedItems)
+    {
+        foreach(var itemPair in equippedItems)
+        {
+            UpdateSlot(itemPair.Key, itemPair.Value);
+        }
+    }
+
+    public void UpdateSlot(EquipmentType equipmentType, Equipment equipment)
+    {
+        if(slotDictionary.TryGetValue(equipmentType, out EquipmentSlot slot))
+        {
+            slot.UpdateSlot(equipment);
         }
     }
 

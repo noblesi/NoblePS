@@ -20,7 +20,7 @@ public class GameManager : Singleton<GameManager>
         statusPresenter = new StatusPresenter(statusView, playerData.Status);
 
         // Inventory
-        inventoryPresenter = new InventoryPresenter(inventoryView, playerData.Inventory, equipmentPresenter, playerData);
+        inventoryPresenter = new InventoryPresenter(inventoryView, playerData.Inventory, inventoryView.GetSlots());
 
         // Equipment
         equipmentPresenter = new EquipmentPresenter(equipmentView, playerData.Equipment, inventoryPresenter, statusPresenter);

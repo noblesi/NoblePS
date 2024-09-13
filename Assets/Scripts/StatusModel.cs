@@ -37,6 +37,8 @@ public class StatusModel
     public int GetDexterityBonus() => dexterityBonus;
     public int GetIntelligenceBonus() => intelligenceBonus;
 
+    private Dictionary<EquipmentType, Equipment> equippedItems = new Dictionary<EquipmentType, Equipment>();
+
     private const string SaveFileName = "statusData.json";
 
     public StatusModel(int level, int hp, int mp, int strength, int dexterity, int intelligence)
@@ -119,9 +121,30 @@ public class StatusModel
     {
         int multiplier = equip ? 1 : -1;
 
+        if(equip && equippedItems.ContainsKey(item.EquipmentType))
+        {
+            Debug.LogWarning("this item is already equipped.");
+            return;
+        }
+
+        if(!equip && !equippedItems.ContainsKey(item.EquipmentType))
+        {
+            Debug.LogWarning("This item is not currently equipped.");
+            return;
+        }
+
         strengthBonus += item.StrengthBonus * multiplier;
         dexterityBonus += item.DexterityBonus * multiplier;
         intelligenceBonus += item.IntelligenceBonus * multiplier;
+
+        if (equip)
+        {
+            equippedItems[item.EquipmentType] = item;
+        }
+        else
+        {
+            equippedItems.Remove(item.EquipmentType);
+        }
 
         SaveStatusData();
     }

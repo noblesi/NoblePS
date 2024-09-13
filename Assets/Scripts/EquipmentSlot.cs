@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class EquipmentSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+public class EquipmentSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
     public Image icon;
     public Image slotBackground;
@@ -15,33 +15,27 @@ public class EquipmentSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     {
         equipmentPresenter = presenter;
         equipmentType = type;
-        UpdateSlot();
     }
 
-    public void UpdateSlot()
+    public void UpdateSlot(Equipment equipment)
     {
-        Equipment equippedItem = equipmentPresenter.GetItemInSlot(equipmentType) as Equipment;
-
-        if (equippedItem != null)
+        if (equipment != null)
         {
-            Sprite itemIcon = equippedItem.GetIcon();
-            if (itemIcon != null)
-            {
-                icon.sprite = itemIcon;
-                icon.gameObject.SetActive(true);
-                itemDescription = equippedItem.Description;
-            }
-            else
-            {
-                icon.gameObject.SetActive(false);
-            }
+            icon.sprite = equipment.GetIcon();
+            icon.gameObject.SetActive(true);
+            itemDescription = equipment.Description;
         }
         else
         {
-            icon.sprite = null;
-            icon.gameObject.SetActive(false);
-            itemDescription = "";
+            ClearSlot();
         }
+    }
+
+    public void ClearSlot()
+    {
+        icon.sprite = null;
+        icon.gameObject.SetActive(false);
+        itemDescription = "";
     }
 
     public void OnPointerEnter(PointerEventData eventData)
@@ -64,15 +58,6 @@ public class EquipmentSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
         if(eventData.button == PointerEventData.InputButton.Right)
         {
             equipmentPresenter.UnequipItem(equipmentType);
-        }
-    }
-
-    public void OnDrop(PointerEventData eventData)
-    {
-        InventorySlot draggedItemSlot = eventData.pointerDrag.GetComponent<InventorySlot>();
-        if(draggedItemSlot != null && draggedItemSlot.item != null)
-        {
-            equipmentPresenter.EquipItem(draggedItemSlot.item);
         }
     }
 }

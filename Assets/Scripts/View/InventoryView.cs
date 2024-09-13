@@ -2,14 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine;
+using System.Linq;
 
 public class InventoryView : MonoBehaviour, IInventoryView
 {
-    public Transform itemsParent;
-    public Tooltip tooltip;
-
-    [SerializeField]private List<InventorySlot> slots = new List<InventorySlot>();
-
+    [SerializeField] private Tooltip tooltip;
+    [SerializeField] private List<InventorySlot> slots;
+    private Dictionary<int, InventorySlot> slotDictionary = new Dictionary<int, InventorySlot>();
     private InventoryPresenter inventoryPresenter;
 
     public void Initialize(InventoryPresenter presenter)
@@ -17,47 +16,49 @@ public class InventoryView : MonoBehaviour, IInventoryView
         inventoryPresenter = presenter;
         inventoryPresenter.Initialize();
 
-        foreach(var slot in slots)
+        for(int i = 0; i < slots.Count; i++)
         {
-            slot.Initialize(inventoryPresenter, tooltip);
+            slotDictionary[i] = slots[i];
+            slotDictionary[i].Initialize(inventoryPresenter, tooltip, i);
         }
     }
 
-    public void ShowItems(List<Item> items)
+    public void ShowItems(Dictionary<int, Item> items)
     {
         ClearSlots();
-        foreach(var item in items)
+        foreach(var itemPair in items)
         {
-            OnItemAdded(item);
+            OnItemAdded(itemPair.Key, itemPair.Value);
         }
     }
 
-    public void OnItemAdded(Item item)
+    public void OnItemAdded(int slotIndex, Item item)
     {
-        InventorySlot emptySlot = slots.Find(slot => slot.IsEmpty());
-        if(emptySlot != null)
+        if (slotDictionary.TryGetValue(slotIndex, out InventorySlot slot))
         {
-            emptySlot.AddItem(item);
-            emptySlot.UpdateSlot();
+            slot.AddItem(item);
+            slot.UpdateSlot(item);
         }
     }
 
-    public void OnItemRemoved(Item item)
+    public void OnItemRemoved(int slotIndex)
     {
-        InventorySlot slotToRemove = slots.Find(slot => slot.item == item);
-        if(slotToRemove != null)
-        {
-            slotToRemove.ClearSlot();
-        }
-    }
-
-    
-
-    private void ClearSlots()
-    {
-        foreach(var slot in slots)
+        if(slotDictionary.TryGetValue(slotIndex, out InventorySlot slot))
         {
             slot.ClearSlot();
         }
+    }
+
+    private void ClearSlots()
+    {
+        foreach(var slot in slotDictionary.Values)
+        {
+            slot.ClearSlot();
+        }
+    }
+
+    public List<InventorySlot> GetSlots()
+    {
+        return slots;  // 슬롯 리스트 반환
     }
 }

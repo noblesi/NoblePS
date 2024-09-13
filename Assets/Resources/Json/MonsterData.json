@@ -8,14 +8,14 @@
       "AttackPower": 10,
       "Defence": 5,
       "DropList": [
-        { "ItemID": 1, "DropRate": 100 },  // Sword of Power
-        { "ItemID": 2, "DropRate": 100 },  // Axe of Fury
-        { "ItemID": 3, "DropRate": 100 },  // Iron Helmet
-        { "ItemID": 4, "DropRate": 100 },  // Golden Helmet
-        { "ItemID": 5, "DropRate": 100 },  // Steel Armor
-        { "ItemID": 6, "DropRate": 100 },  // Leather Armor
-        { "ItemID": 7, "DropRate": 100 },  // Boots of Speed
-        { "ItemID": 8, "DropRate": 100 }   // Heavy Boots
+        { "ItemID": 1, "DropRate": 100 }, 
+        { "ItemID": 2, "DropRate": 100 },
+        { "ItemID": 3, "DropRate": 100 },
+        { "ItemID": 4, "DropRate": 100 },
+        { "ItemID": 5, "DropRate": 100 },
+        { "ItemID": 6, "DropRate": 100 },
+        { "ItemID": 7, "DropRate": 100 },
+        { "ItemID": 8, "DropRate": 100 } 
       ]
     },
     {
@@ -26,8 +26,8 @@
       "AttackPower": 20,
       "Defence": 10,
       "DropList": [
-        { "ItemID": 9, "DropRate": 100 },  // Healing Potion
-        { "ItemID": 10, "DropRate": 100 }  // Mana Potion
+        { "ItemID": 9, "DropRate": 100 }, 
+        { "ItemID": 10, "DropRate": 100 }
       ]
     },
     {
@@ -38,8 +38,8 @@
       "AttackPower": 40,
       "Defence": 20,
       "DropList": [
-        { "ItemID": 5, "DropRate": 100 },  // Steel Armor
-        { "ItemID": 1, "DropRate": 50 }    // Sword of Power (50% chance)
+        { "ItemID": 5, "DropRate": 100 },  
+        { "ItemID": 1, "DropRate": 50 }    
       ]
     }
   ]

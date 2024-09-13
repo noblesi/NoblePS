@@ -10,89 +10,62 @@ public enum EquipmentType
 
 public class EquipmentModel
 {
-    public Equipment Weapon { get; set; }
-    public Equipment Armor { get; set; }
-    public Equipment Helmet { get; set; }
-    public Equipment Boots { get; set; }
-
     private const string SaveFileName = "equipmentData.json";
-
-    public EquipmentModel()
-    {
-        LoadEquipmentData();
-    }
+    private Dictionary<EquipmentType, Equipment> equippedItems = new Dictionary<EquipmentType, Equipment>();
 
     public Equipment GetEquipmentInSlot(EquipmentType equipmentType)
     {
-        return equipmentType switch
+        equippedItems.TryGetValue(equipmentType, out Equipment equipped);
+        return equipped;
+    }
+
+    public Dictionary<EquipmentType, Equipment> GetEquippedAllItems()
+    {
+        return new Dictionary<EquipmentType, Equipment>(equippedItems);
+    }
+
+    public int GetItemSlot(Equipment equipment)
+    {
+        foreach (var pair in equippedItems)
         {
-            EquipmentType.Weapon => Weapon,
-            EquipmentType.Armor => Armor,
-            EquipmentType.Helmet => Helmet,
-            EquipmentType.Boots => Boots,
-            _ => null,
-        };
+            if (pair.Value == equipment)
+            {
+                return (int)pair.Key;  // 슬롯 인덱스를 반환
+            }
+        }
+        return -1;  // 없으면 -1 반환
     }
 
     public Equipment Equip(Equipment item)
     {
         Equipment previousItem = null;
 
-        switch (item.EquipmentType)
+        if(equippedItems.ContainsKey(item.EquipmentType))
         {
-            case EquipmentType.Weapon:
-                previousItem = Weapon;
-                Weapon = item;
-                break;
-            case EquipmentType.Armor:
-                previousItem = Armor;
-                Armor = item;
-                break;
-            case EquipmentType.Helmet:
-                previousItem = Helmet;
-                Helmet = item;
-                break;
-            case EquipmentType.Boots:
-                previousItem = Boots;
-                Boots = item;
-                break;
+            previousItem = equippedItems[item.EquipmentType];
         }
 
+        equippedItems[item.EquipmentType] = item;
         SaveEquipmentData();
-        return previousItem;  // 기존 장착된 아이템 반환
+
+        return previousItem;
     }
 
     public Equipment Unequip(EquipmentType equipmentType)
     {
-        Equipment unequippedItem = null;
-
-        switch (equipmentType)
+        if(equippedItems.TryGetValue(equipmentType, out Equipment unequippedItem))
         {
-            case EquipmentType.Weapon:
-                unequippedItem = Weapon;
-                Weapon = null;
-                break;
-            case EquipmentType.Armor:
-                unequippedItem = Armor;
-                Armor = null;
-                break;
-            case EquipmentType.Helmet:
-                unequippedItem = Helmet;
-                Helmet = null;
-                break;
-            case EquipmentType.Boots:
-                unequippedItem = Boots;
-                Boots = null;
-                break;
+            equippedItems.Remove(equipmentType);
+            SaveEquipmentData();
+            return unequippedItem;
         }
 
-        SaveEquipmentData();
-        return unequippedItem;  // 해제된 아이템 반환
+        return null;
     }
 
     public void SaveEquipmentData()
     {
-        EquipmentData data = new EquipmentData(Weapon, Armor, Helmet, Boots);
+        EquipmentData data = new EquipmentData(equippedItems);
         string json = JsonUtility.ToJson(data);
         File.WriteAllText(Path.Combine(Application.persistentDataPath, SaveFileName), json);
     }
@@ -100,15 +73,12 @@ public class EquipmentModel
     public void LoadEquipmentData()
     {
         string filePath = Path.Combine(Application.persistentDataPath, SaveFileName);
-        if(File.Exists(filePath))
+        if (File.Exists(filePath))
         {
             string json = File.ReadAllText(filePath);
             EquipmentData data = JsonUtility.FromJson<EquipmentData>(json);
 
-            Weapon = data.Weapon != null ? (Equipment)data.Weapon.ToItem() : null;
-            Armor = data.Armor != null ? (Equipment)data.Armor.ToItem() : null;
-            Helmet = data.Helmet != null ? (Equipment)data.Helmet.ToItem() : null;
-            Boots = data.Boots != null ? (Equipment)data.Boots.ToItem() : null;
+            equippedItems = data.ToDictionary();  // Dictionary로 로드
         }
     }
 }
@@ -116,16 +86,28 @@ public class EquipmentModel
 [System.Serializable]
 public class EquipmentData
 {
-    public InventoryItemData Weapon;
-    public InventoryItemData Armor;
-    public InventoryItemData Helmet;
-    public InventoryItemData Boots;
+    public List<InventoryItemData> items;
 
-    public EquipmentData(Item weapon, Item armor, Item helmet, Item boots)
+    public EquipmentData(Dictionary<EquipmentType, Equipment> equippedItems)
     {
-        Weapon = weapon != null ? new InventoryItemData(weapon) : null;
-        Armor = armor != null ? new InventoryItemData(armor) : null;
-        Helmet = helmet != null ? new InventoryItemData(helmet) : null;
-        Boots = boots != null ? new InventoryItemData(boots) : null;
+        items = new List<InventoryItemData>();
+        foreach(var item in equippedItems.Values)
+        {
+            items.Add(new InventoryItemData(item));
+        }
+    }
+
+    public Dictionary<EquipmentType, Equipment> ToDictionary()
+    {
+        Dictionary<EquipmentType, Equipment> equippedItems = new Dictionary<EquipmentType, Equipment>();
+        foreach(var itemData in items)
+        {
+            Equipment equipment = itemData.ToItem() as Equipment;
+            if(equipment != null)
+            {
+                equippedItems[equipment.EquipmentType] = equipment;
+            }
+        }
+        return equippedItems;
     }
 }

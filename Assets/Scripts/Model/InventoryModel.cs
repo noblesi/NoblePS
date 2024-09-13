@@ -1,33 +1,39 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
 public class InventoryModel
 {
-    private List<Item> items = new List<Item>();
+    private Dictionary<int, Item> items = new Dictionary<int, Item>();
     private const string SaveFileName = "inventoryData.json";
 
-    public List<Item> GetItems()
+    public Dictionary<int, Item> GetAllItems()
     {
-        return new List<Item>(items);
+        return new Dictionary<int, Item>(items);
     }
 
-    public void AddItem(Item item)
+    public Item GetItemInSlot(int slotIndex)
     {
-        items.Add(item);
-        SaveInventoryData();
+        items.TryGetValue(slotIndex, out Item item);
+        return item;
     }
 
-    public void RemoveItem(Item item)
+    public void AddItemToSlot(int slotIndex, Item item)
     {
-        items.Remove(item);
-        SaveInventoryData();
+        if (!items.ContainsKey(slotIndex))
+        {
+            items[slotIndex] = item;
+            SaveInventoryData();
+        }
     }
 
-    public int GetItemSlot(Item item)
+    public void RemoveItemFromSlot(int slotIndex)
     {
-        return items.IndexOf(item);
+        if(items.ContainsKey(slotIndex))
+        {
+            items.Remove(slotIndex);
+            SaveInventoryData();
+        }
     }
 
     public void SaveInventoryData()
@@ -39,11 +45,11 @@ public class InventoryModel
     public void LoadInventoryData()
     {
         string filePath = Path.Combine(Application.persistentDataPath, SaveFileName);
-        if(File.Exists(filePath))
+        if (File.Exists(filePath))
         {
             string json = File.ReadAllText(filePath);
             InventoryData data = JsonUtility.FromJson<InventoryData>(json);
-            items = data.ToItemList();
+            items = data.ToDictionary();
         }
     }
 }
@@ -53,23 +59,27 @@ public class InventoryData
 {
     public List<InventoryItemData> items;
 
-    public InventoryData(List<Item> items)
+    public InventoryData(Dictionary<int, Item> inventoryItems)
     {
-        this.items = new List<InventoryItemData>();
-        foreach(var item in items)
+        items = new List<InventoryItemData>();
+        foreach(var item in inventoryItems.Values)
         {
-            this.items.Add(new InventoryItemData(item));
+            items.Add(new InventoryItemData(item));
         }
     }
 
-    public List<Item> ToItemList()
+    public Dictionary<int, Item> ToDictionary()
     {
-        List<Item> itemList = new List<Item>();
+        Dictionary<int, Item> inventoryItems = new Dictionary<int, Item>();
         foreach(var itemData in items)
         {
-            itemList.Add(itemData.ToItem());
+            Item item = itemData.ToItem();
+            if(item != null)
+            {
+                inventoryItems[inventoryItems.Count] = item;
+            }
         }
-        return itemList;
+        return inventoryItems;
     }
 }
 
@@ -127,7 +137,8 @@ public class InventoryItemData
             case ItemType.Misc:
                 return new Misc(ItemID, ItemName, null, null, "", Quantity);
             default:
-                return null;
+                Debug.LogError($"Invalid ItemType : {Type}");
+                return new Misc(ItemID, "Unknown Item", null, null, "", Quantity);
         }
     }
 }

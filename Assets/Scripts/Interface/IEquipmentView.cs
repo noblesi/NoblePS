@@ -1,4 +1,7 @@
+using System.Collections.Generic;
+
 public interface IEquipmentView
 {
-    void DisplayEquipment(EquipmentModel equipment);
+    void DisplayEquipment(Dictionary<EquipmentType, Equipment> equipment);
+    void UpdateSlot(EquipmentType equipmentType, Equipment equipment);
 }

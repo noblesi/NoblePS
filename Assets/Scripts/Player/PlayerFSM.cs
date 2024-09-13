@@ -209,9 +209,16 @@ public class PlayerFSM : MonoBehaviour
     {
         if (inventoryPresenter != null)
         {
-            inventoryPresenter.AddItem(item);
-
-            Debug.Log($"æ∆¿Ã≈€ {item.ItemName}¿ª »πµÊ«ﬂΩ¿¥œ¥Ÿ.");
+            int nextSlot = inventoryPresenter.GetNextEmptySlot();  // ∫Û ΩΩ∑‘ ¿Œµ¶Ω∫ √£±‚
+            if (nextSlot != -1)
+            {
+                inventoryPresenter.AddItem(item, nextSlot);  // æ∆¿Ã≈€¿ª ∫Û ΩΩ∑‘ø° √ﬂ∞°
+                Debug.Log($"æ∆¿Ã≈€ {item.ItemName}¿ª »πµÊ«ﬂΩ¿¥œ¥Ÿ.");
+            }
+            else
+            {
+                Debug.Log("¿Œ∫•≈‰∏Æø° ∫Û ΩΩ∑‘¿Ã æ¯Ω¿¥œ¥Ÿ.");
+            }
         }
     }
 }

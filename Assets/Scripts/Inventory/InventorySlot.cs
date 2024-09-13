@@ -10,11 +10,13 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler, IPointerEnterH
     public InventoryPresenter inventoryPresenter;
     public Tooltip tooltip;
 
-    public void Initialize(InventoryPresenter presenter, Tooltip tooltip)
+    public int slotIndex;
+
+    public void Initialize(InventoryPresenter presenter, Tooltip tooltip, int index)
     {
         inventoryPresenter = presenter;
         this.tooltip = tooltip;
-        UpdateSlot();
+        this.slotIndex = index;
     }
 
     public bool IsEmpty()
@@ -22,29 +24,36 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler, IPointerEnterH
         return item == null;
     }
 
-    // 슬롯 업데이트 (아이콘과 수량 표시)
-    public void UpdateSlot()
+    public void UpdateSlot(Item newItem)
     {
-        if(item != null)
+        item = newItem;
+        if (item != null)
         {
             icon.sprite = item.GetIcon();
             icon.gameObject.SetActive(true);
-
             quantityText.text = item.Quantity > 1 ? item.Quantity.ToString() : "";
             quantityText.enabled = item.Quantity > 1;
         }
         else
         {
-            icon.gameObject.SetActive(false);
-            quantityText.enabled = false;
+            ClearSlot();
         }
+    }
+
+    public void ClearSlot()
+    {
+        item = null;
+        icon.sprite = null;
+        icon.gameObject.SetActive(false);
+        quantityText.text = "";
+        quantityText.enabled = false;
     }
 
     public void OnPointerClick(PointerEventData eventData)
     {
         if (eventData.button == PointerEventData.InputButton.Right && item != null)
         {
-            HandleRightClick();
+            inventoryPresenter.RemoveItem(slotIndex);  // 특정 슬롯에서 아이템 제거
         }
     }
 
@@ -91,7 +100,7 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler, IPointerEnterH
             }
             else
             {
-                UpdateSlot();
+                UpdateSlot(item);
             }
         }
     }
@@ -127,28 +136,15 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler, IPointerEnterH
         }
     }
 
-    
-
     // 아이템 추가
     public void AddItem(Item newItem)
     {
-        item = newItem;
-        UpdateSlot();
+        UpdateSlot(newItem);
     }
 
     // 아이템 제거
     public void RemoveItem()
     {
-        item = null;
-        UpdateSlot();
-    }
-
-    public void ClearSlot()
-    {
-        item = null;
-        icon.sprite = null;
-        icon.gameObject.SetActive(false);
-        quantityText.text = "";
-        quantityText.enabled = false;
+        ClearSlot();
     }
 }

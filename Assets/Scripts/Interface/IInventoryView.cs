@@ -4,7 +4,7 @@ using UnityEngine;
 
 public interface IInventoryView
 {
-    void ShowItems(List<Item> items);
-    void OnItemAdded(Item item);
-    void OnItemRemoved(Item item);
+    void ShowItems(Dictionary<int, Item> items);
+    void OnItemAdded(int slotIndex, Item item);
+    void OnItemRemoved(int slotIndex);
 }

@@ -1,86 +1,89 @@
-using UnityEngine;
+using System.Collections.Generic;
 
 public class InventoryPresenter
 {
     private IInventoryView inventoryView;
     private InventoryModel inventoryModel;
+    private List<InventorySlot> slots;
+
     private EquipmentPresenter equipmentPresenter;
     private PlayerData playerData;
 
-    public InventoryPresenter(IInventoryView view, InventoryModel model, EquipmentPresenter equipment, PlayerData data)
+    public InventoryPresenter(IInventoryView view, InventoryModel model, List<InventorySlot> inventorySlots)
     {
         inventoryView = view;
         inventoryModel = model;
-        equipmentPresenter = equipment;
-        playerData = data;
-    }
-
-    public void Initialize()
-    {
-        inventoryView.ShowItems(inventoryModel.GetItems());
+        slots = inventorySlots;
     }
 
     public void SetEquipmentPresenter(EquipmentPresenter equipment)
     {
-        equipmentPresenter = equipment; 
+        equipmentPresenter = equipment;  // EquipmentPresenter 설정
     }
 
-    public void EquipItem(Equipment equipmentItem)
+    public void Initialize()
     {
-        if (equipmentPresenter.IsEquipable(equipmentItem))
-        {
-            Item copiedItem = equipmentItem.ItemCopy();  // ItemCopy는 Item 반환
+        inventoryView.ShowItems(inventoryModel.GetAllItems());
+    }
 
-            // 캐스팅 전에 안전하게 타입 체크
-            if (copiedItem is Equipment copiedEquipment)
+    public int GetNextEmptySlot()
+    {
+        // 전체 슬롯 수를 기준으로 빈 슬롯 탐색
+        for (int i = 0; i < slots.Count; i++)
+        {
+            if (!inventoryModel.GetAllItems().ContainsKey(i))  // 해당 인덱스에 아이템이 없을 때
             {
-                equipmentPresenter.EquipItem(copiedEquipment);  // 장비 착용
-                inventoryModel.RemoveItem(equipmentItem);
-                inventoryView.OnItemRemoved(equipmentItem);
-                playerData.SavePlayerData(); // 데이터 저장
-            }
-            else
-            {
-                Debug.LogError($"EquipItem failed: Item {equipmentItem.ItemName} (ID: {equipmentItem.ItemID}) is not an Equipment.");
+                return i;  // 빈 슬롯 인덱스를 반환
             }
         }
+        return -1;  // 빈 슬롯이 없으면 -1 반환
     }
 
-    public void AddItem(Item item)
+    public int GetItemSlot(Item item)
     {
-        inventoryModel.AddItem(item);
-        inventoryView.OnItemAdded(item);
-        playerData.SavePlayerData(); // 데이터 저장
-    }
-
-    public void RemoveItem(Item item)
-    {
-        int itemSlotIndex = inventoryModel.GetItemSlot(item);
-        if(itemSlotIndex != -1)
+        Dictionary<int, Item> items = inventoryModel.GetAllItems();
+        foreach (var pair in items)
         {
-            inventoryModel.RemoveItem(item);
-            inventoryView.OnItemRemoved(item);
-            playerData.SavePlayerData(); // 데이터 저장
+            if (pair.Value == item)
+            {
+                return pair.Key;  // 아이템이 위치한 슬롯 인덱스 반환
+            }
         }
+        return -1;  // 아이템이 없으면 -1 반환
     }
 
-    public void SwapItems(Item item1, Item item2)
+    public void AddItem(Item item, int slotIndex)
     {
-        int index1 = inventoryModel.GetItems().IndexOf(item1);
-        int index2 = inventoryModel.GetItems().IndexOf(item2);
+        inventoryModel.AddItemToSlot(slotIndex, item);
+        inventoryView.OnItemAdded(slotIndex, item);
+        //playerData.SavePlayerData(); // 데이터 저장
+    }
 
-        if (index1 >= 0 && index2 >= 0)
-        {
-            inventoryModel.GetItems()[index1] = item2;
-            inventoryModel.GetItems()[index2] = item1;
+    public void RemoveItem(int slotIndex)
+    {
+        inventoryModel.RemoveItemFromSlot(slotIndex);
+        inventoryView.OnItemRemoved(slotIndex);
+    }
 
-            inventoryView.ShowItems(inventoryModel.GetItems());
-            playerData.SavePlayerData(); // 데이터 저장
-        }
+    public void SwapItems(int slotIndex1, int slotIndex2)
+    {
+        Item item1 = inventoryModel.GetItemInSlot(slotIndex1);
+        Item item2 = inventoryModel.GetItemInSlot(slotIndex2);
+
+        inventoryModel.AddItemToSlot(slotIndex1, item2);
+        inventoryModel.AddItemToSlot(slotIndex2, item1);
+
+        inventoryView.OnItemAdded(slotIndex1, item2);
+        inventoryView.OnItemAdded(slotIndex2, item1);
     }
 
     public bool CanEquipItem(Item item)
     {
         return equipmentPresenter.IsEquipable(item);
+    }
+
+    public void EquipItem(Equipment equipmentItem)
+    {
+        equipmentPresenter.EquipItem(equipmentItem);
     }
 }
