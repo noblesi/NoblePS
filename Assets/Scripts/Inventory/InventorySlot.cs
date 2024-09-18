@@ -53,7 +53,7 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler, IPointerEnterH
     {
         if (eventData.button == PointerEventData.InputButton.Right && item != null)
         {
-            inventoryPresenter.RemoveItem(slotIndex);  // 특정 슬롯에서 아이템 제거
+            HandleRightClick();
         }
     }
 

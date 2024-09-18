@@ -16,11 +16,15 @@ public class InventoryView : MonoBehaviour, IInventoryView
         inventoryPresenter = presenter;
         inventoryPresenter.Initialize();
 
+        slotDictionary.Clear();
+
         for(int i = 0; i < slots.Count; i++)
         {
             slotDictionary[i] = slots[i];
             slotDictionary[i].Initialize(inventoryPresenter, tooltip, i);
         }
+
+        Debug.Log($"InventoryView initialized with {slots.Count} slots.");
     }
 
     public void ShowItems(Dictionary<int, Item> items)
@@ -34,10 +38,16 @@ public class InventoryView : MonoBehaviour, IInventoryView
 
     public void OnItemAdded(int slotIndex, Item item)
     {
+        Debug.Log($"OnItemAdded called for slot {slotIndex} with item {item.ItemName}");
+
         if (slotDictionary.TryGetValue(slotIndex, out InventorySlot slot))
         {
             slot.AddItem(item);
             slot.UpdateSlot(item);
+        }
+        else
+        {
+            Debug.LogError($"Slot {slotIndex} not found in slotDictionary");
         }
     }
 

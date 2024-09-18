@@ -1,4 +1,4 @@
-using UnityEngine;
+using System.Collections.Generic;
 
 public class GameManager : Singleton<GameManager>
 {
@@ -20,7 +20,8 @@ public class GameManager : Singleton<GameManager>
         statusPresenter = new StatusPresenter(statusView, playerData.Status);
 
         // Inventory
-        inventoryPresenter = new InventoryPresenter(inventoryView, playerData.Inventory, inventoryView.GetSlots());
+        List<InventorySlot> inventorySlots = inventoryView.GetSlots();
+        inventoryPresenter = new InventoryPresenter(inventoryView, playerData.Inventory, inventorySlots);
 
         // Equipment
         equipmentPresenter = new EquipmentPresenter(equipmentView, playerData.Equipment, inventoryPresenter, statusPresenter);
@@ -31,6 +32,10 @@ public class GameManager : Singleton<GameManager>
 
         // PlayerFSM
         playerFSM.SetPlayerData(playerData); // PlayerFSM¿¡ PlayerData Àü´Þ
+
+        InitializeInventory();
+        InitializeEquipment();
+        InitializeStatus();
     }
 
     public void InitializeInventory()

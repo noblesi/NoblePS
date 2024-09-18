@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEngine;
 
 public class InventoryPresenter
 {
@@ -54,9 +55,13 @@ public class InventoryPresenter
 
     public void AddItem(Item item, int slotIndex)
     {
+        Debug.Log($"Trying to add item {item.ItemName} to slot {slotIndex}");
+
         inventoryModel.AddItemToSlot(slotIndex, item);
         inventoryView.OnItemAdded(slotIndex, item);
         //playerData.SavePlayerData(); // 데이터 저장
+
+        Debug.Log($"Item {item.ItemName} added to slot {slotIndex}");
     }
 
     public void RemoveItem(int slotIndex)
