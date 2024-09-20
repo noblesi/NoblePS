@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 
 [System.Serializable]
@@ -21,31 +22,43 @@ public class PlayerData
         Inventory = new InventoryModel();
         Equipment = new EquipmentModel();
         Position = new PlayerPosition();
-        LoadPlayerData();
     }
 
     public void SavePlayerData()
     {
-        PlayerDataSerializable data = new PlayerDataSerializable(this);
-        string json = JsonUtility.ToJson(data);
-        System.IO.File.WriteAllText(System.IO.Path.Combine(Application.persistentDataPath, SaveFileName), json);
+        try
+        {
+            PlayerDataSerializable data = new PlayerDataSerializable(this);
+            string json = JsonUtility.ToJson(data);
+            File.WriteAllText(Path.Combine(Application.persistentDataPath, SaveFileName), json);
+        }
+        catch (System.Exception ex)
+        {
+            Debug.LogError($"Failed to save player data: {ex.Message}");
+        }
     }
 
     public void LoadPlayerData()
     {
-        string filePath = System.IO.Path.Combine(Application.persistentDataPath, SaveFileName);
-        if (System.IO.File.Exists(filePath))
+        string filePath = Path.Combine(Application.persistentDataPath, SaveFileName);
+        if (File.Exists(filePath))
         {
-            string json = System.IO.File.ReadAllText(filePath);
-            PlayerDataSerializable data = JsonUtility.FromJson<PlayerDataSerializable>(json);
-
-            if (data != null)
+            try
             {
-                data.ApplyTo(this);
+                string json = File.ReadAllText(filePath);
+                PlayerDataSerializable data = JsonUtility.FromJson<PlayerDataSerializable>(json);
+                if (data != null)
+                {
+                    data.ApplyTo(this);
+                }
+                else
+                {
+                    Debug.LogWarning("Player data is null. Using default values.");
+                }
             }
-            else
+            catch (System.Exception ex)
             {
-                Debug.LogWarning("Player data is null. Using default values.");
+                Debug.LogError($"Failed to load player data: {ex.Message}");
             }
         }
         else
@@ -71,8 +84,8 @@ public class PlayerDataSerializable
         Status = playerData.Status;
         Inventory = playerData.Inventory;
         Equipment = playerData.Equipment;
-        Position = playerData.Position.Position;
-        Rotation = playerData.Position.Rotation;
+        Position = new SerializableVector3(playerData.Position.Position.ToVector3());
+        Rotation = new SerializableQuaternion(playerData.Position.Rotation.ToQuaternion());
     }
 
     public void ApplyTo(PlayerData playerData)
@@ -81,7 +94,33 @@ public class PlayerDataSerializable
         playerData.Status = Status;
         playerData.Inventory = Inventory;
         playerData.Equipment = Equipment;
-        playerData.Position = new PlayerPosition(Position.ToVector3(), Rotation.ToQuaternion());
+        playerData.Position.Position = Position;
+        playerData.Position.Rotation = Rotation;
+    }
+}
+
+[System.Serializable]
+public class PlayerPosition
+{
+    public SerializableVector3 Position { get; set; }
+    public SerializableQuaternion Rotation { get; set; }
+
+    public PlayerPosition()
+    {
+        Position = new SerializableVector3(Vector3.zero);
+        Rotation = new SerializableQuaternion(Quaternion.identity);
+    }
+
+    public void ApplyTo(Transform transform)
+    {
+        transform.position = Position.ToVector3();
+        transform.rotation = Rotation.ToQuaternion();
+    }
+
+    public void UpdateFrom(Transform transform)
+    {
+        Position = new SerializableVector3(transform.position);
+        Rotation = new SerializableQuaternion(transform.rotation);
     }
 }
 
@@ -122,33 +161,4 @@ public struct SerializableQuaternion
     }
 }
 
-[System.Serializable]
-public class PlayerPosition
-{
-    public SerializableVector3 Position { get; set; }
-    public SerializableQuaternion Rotation { get; set; }
 
-    public PlayerPosition()
-    {
-        Position = new SerializableVector3(Vector3.zero);
-        Rotation = new SerializableQuaternion(Quaternion.identity);
-    }
-
-    public PlayerPosition(Vector3 position, Quaternion rotation)
-    {
-        Position = new SerializableVector3(position);
-        Rotation = new SerializableQuaternion(rotation);
-    }
-
-    public void ApplyTo(Transform transform)
-    {
-        transform.position = Position.ToVector3();
-        transform.rotation = Rotation.ToQuaternion();
-    }
-
-    public void UpdateFrom(Transform transform)
-    {
-        Position = new SerializableVector3(transform.position);
-        Rotation = new SerializableQuaternion(transform.rotation);
-    }
-}

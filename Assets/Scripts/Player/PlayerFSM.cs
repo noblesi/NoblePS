@@ -193,32 +193,4 @@ public class PlayerFSM : MonoBehaviour
 
         UpdateState();
     }
-
-    public void GainEXP(int exp)
-    {
-        playerData.Status.GainExp(exp);
-        playerData.SavePlayerData();
-    }
-
-    public void SetPlayerData(PlayerData data)
-    {
-        playerData = data;
-    }
-
-    public void PickupItem(Item item)
-    {
-        if (inventoryPresenter != null)
-        {
-            int nextSlot = inventoryPresenter.GetNextEmptySlot();  // ∫Û ΩΩ∑‘ ¿Œµ¶Ω∫ √£±‚
-            if (nextSlot != -1)
-            {
-                inventoryPresenter.AddItem(item, nextSlot);  // æ∆¿Ã≈€¿ª ∫Û ΩΩ∑‘ø° √ﬂ∞°
-                Debug.Log($"æ∆¿Ã≈€ {item.ItemName}¿ª »πµÊ«ﬂΩ¿¥œ¥Ÿ.");
-            }
-            else
-            {
-                Debug.Log("¿Œ∫•≈‰∏Æø° ∫Û ΩΩ∑‘¿Ã æ¯Ω¿¥œ¥Ÿ.");
-            }
-        }
-    }
 }
