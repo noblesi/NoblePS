@@ -37,7 +37,7 @@ public class PlayerFSM : MonoBehaviour
     {
         playerAnim = GetComponent<PlayerAnimation>();
         playerData = new PlayerData();
-        ChangeState(State.Idle, PlayerAnimation.ANIM_IDLE);
+        ChangeState(State.Idle, PlayerAnimation.PlayerAnimationState.Idle);
     }
 
     public void SetInventoryPresenter(InventoryPresenter presenter)
@@ -45,37 +45,37 @@ public class PlayerFSM : MonoBehaviour
         inventoryPresenter = presenter;
     }
 
+    private void ChangeState(State newState, PlayerAnimation.PlayerAnimationState animState)
+    {
+        if (currentState == newState) return;
+
+        playerAnim.ChangeAnim(animState);
+        currentState = newState;
+    }
+
     public void AttackEnemy(GameObject enemy)
     {
         currentEnemy = enemy;
         currentTargetPos = currentEnemy ? currentEnemy.transform.position : transform.position;
-        ChangeState(State.Attack, PlayerAnimation.ANIM_ATTACK);
+        ChangeState(State.Attack, PlayerAnimation.PlayerAnimationState.Attack);
     }
 
     public void TakeDamage(int damage)
     {
         if(currentState != State.Dead)
         {
-            playerData.Status.HP -= damage;
-            if(playerData.Status.HP <= 0)
+            playerData.Status.CurrentHP -= damage;
+            if(playerData.Status.CurrentHP <= 0)
             {
-                ChangeState(State.Dead, PlayerAnimation.ANIM_DIE);
+                ChangeState(State.Dead, PlayerAnimation.PlayerAnimationState.Die);
             }
             else
             {
-                ChangeState(State.Hit, PlayerAnimation.ANIM_HIT);
+                ChangeState(State.Hit, PlayerAnimation.PlayerAnimationState.Hit);
             }
 
             playerData.SavePlayerData();
         }
-    }
-
-    private void ChangeState(State newState, int animNum)
-    {
-        if (currentState == newState) return;
-
-        playerAnim.ChangeAnim(animNum);
-        currentState = newState;
     }
 
     private void UpdateState()
@@ -131,14 +131,14 @@ public class PlayerFSM : MonoBehaviour
                 enemyFSM.TakeDamage(damage);
             }
         }
-        ChangeState(State.AttackWait, PlayerAnimation.ANIM_ATTACKIDLE);
+        ChangeState(State.AttackWait, PlayerAnimation.PlayerAnimationState.AttackIdle);
     }
 
     private void AttackWaitState()
     {
         if (attackTimer > attackDelay)
         {
-            ChangeState(State.Idle, PlayerAnimation.ANIM_IDLE);
+            ChangeState(State.Idle, PlayerAnimation.PlayerAnimationState.Idle);
         }
 
         attackTimer += Time.deltaTime;
@@ -153,7 +153,7 @@ public class PlayerFSM : MonoBehaviour
     {
         if(currentState == State.Hit)
         {
-            ChangeState(State.Idle, PlayerAnimation.ANIM_IDLE);
+            ChangeState(State.Idle, PlayerAnimation.PlayerAnimationState.Idle);
         }
     }
 
@@ -167,7 +167,7 @@ public class PlayerFSM : MonoBehaviour
     {
         currentEnemy = null;
         currentTargetPos = targetPos;
-        ChangeState(State.Move, PlayerAnimation.ANIM_MOVE);
+        ChangeState(State.Move, PlayerAnimation.PlayerAnimationState.Move);
     }
 
     private void TurnToDestination()
@@ -183,7 +183,7 @@ public class PlayerFSM : MonoBehaviour
 
         if(transform.position == currentTargetPos)
         {
-            ChangeState(State.Idle, PlayerAnimation.ANIM_IDLE);
+            ChangeState(State.Idle, PlayerAnimation.PlayerAnimationState.Idle);
         }
     }
 

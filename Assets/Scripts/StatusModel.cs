@@ -6,8 +6,12 @@ using UnityEngine;
 public class StatusModel
 {
     public int Level {  get; set; }
-    public int HP {  get; set; }
-    public int MP {  get; set; }
+    public int CurrentHP {  get; set; }
+    public int CurrentMP {  get; set; }
+    public int MaxHP { get; set; }
+    public int MaxMP { get; set; }
+    public int AttackPower { get; set; }
+    public int Defence { get; set; }
     public int BaseStrength { get; private set; }
     public int BaseDexterity { get; private set; }
     public int BaseIntelligence {  get; private set; }
@@ -20,14 +24,13 @@ public class StatusModel
     private int dexterityBonus;
     private int intelligenceBonus;
 
-    public int GetStatPoints() => statPoints;
-
-    public int GetCurrentExp() => currentExp;
-    public int GetExpToNextLevel() => expToNextLevel;
-
     public int Strength => BaseStrength + strengthBonus;
     public int Dexterity => BaseDexterity + dexterityBonus;
     public int Intelligence => BaseIntelligence + intelligenceBonus;
+
+    public int GetStatPoints() => statPoints;
+    public int GetCurrentExp() => currentExp;
+    public int GetExpToNextLevel() => expToNextLevel;
 
     public int GetBaseStrength() => BaseStrength;
     public int GetBaseDexterity() => BaseDexterity;
@@ -41,11 +44,15 @@ public class StatusModel
 
     private const string SaveFileName = "statusData.json";
 
-    public StatusModel(int level, int hp, int mp, int strength, int dexterity, int intelligence)
+    public StatusModel(int level, int maxHP, int maxMP, int attackPower, int defence, int strength, int dexterity, int intelligence)
     {
         Level = level;
-        HP = hp;
-        MP = mp;
+        MaxHP = maxHP;
+        MaxMP = maxMP;
+        CurrentHP = maxHP;
+        CurrentMP = maxMP;
+        AttackPower = attackPower;
+        Defence = defence;
         BaseStrength = strength;
         BaseDexterity = dexterity;
         BaseIntelligence = intelligence;
@@ -81,12 +88,15 @@ public class StatusModel
         currentExp = 0;
         expToNextLevel = CalculateExpToNextLevel();
 
-        HP += 10;
-        MP += 5;
+        MaxHP += 10;
+        MaxMP += 5;
         BaseStrength += 2;
         BaseDexterity += 2;
         BaseIntelligence += 2;
         statPoints += 5; // 레벨업 시 스탯 포인트 추가
+
+        CurrentHP = MaxHP;
+        CurrentMP = MaxMP;
 
         SaveStatusData();
     }
@@ -167,8 +177,10 @@ public class StatusModel
         {
             // 파일이 없을 경우 기본 초기화
             Level = 1;
-            HP = 100;
-            MP = 50;
+            MaxHP = 100;
+            MaxMP = 50;
+            CurrentHP = MaxHP;
+            CurrentMP = MaxMP;
             BaseStrength = 10;
             BaseDexterity = 10;
             BaseIntelligence = 10;

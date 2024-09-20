@@ -17,50 +17,24 @@ public class EnemyFSM : MonoBehaviour
 
     private EnemyAnimation enemyAnim;
     private Transform player;
+    private Enemy enemy;
 
-    private float chaseDistance = 5f;
-    private float attackDistance = 2.5f;
-    private float reChaseDistance = 3f;
     private float rotAnglePerSecond = 360f;
-    private float moveSpeed = 1.3f;
-    private float attackDelay = 2f;
-    private float attackTimer = 0f;
-
-    private int enemyHP = 100;
-    private float deathDelay = 2f;
 
     public Transform hitBoxSpawnPoint;
     public float hitBoxRadius = 1.5f;
-    public int damage = 15;
 
     public LayerMask playerLayer;
-
-    public int monsterEXP = 50;
-
-    public int MonsterID;
-    private MonsterLoader monsterLoader;
-    private ItemLoader itemLoader;
-    private Monster monsterData;
 
     private bool isDead = false;
 
     private void Start()
     {
         enemyAnim = GetComponent<EnemyAnimation>();
-        ChangeState(State.Idle, EnemyAnimation.ANIM_IDLE);
+        enemy = GetComponent<Enemy>();
         player = GameObject.FindGameObjectWithTag("Player").transform;
 
-        monsterLoader = FindObjectOfType<MonsterLoader>();
-        itemLoader = FindObjectOfType<ItemLoader>();
-
-        if (monsterLoader != null)
-        {
-            monsterData = monsterLoader.GetMonsterByID(MonsterID);
-            if (monsterData != null)
-            {
-                enemyHP = monsterData.HP; // 몬스터 HP 설정
-            }
-        }
+        ChangeState(State.Idle, EnemyAnimation.ANIM_IDLE);
     }
 
     private void UpdateState()
@@ -89,9 +63,9 @@ public class EnemyFSM : MonoBehaviour
     {
         if (currentState != State.Dead)
         {
-            enemyHP -= damage;
+            enemy.TakeDamage(damage);
 
-            if (enemyHP > 0)
+            if (enemy.IsAlive())
             {
                 ChangeState(State.Hit, EnemyAnimation.ANIM_HIT);
             }
@@ -112,7 +86,7 @@ public class EnemyFSM : MonoBehaviour
 
     private void IdleState()
     {
-        if (GetDistanceFromPlayer() < chaseDistance)
+        if (GetDistanceFromPlayer() < enemy.MonsterData.ChaseDistance)
         {
             ChangeState(State.Chase, EnemyAnimation.ANIM_IDLE);
         }
@@ -120,7 +94,7 @@ public class EnemyFSM : MonoBehaviour
 
     private void ChaseState()
     {
-        if(GetDistanceFromPlayer() < attackDistance)
+        if(GetDistanceFromPlayer() < enemy.MonsterData.AttackDistance)
         {
             if (IsPlayerInRange())
             {
@@ -136,22 +110,14 @@ public class EnemyFSM : MonoBehaviour
 
     private void AttackState()
     {
-        if(GetDistanceFromPlayer() > reChaseDistance)
+        if (GetDistanceFromPlayer() > enemy.MonsterData.AttackDistance)
         {
-            attackTimer = 0f;
             ChangeState(State.Chase, EnemyAnimation.ANIM_MOVE);
         }
         else
         {
-            if(attackTimer > attackDelay)
-            {
-                transform.LookAt(player.position);
-                enemyAnim.ChangeAnim(EnemyAnimation.ANIM_ATTACK);
-
-                attackTimer = 0f;
-            }
-
-            attackTimer += Time.deltaTime;
+            enemyAnim.ChangeAnim(EnemyAnimation.ANIM_ATTACK);
+            // 플레이어에게 데미지 주기 로직 추가
         }
     }
 
@@ -188,43 +154,28 @@ public class EnemyFSM : MonoBehaviour
 
     private IEnumerator HandleDeath()
     {
-        yield return new WaitForSeconds(deathDelay);
+        yield return new WaitForSeconds(2f);
 
-        if (monsterData != null && itemLoader != null)
+        var droppedItems = enemy.DropItems(FindObjectOfType<ItemLoader>());
+        foreach (var item in droppedItems)
         {
-            List<Item> droppedItems = monsterData.GetDroppedItems(itemLoader);
+            Debug.Log($"Dropped item: {item.ItemName}");
 
-            foreach (var item in droppedItems)
+            var itemObject = item.GetPrefab();
+            var instantiatedItem = Instantiate(itemObject, transform.position, Quaternion.identity);
+
+            var itemPickup = instantiatedItem.GetComponent<ItemPickup>();
+            if (itemPickup != null)
             {
-                Debug.Log($"Dropped item: {item.ItemName}");
-
-                GameObject itemObject = item.GetPrefab();
-
-                GameObject instantiatedItem = Instantiate(itemObject, transform.position, Quaternion.identity);
-
-                ItemPickup itemPickup = instantiatedItem.GetComponent<ItemPickup>();
-
-                if(itemPickup != null)
-                {
-                    itemPickup.Initialize(item);
-                }
-                else
-                {
-                    Debug.LogError("ItemPickup component not found on instantiated item.");
-                }
+                itemPickup.Initialize(item);
+            }
+            else
+            {
+                Debug.LogError("ItemPickup component not found on instantiated item.");
             }
         }
 
         Destroy(gameObject);
-    }
-
-    private void GrantPlayerEXP()
-    {
-        PlayerFSM playerFSM = player.GetComponent<PlayerFSM>();
-        if(playerFSM != null)
-        {
-            playerFSM.GainEXP(monsterEXP);
-        }
     }
 
     private void TurnToDestination()
@@ -235,7 +186,7 @@ public class EnemyFSM : MonoBehaviour
 
     private void MoveToDestination()
     {
-        transform.position = Vector3.MoveTowards(transform.position, player.position, moveSpeed * Time.deltaTime);
+        transform.position = Vector3.MoveTowards(transform.position, player.position, enemy.MonsterData.MoveSpeed * Time.deltaTime);
     }
 
     private float GetDistanceFromPlayer()
@@ -267,7 +218,7 @@ public class EnemyFSM : MonoBehaviour
 
     private void SimulateDeath()
     {
-        enemyHP = 0;
+        enemy.MonsterData.HP = 0;
         ChangeState(State.Dead, EnemyAnimation.ANIM_DIE);
     }
 }

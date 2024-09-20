@@ -1,0 +1,26 @@
+{
+    "Status": {
+        "Level": 1,
+        "CurrentHP": 100,
+        "CurrentMP": 50,
+        "MaxHP": 100,
+        "MaxMP": 50,
+        "BaseStrength": 10,
+        "BaseDexterity": 10,
+        "BaseIntelligence": 10,
+        "Defence": 5,
+        "StrengthBonus": 0,
+        "DexterityBonus": 0,
+        "IntelligenceBonus": 0,
+        "CurrentExp": 0,
+        "ExpToNextLevel": 100,
+        "StatPoints": 0,
+        "EquippedItems": {}
+    },
+    "Inventory": {
+        "Items": []
+    },
+    "Equipment": {
+        "EquippedItems": {}
+    }
+}

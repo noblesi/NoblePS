@@ -2,25 +2,31 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
 public class PlayerData
 {
+    public string PlayerName {  get; set; }
     public StatusModel Status { get; set; }
     public InventoryModel Inventory { get; set; }
     public EquipmentModel Equipment { get; set; }
+    public PlayerPosition Position { get; set; }
 
     private const string SaveFileName = "playerData.json";
+    private const string DefaultPlayerName = "용사";
 
     public PlayerData()
     {
-        Status = new StatusModel(1, 100, 50, 10, 10, 10);
+        PlayerName = DefaultPlayerName;
+        Status = new StatusModel(1, 100, 50, 10, 10, 10, 10, 10);
         Inventory = new InventoryModel();
         Equipment = new EquipmentModel();
+        Position = new PlayerPosition();
         LoadPlayerData();
     }
 
     public void SavePlayerData()
     {
-        PlayerDataSerializable data = new PlayerDataSerializable(Status, Inventory, Equipment);
+        PlayerDataSerializable data = new PlayerDataSerializable(this);
         string json = JsonUtility.ToJson(data);
         System.IO.File.WriteAllText(System.IO.Path.Combine(Application.persistentDataPath, SaveFileName), json);
     }
@@ -45,7 +51,6 @@ public class PlayerData
         else
         {
             Debug.LogWarning("Player data file not found. Using default values.");
-            // 파일이 없을 때는 기본값으로 시작
         }
     }
 }
@@ -53,21 +58,97 @@ public class PlayerData
 [System.Serializable]
 public class PlayerDataSerializable
 {
+    public string PlayerName;
     public StatusModel Status;
     public InventoryModel Inventory;
     public EquipmentModel Equipment;
+    public SerializableVector3 Position;
+    public SerializableQuaternion Rotation;
 
-    public PlayerDataSerializable(StatusModel status, InventoryModel inventory, EquipmentModel equipment)
+    public PlayerDataSerializable(PlayerData playerData)
     {
-        Status = status ?? new StatusModel(1, 100, 50, 10, 10, 10); // 기본 값
-        Inventory = inventory ?? new InventoryModel(); // 빈 인벤토리로 초기화
-        Equipment = equipment ?? new EquipmentModel(); // 빈 장비 슬롯으로 초기화
+        PlayerName = playerData.PlayerName;
+        Status = playerData.Status;
+        Inventory = playerData.Inventory;
+        Equipment = playerData.Equipment;
+        Position = playerData.Position.Position;
+        Rotation = playerData.Position.Rotation;
     }
 
     public void ApplyTo(PlayerData playerData)
     {
-        playerData.Status = Status ?? new StatusModel(1, 100, 50, 10, 10, 10); // 기본 값 설정
-        playerData.Inventory = Inventory ?? new InventoryModel(); // 기본 인벤토리 설정
-        playerData.Equipment = Equipment ?? new EquipmentModel(); // 기본 장비 설정
+        playerData.PlayerName = PlayerName;
+        playerData.Status = Status;
+        playerData.Inventory = Inventory;
+        playerData.Equipment = Equipment;
+        playerData.Position = new PlayerPosition(Position.ToVector3(), Rotation.ToQuaternion());
+    }
+}
+
+[System.Serializable]
+public struct SerializableVector3
+{
+    public float x, y, z;
+
+    public SerializableVector3(Vector3 vector)
+    {
+        x = vector.x;
+        y = vector.y;
+        z = vector.z;
+    }
+
+    public Vector3 ToVector3()
+    {
+        return new Vector3(x, y, z);
+    }
+}
+
+[System.Serializable]
+public struct SerializableQuaternion
+{
+    public float x, y, z, w;
+
+    public SerializableQuaternion(Quaternion quaternion)
+    {
+        x = quaternion.x;
+        y = quaternion.y;
+        z = quaternion.z;
+        w = quaternion.w;
+    }
+
+    public Quaternion ToQuaternion()
+    {
+        return new Quaternion(x, y, z, w);
+    }
+}
+
+[System.Serializable]
+public class PlayerPosition
+{
+    public SerializableVector3 Position { get; set; }
+    public SerializableQuaternion Rotation { get; set; }
+
+    public PlayerPosition()
+    {
+        Position = new SerializableVector3(Vector3.zero);
+        Rotation = new SerializableQuaternion(Quaternion.identity);
+    }
+
+    public PlayerPosition(Vector3 position, Quaternion rotation)
+    {
+        Position = new SerializableVector3(position);
+        Rotation = new SerializableQuaternion(rotation);
+    }
+
+    public void ApplyTo(Transform transform)
+    {
+        transform.position = Position.ToVector3();
+        transform.rotation = Rotation.ToQuaternion();
+    }
+
+    public void UpdateFrom(Transform transform)
+    {
+        Position = new SerializableVector3(transform.position);
+        Rotation = new SerializableQuaternion(transform.rotation);
     }
 }

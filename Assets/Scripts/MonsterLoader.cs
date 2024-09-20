@@ -28,7 +28,13 @@ public class MonsterLoader : MonoBehaviour
                     monsterData.HP,
                     monsterData.AttackPower,
                     monsterData.Defence,
-                    monsterData.DropList
+                    monsterData.DropList,
+                    monsterData.MoveSpeed,
+                    monsterData.ChaseDistance,
+                    monsterData.AttackDistance,
+                    monsterData.ReChaseDistance,
+                    monsterData.AttackDelay,
+                    monsterData.EXPReward
                 );
 
                 monsters.Add(monster.MonsterID, monster);
@@ -68,6 +74,12 @@ public class MonsterData
     public int AttackPower;
     public int Defence;
     public List<DropItemData> DropList;
+    public float MoveSpeed;
+    public float ChaseDistance;
+    public float AttackDistance;
+    public float ReChaseDistance;
+    public float AttackDelay;
+    public int EXPReward;
 }
 
 [System.Serializable]

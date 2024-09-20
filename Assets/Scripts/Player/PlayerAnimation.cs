@@ -4,12 +4,15 @@ using UnityEngine;
 
 public class PlayerAnimation : MonoBehaviour
 {
-    public const int ANIM_IDLE = 0;
-    public const int ANIM_MOVE = 1;
-    public const int ANIM_ATTACK = 2;
-    public const int ANIM_ATTACKIDLE = 3;
-    public const int ANIM_HIT = 4;
-    public const int ANIM_DIE = 5;
+    public enum PlayerAnimationState
+    {
+        Idle,
+        Move,
+        Attack,
+        AttackIdle,
+        Hit,
+        Die
+    }
 
     [SerializeField] private Animator anim;
 
@@ -18,8 +21,8 @@ public class PlayerAnimation : MonoBehaviour
         anim = GetComponent<Animator>();
     }
 
-    public void ChangeAnim(int animNum)
+    public void ChangeAnim(PlayerAnimationState animState)
     {
-        anim.SetInteger("animName", animNum);
+        anim.SetInteger("animName", (int)animState);
     }
 }

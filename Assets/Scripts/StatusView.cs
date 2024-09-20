@@ -31,8 +31,8 @@ public class StatusView : MonoBehaviour, IStatusView
     public void DisplayStatus(StatusModel status)
     {
         levelText.text = "Level : " + status.Level;
-        hpText.text = "HP : " + status.HP;
-        mpText.text = "MP : " + status.MP;
+        hpText.text = $"HP : {status.CurrentHP} / {status.MaxHP}";
+        mpText.text = $"MP : {status.CurrentMP} / {status.MaxMP}";
 
         strengthText.text = $"STR : <color=#FFFFFF>{status.BaseStrength}</color> <color=#00FF00>(+{status.GetStrengthBonus()})</color>";
         dexterityText.text = $"DEX : <color=#FFFFFF>{status.BaseDexterity}</color> <color=#00FF00>(+{status.GetDexterityBonus()})</color>";
