@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class PlayerFSM : MonoBehaviour
+public class PlayerFSM : MonoBehaviour, ICombatant
 {
     public enum State
     {
@@ -13,7 +13,7 @@ public class PlayerFSM : MonoBehaviour
     public State currentState = State.Idle;
 
     private Vector3 currentTargetPos;
-    private GameObject currentEnemy;
+    private ICombatant currentEnemy;
 
     public float rotAnglePerSecond = 360f;
     public float moveSpeed = 2f;
@@ -23,7 +23,10 @@ public class PlayerFSM : MonoBehaviour
 
     public Transform hitBoxSpawnPoint;
     public float hitBoxRadius = 1.5f;
-    public int damage = 20;
+
+    public int HP { get => playerData.Status.HP; set => playerData.Status.HP = value; }
+    public int AttackPower => playerData.GetAttackPower();
+    public int Defence => playerData.GetDefence();
 
     public LayerMask enemyLayer;
 
@@ -40,34 +43,63 @@ public class PlayerFSM : MonoBehaviour
         ChangeState(State.Idle, PlayerAnimation.ANIM_IDLE);
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        ICombatant enemy = other.GetComponent<ICombatant>();
+        if (enemy != null && currentState == State.Attack)
+        {
+            Attack(enemy);
+        }
+    }
+
     public void SetInventoryPresenter(InventoryPresenter presenter)
     {
         inventoryPresenter = presenter;
     }
 
-    public void AttackEnemy(GameObject enemy)
-    {
-        currentEnemy = enemy;
-        currentTargetPos = currentEnemy ? currentEnemy.transform.position : transform.position;
-        ChangeState(State.Attack, PlayerAnimation.ANIM_ATTACK);
-    }
-
     public void TakeDamage(int damage)
     {
-        if(currentState != State.Dead)
+        int calculateDamage = Mathf.Max(0, damage - Defence);
+        playerData.ApplyDamage(calculateDamage);
+        if(playerData.Status.HP <= 0)
         {
-            playerData.Status.HP -= damage;
-            if(playerData.Status.HP <= 0)
-            {
-                ChangeState(State.Dead, PlayerAnimation.ANIM_DIE);
-            }
-            else
-            {
-                ChangeState(State.Hit, PlayerAnimation.ANIM_HIT);
-            }
-
-            playerData.SavePlayerData();
+            ChangeState(State.Dead, PlayerAnimation.ANIM_DIE);
         }
+        else
+        {
+            ChangeState(State.Hit, PlayerAnimation.ANIM_HIT);
+        }
+    }
+
+    public void Attack(ICombatant target)
+    {
+        int damage = Mathf.Max(0, AttackPower - target.Defence);
+        target.TakeDamage(damage);
+    }
+
+    public void AttackAnimation()
+    {
+        playerAnim.ChangeAnim(PlayerAnimation.ANIM_ATTACK);
+    }
+
+    public void PerformAttack()
+    {
+        // 공격 범위 내에 있는 적을 찾는다.
+        Collider[] hitEnemies = Physics.OverlapSphere(hitBoxSpawnPoint.position, hitBoxRadius, enemyLayer);
+        foreach (Collider enemyCollider in hitEnemies)
+        {
+            ICombatant enemy = enemyCollider.GetComponent<ICombatant>();
+            if (enemy != null)
+            {
+                // 적이 있다면 공격을 수행하고 상태를 변경한다.
+                Attack(enemy);
+                ChangeState(State.AttackWait, PlayerAnimation.ANIM_ATTACKIDLE);
+                return;
+            }
+        }
+
+        // 공격 범위 내에 적이 없을 경우 대기 상태로 전환
+        ChangeState(State.AttackWait, PlayerAnimation.ANIM_ATTACKIDLE);
     }
 
     private void ChangeState(State newState, int animNum)
@@ -122,16 +154,9 @@ public class PlayerFSM : MonoBehaviour
 
         transform.LookAt(currentTargetPos);
 
-        Collider[] hitEnemies = Physics.OverlapSphere(hitBoxSpawnPoint.position, hitBoxRadius, enemyLayer);
-        foreach(Collider enemy in hitEnemies)
-        {
-            EnemyFSM enemyFSM = enemy.GetComponent<EnemyFSM>();
-            if(enemyFSM != null)
-            {
-                enemyFSM.TakeDamage(damage);
-            }
-        }
-        ChangeState(State.AttackWait, PlayerAnimation.ANIM_ATTACKIDLE);
+        AttackAnimation();
+
+        PerformAttack();
     }
 
     private void AttackWaitState()

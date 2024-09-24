@@ -45,8 +45,41 @@ public class PlayerData
         else
         {
             Debug.LogWarning("Player data file not found. Using default values.");
-            // ������ ���� ���� �⺻������ ����
         }
+    }
+
+    public void ApplyDamage(int damage)
+    {
+        Status.TakeDamage(damage);
+        if(Status.HP <= 0)
+        {
+            Debug.Log("Player is dead");
+        }
+    }
+
+    public void HealPlayer(int amount)
+    {
+        Status.Heal(amount);
+    }
+
+    public void UseMana(int amount)
+    {
+        Status.UseMana(amount);
+    }
+
+    public void RestoreMana(int amount)
+    {
+        Status.RestoreMana(amount);
+    }
+
+    public int GetAttackPower()
+    {
+        return Status.AttackPower;
+    }
+
+    public int GetDefence()
+    {
+        return Status.Defence;
     }
 }
 
@@ -59,15 +92,15 @@ public class PlayerDataSerializable
 
     public PlayerDataSerializable(StatusModel status, InventoryModel inventory, EquipmentModel equipment)
     {
-        Status = status ?? new StatusModel(1, 100, 50, 10, 10, 10); // �⺻ ��
-        Inventory = inventory ?? new InventoryModel(); // �� �κ��丮�� �ʱ�ȭ
-        Equipment = equipment ?? new EquipmentModel(); // �� ��� �������� �ʱ�ȭ
+        Status = status ?? new StatusModel(1, 100, 50, 10, 10, 10); 
+        Inventory = inventory ?? new InventoryModel(); 
+        Equipment = equipment ?? new EquipmentModel(); 
     }
 
     public void ApplyTo(PlayerData playerData)
     {
-        playerData.Status = Status ?? new StatusModel(1, 100, 50, 10, 10, 10); // �⺻ �� ����
-        playerData.Inventory = Inventory ?? new InventoryModel(); // �⺻ �κ��丮 ����
-        playerData.Equipment = Equipment ?? new EquipmentModel(); // �⺻ ��� ����
+        playerData.Status = Status ?? new StatusModel(1, 100, 50, 10, 10, 10); 
+        playerData.Inventory = Inventory ?? new InventoryModel(); 
+        playerData.Equipment = Equipment ?? new EquipmentModel(); 
     }
 }

@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class InputManager : MonoBehaviour
 {
-    [SerializeField] private GameObject player;
+    [SerializeField] private PlayerFSM player;
 
     private void Start()
     {
-        player = GameObject.FindGameObjectWithTag("Player");
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerFSM>();
     }
 
     private void CheckClick()
@@ -26,22 +26,9 @@ public class InputManager : MonoBehaviour
 
     private void HandleAttack()
     {
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        if (Physics.Raycast(ray, out RaycastHit hit))
-        {
-            if (hit.collider.gameObject.CompareTag("Enemy"))
-            {
-                player.GetComponent<PlayerFSM>().AttackEnemy(hit.collider.gameObject);
-            }
-            else
-            {
-                player.GetComponent<PlayerFSM>().AttackEnemy(null);
-            }
-        }
-        else
-        {
-            player.GetComponent<PlayerFSM>().AttackEnemy(null);
-        }
+        player.AttackAnimation();
+
+        player.PerformAttack();
     }
 
     private void HandleMove()

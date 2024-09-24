@@ -75,6 +75,7 @@
     <Compile Include="Assets\Scripts\Manager\InputManager.cs" />
     <Compile Include="Assets\Scripts\MonsterLoader.cs" />
     <Compile Include="Assets\Scripts\Data\DataManager.cs" />
+    <Compile Include="Assets\Scripts\Interface\ICombatant.cs" />
     <Compile Include="Assets\Scripts\ItemPickup.cs" />
     <Compile Include="Assets\Scripts\EquipmentSlot.cs" />
     <Compile Include="Assets\Scripts\Interface\IStatusView.cs" />
