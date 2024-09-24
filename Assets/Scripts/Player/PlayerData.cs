@@ -45,7 +45,7 @@ public class PlayerData
         else
         {
             Debug.LogWarning("Player data file not found. Using default values.");
-            // ÆÄÀÏÀÌ ¾øÀ» ¶§´Â ±âº»°ªÀ¸·Î ½ÃÀÛ
+            // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½âº»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         }
     }
 }
@@ -59,15 +59,15 @@ public class PlayerDataSerializable
 
     public PlayerDataSerializable(StatusModel status, InventoryModel inventory, EquipmentModel equipment)
     {
-        Status = status ?? new StatusModel(1, 100, 50, 10, 10, 10); // ±âº» °ª
-        Inventory = inventory ?? new InventoryModel(); // ºó ÀÎº¥Åä¸®·Î ÃÊ±âÈ­
-        Equipment = equipment ?? new EquipmentModel(); // ºó Àåºñ ½½·ÔÀ¸·Î ÃÊ±âÈ­
+        Status = status ?? new StatusModel(1, 100, 50, 10, 10, 10); // ï¿½âº» ï¿½ï¿½
+        Inventory = inventory ?? new InventoryModel(); // ï¿½ï¿½ ï¿½Îºï¿½ï¿½ä¸®ï¿½ï¿½ ï¿½Ê±ï¿½È­
+        Equipment = equipment ?? new EquipmentModel(); // ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê±ï¿½È­
     }
 
     public void ApplyTo(PlayerData playerData)
     {
-        playerData.Status = Status ?? new StatusModel(1, 100, 50, 10, 10, 10); // ±âº» °ª ¼³Á¤
-        playerData.Inventory = Inventory ?? new InventoryModel(); // ±âº» ÀÎº¥Åä¸® ¼³Á¤
-        playerData.Equipment = Equipment ?? new EquipmentModel(); // ±âº» Àåºñ ¼³Á¤
+        playerData.Status = Status ?? new StatusModel(1, 100, 50, 10, 10, 10); // ï¿½âº» ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+        playerData.Inventory = Inventory ?? new InventoryModel(); // ï¿½âº» ï¿½Îºï¿½ï¿½ä¸® ï¿½ï¿½ï¿½ï¿½
+        playerData.Equipment = Equipment ?? new EquipmentModel(); // ï¿½âº» ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
     }
 }
