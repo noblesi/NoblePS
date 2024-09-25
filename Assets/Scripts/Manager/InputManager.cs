@@ -26,8 +26,6 @@ public class InputManager : MonoBehaviour
 
     private void HandleAttack()
     {
-        player.AttackAnimation();
-
         player.PerformAttack();
     }
 
@@ -38,7 +36,7 @@ public class InputManager : MonoBehaviour
         {
             if (hit.collider.gameObject.CompareTag("Map"))
             {
-                player.GetComponent<PlayerFSM>().MoveTo(hit.point);
+                player.MoveTo(hit.point);
             }
         }
     }

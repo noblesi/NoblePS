@@ -21,8 +21,8 @@ public class PlayerFSM : MonoBehaviour, ICombatant
     [SerializeField] private float attackDelay = 2f;
     [SerializeField] private float attackTimer = 0f;
 
-    public Transform hitBoxSpawnPoint;
-    public float hitBoxRadius = 1.5f;
+    public GameObject weapon;
+    private Weapon weaponScript;
 
     public int HP { get => playerData.Status.HP; set => playerData.Status.HP = value; }
     public int AttackPower => playerData.GetAttackPower();
@@ -36,19 +36,29 @@ public class PlayerFSM : MonoBehaviour, ICombatant
     private PlayerData playerData;
     private InventoryPresenter inventoryPresenter;
 
+    private Animator animator;
+    private readonly string attackAnimName = "Attack";
+
     private void Start()
     {
         playerAnim = GetComponent<PlayerAnimation>();
+        animator = GetComponent<Animator>();
         playerData = new PlayerData();
+
+        weaponScript = weapon.GetComponent<Weapon>();
         ChangeState(State.Idle, PlayerAnimation.ANIM_IDLE);
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        ICombatant enemy = other.GetComponent<ICombatant>();
-        if (enemy != null && currentState == State.Attack)
+        if(currentState == State.Attack && other.CompareTag("Enemy"))
         {
-            Attack(enemy);
+            ICombatant enemy = other.GetComponentInParent<ICombatant>();
+            if (enemy != null)
+            {
+                Debug.Log($"[PlayerFSM] 무기로 적 타격: {enemy}");
+                Attack(enemy);
+            }
         }
     }
 
@@ -60,13 +70,16 @@ public class PlayerFSM : MonoBehaviour, ICombatant
     public void TakeDamage(int damage)
     {
         int calculateDamage = Mathf.Max(0, damage - Defence);
+        Debug.Log($"[PlayerFSM] {damage} 피해 입음. 방어력 {Defence} 적용 후 최종 피해: {calculateDamage}");
         playerData.ApplyDamage(calculateDamage);
         if(playerData.Status.HP <= 0)
         {
+            Debug.Log("[PlayerFSM] 플레이어 사망");
             ChangeState(State.Dead, PlayerAnimation.ANIM_DIE);
         }
         else
         {
+            Debug.Log("[PlayerFSM] 플레이어 피격 상태로 전환");
             ChangeState(State.Hit, PlayerAnimation.ANIM_HIT);
         }
     }
@@ -74,38 +87,28 @@ public class PlayerFSM : MonoBehaviour, ICombatant
     public void Attack(ICombatant target)
     {
         int damage = Mathf.Max(0, AttackPower - target.Defence);
+        Debug.Log($"[PlayerFSM] 공격! 공격력: {AttackPower}, 상대방 방어력: {target.Defence}, 최종 피해: {damage}");
         target.TakeDamage(damage);
     }
 
     public void AttackAnimation()
     {
+        Debug.Log("[PlayerFSM] 공격 애니메이션 재생");
         playerAnim.ChangeAnim(PlayerAnimation.ANIM_ATTACK);
     }
 
     public void PerformAttack()
     {
-        // 공격 범위 내에 있는 적을 찾는다.
-        Collider[] hitEnemies = Physics.OverlapSphere(hitBoxSpawnPoint.position, hitBoxRadius, enemyLayer);
-        foreach (Collider enemyCollider in hitEnemies)
-        {
-            ICombatant enemy = enemyCollider.GetComponent<ICombatant>();
-            if (enemy != null)
-            {
-                // 적이 있다면 공격을 수행하고 상태를 변경한다.
-                Attack(enemy);
-                ChangeState(State.AttackWait, PlayerAnimation.ANIM_ATTACKIDLE);
-                return;
-            }
-        }
-
-        // 공격 범위 내에 적이 없을 경우 대기 상태로 전환
-        ChangeState(State.AttackWait, PlayerAnimation.ANIM_ATTACKIDLE);
+        Debug.Log("[PlayerFSM] 공격 수행");
+        AttackAnimation();
+        ChangeState(State.Attack, PlayerAnimation.ANIM_ATTACK);
     }
 
     private void ChangeState(State newState, int animNum)
     {
         if (currentState == newState) return;
 
+        Debug.Log($"[PlayerFSM] 상태 변경: {currentState} -> {newState}");
         playerAnim.ChangeAnim(animNum);
         currentState = newState;
     }
@@ -154,9 +157,20 @@ public class PlayerFSM : MonoBehaviour, ICombatant
 
         transform.LookAt(currentTargetPos);
 
-        AttackAnimation();
+        if (weaponScript != null)
+        {
+            weaponScript.OnWeaponEnable();
+        }
 
-        PerformAttack();
+        if (!IsAnimationPlaying(attackAnimName))
+        {
+            ChangeState(State.AttackWait, PlayerAnimation.ANIM_ATTACKIDLE);
+
+            if (weaponScript != null)
+            {
+                weaponScript.OnWeaponDisable();
+            }
+        }
     }
 
     private void AttackWaitState()
@@ -245,5 +259,15 @@ public class PlayerFSM : MonoBehaviour, ICombatant
                 Debug.Log("인벤토리에 빈 슬롯이 없습니다.");
             }
         }
+    }
+
+    private bool IsAnimationPlaying(string animationName)
+    {
+        if(animator.GetCurrentAnimatorStateInfo(0).IsName(animationName) &&
+            animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1.0f)
+        {
+            return true;
+        }
+        return false;
     }
 }

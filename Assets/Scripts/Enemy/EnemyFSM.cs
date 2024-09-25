@@ -13,8 +13,8 @@ public class EnemyFSM : MonoBehaviour, ICombatant
     private float rotAnglePerSecond = 360f;
     private float moveSpeed = 1.3f;
 
-    public Transform hitBoxSpawnPoint;
-    public float hitBoxRadius = 1.5f;
+    public GameObject weapon;
+    private Weapon weaponScript;
 
     public LayerMask playerLayer;
 
@@ -44,6 +44,8 @@ public class EnemyFSM : MonoBehaviour, ICombatant
         monsterLoader = FindObjectOfType<MonsterLoader>();
         itemLoader = FindObjectOfType<ItemLoader>();
 
+        weaponScript = weapon.GetComponent<Weapon>();
+
         if (monsterLoader != null)
         {
             monsterData = monsterLoader.GetMonsterByID(MonsterID);
@@ -58,10 +60,14 @@ public class EnemyFSM : MonoBehaviour, ICombatant
 
     private void OnTriggerEnter(Collider other)
     {
-        ICombatant player = other.GetComponent<ICombatant>();
-        if(player != null && currentState == State.Attack)
+        if(currentState == State.Attack && other.CompareTag("PlayeBody"))
         {
-            Attack(player);
+            ICombatant player = other.GetComponentInParent<ICombatant>();
+            if(player != null)
+            {
+                Debug.Log($"[EnemyFSM] 무기로 플레이어 타격: {player}");
+                Attack(player);
+            }
         }
     }
 
@@ -90,13 +96,16 @@ public class EnemyFSM : MonoBehaviour, ICombatant
     public void TakeDamage(int damage)
     {
         int calculatedDamage = Mathf.Max(0, damage - Defence);
+        Debug.Log($"[EnemyFSM] {damage} 피해 입음. 방어력 {Defence} 적용 후 최종 피해: {calculatedDamage}");
         monsterData.TakeDamage(calculatedDamage);
         if (monsterData.HP <= 0)
         {
+            Debug.Log("[EnemyFSM] 몬스터 사망");
             ChangeState(State.Dead, EnemyAnimation.ANIM_DIE);
         }
         else
         {
+            Debug.Log("[EnemyFSM] 몬스터 피격 상태로 전환");
             ChangeState(State.Hit, EnemyAnimation.ANIM_HIT);
         }
     }
@@ -104,6 +113,7 @@ public class EnemyFSM : MonoBehaviour, ICombatant
     public void Attack(ICombatant target)
     {
         int damage = Mathf.Max(0, AttackPower - target.Defence);
+        Debug.Log($"[EnemyFSM] 공격! 공격력: {AttackPower}, 상대방 방어력: {target.Defence}, 최종 피해: {damage}");
         target.TakeDamage(damage);
     }
 
@@ -111,6 +121,7 @@ public class EnemyFSM : MonoBehaviour, ICombatant
     {
         if (currentState == newState) return;
 
+        Debug.Log($"[EnemyFSM] 상태 변경: {currentState} -> {newState}");
         currentState = newState;
         enemyAnim.ChangeAnim(animNum);
     }
@@ -119,6 +130,7 @@ public class EnemyFSM : MonoBehaviour, ICombatant
     {
         if (GetDistanceFromPlayer() < 5f)
         {
+            Debug.Log("[EnemyFSM] 플레이어 감지! 추격 상태로 전환");
             ChangeState(State.Chase, EnemyAnimation.ANIM_MOVE);
         }
     }
@@ -127,6 +139,7 @@ public class EnemyFSM : MonoBehaviour, ICombatant
     {
         if(GetDistanceFromPlayer() < 2.5f)
         {
+            Debug.Log("[EnemyFSM] 플레이어 접근! 공격 상태로 전환");
             ChangeState(State.Attack, EnemyAnimation.ANIM_ATTACK);
         }
         else
@@ -140,12 +153,15 @@ public class EnemyFSM : MonoBehaviour, ICombatant
     {
         if (GetDistanceFromPlayer() > 3f)
         {
+            Debug.Log("[EnemyFSM] 플레이어 멀어짐! 추격 상태로 전환");
             ChangeState(State.Chase, EnemyAnimation.ANIM_MOVE);
         }
+
     }
 
     private void HitState()
     {
+        Debug.Log("[EnemyFSM] 피격 상태 유지");
         Invoke(nameof(RecoverFromHit), 1f);
     }
 
@@ -153,6 +169,7 @@ public class EnemyFSM : MonoBehaviour, ICombatant
     {
         if (currentState == State.Hit)
         {
+            Debug.Log("[EnemyFSM] 피격 회복! 추격 상태로 전환");
             ChangeState(State.Chase, EnemyAnimation.ANIM_MOVE);
         }
     }
@@ -162,6 +179,7 @@ public class EnemyFSM : MonoBehaviour, ICombatant
         if (!isDead)
         {
             isDead = true;
+            Debug.Log("[EnemyFSM] 몬스터 죽음 애니메이션 실행");
             enemyAnim.ChangeAnim(EnemyAnimation.ANIM_DIE);
             //GrantPlayerEXP(); //추후에 제대로 구현할 예정.
 

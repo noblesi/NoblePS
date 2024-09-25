@@ -586,12 +586,11 @@ GameObject:
   m_Component:
   - component: {fileID: 3050321655741658923}
   - component: {fileID: 3305169469828288718}
-  - component: {fileID: 4014526744825591408}
   - component: {fileID: 1595632411832683173}
   - component: {fileID: 286021075837619093}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: SkeletonGrunt
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -636,27 +635,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!65 &4014526744825591408
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2386692087498796433}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1, y: 2.4687989, z: 1.5827242}
-  m_Center: {x: 0, y: 0.73439956, z: 0.2913621}
 --- !u!114 &1595632411832683173
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -670,13 +648,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentState: 0
-  hitBoxSpawnPoint: {fileID: 0}
-  hitBoxRadius: 1.5
-  damage: 15
+  weapon: {fileID: 3260666125830928018}
   playerLayer:
     serializedVersion: 2
     m_Bits: 64
-  monsterEXP: 50
   MonsterID: 1
 --- !u!114 &286021075837619093
 MonoBehaviour:
@@ -1052,6 +1027,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4750580861411197082}
   - component: {fileID: 6081255938338543608}
+  - component: {fileID: 5094272975077871736}
+  - component: {fileID: 9039024298741361019}
   m_Layer: 0
   m_Name: skeleton_grunt
   m_TagString: Untagged
@@ -1176,6 +1153,54 @@ SkinnedMeshRenderer:
     m_Center: {x: 0.031835556, y: 0.48055446, z: 0.27360064}
     m_Extent: {x: 2.3149414, y: 1.4343337, z: 0.9395712}
   m_DirtyAABB: 0
+--- !u!54 &5094272975077871736
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4007636476637359896}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!135 &9039024298741361019
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4007636476637359896}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 1.49
+  m_Center: {x: 0.031835556, y: 1.4263074, z: 0.0760718}
 --- !u!1 &4101071525369184639
 GameObject:
   m_ObjectHideFlags: 0
