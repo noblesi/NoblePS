@@ -38,6 +38,7 @@ public class PlayerFSM : MonoBehaviour, ICombatant
 
     private Animator animator;
     private readonly string attackAnimName = "Attack";
+    private bool isAttackActive = false;
 
     private void Start()
     {

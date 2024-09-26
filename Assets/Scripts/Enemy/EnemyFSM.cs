@@ -25,6 +25,9 @@ public class EnemyFSM : MonoBehaviour, ICombatant
 
     private int monsterEXP = 50;
 
+    private Animator animator;
+    private readonly string attackAnimName = "Attack";
+
     public int HP
     {
         get => monsterData?.HP ?? 0;
@@ -41,6 +44,7 @@ public class EnemyFSM : MonoBehaviour, ICombatant
     private void Start()
     {
         enemyAnim = GetComponent<EnemyAnimation>();
+        animator = GetComponent<Animator>();
         monsterLoader = FindObjectOfType<MonsterLoader>();
         itemLoader = FindObjectOfType<ItemLoader>();
 
@@ -60,7 +64,7 @@ public class EnemyFSM : MonoBehaviour, ICombatant
 
     private void OnTriggerEnter(Collider other)
     {
-        if(currentState == State.Attack && other.CompareTag("PlayeBody"))
+        if(currentState == State.Attack && other.CompareTag("PlayerBody"))
         {
             ICombatant player = other.GetComponentInParent<ICombatant>();
             if(player != null)
@@ -157,6 +161,20 @@ public class EnemyFSM : MonoBehaviour, ICombatant
             ChangeState(State.Chase, EnemyAnimation.ANIM_MOVE);
         }
 
+        if(weaponScript != null)
+        {
+            weaponScript.OnWeaponEnable();
+        }
+
+        if (!IsAnimationPlaying(attackAnimName))
+        {
+            ChangeState(State.Idle, EnemyAnimation.ANIM_IDLE);
+
+            if(weaponScript != null)
+            {
+                weaponScript.OnWeaponDisable();
+            }
+        }
     }
 
     private void HitState()
@@ -259,5 +277,15 @@ public class EnemyFSM : MonoBehaviour, ICombatant
     {
         HP = 0;
         ChangeState(State.Dead, EnemyAnimation.ANIM_DIE);
+    }
+
+    private bool IsAnimationPlaying(string animationName)
+    {
+        if (animator.GetCurrentAnimatorStateInfo(0).IsName(animationName) &&
+            animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1.0f)
+        {
+            return true;
+        }
+        return false;
     }
 }
