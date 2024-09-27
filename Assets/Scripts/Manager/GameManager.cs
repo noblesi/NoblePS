@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEngine;
 
 public class GameManager : Singleton<GameManager>
 {
@@ -14,28 +15,44 @@ public class GameManager : Singleton<GameManager>
 
     private void Awake()
     {
-        playerData = new PlayerData();
+        playerData = DataManager.Instance.GetPlayerData();
 
-        // Status
-        statusPresenter = new StatusPresenter(statusView, playerData.Status);
+        InitializeGameSystems();
+    }
 
-        // Inventory
-        List<InventorySlot> inventorySlots = inventoryView.GetSlots();
-        inventoryPresenter = new InventoryPresenter(inventoryView, playerData.Inventory, inventorySlots);
+    private void InitializeGameSystems()
+    {
+        if(playerData != null)
+        {
+            // Status
+            statusPresenter = new StatusPresenter(statusView, playerData.Status);
 
-        // Equipment
-        equipmentPresenter = new EquipmentPresenter(equipmentView, playerData.Equipment, inventoryPresenter, statusPresenter);
+            // Inventory
+            List<InventorySlot> inventorySlots = inventoryView.GetSlots();
+            inventoryPresenter = new InventoryPresenter(inventoryView, playerData.Inventory, inventorySlots);
 
-        playerFSM.SetInventoryPresenter(inventoryPresenter);
+            // Equipment
+            equipmentPresenter = new EquipmentPresenter(equipmentView, playerData.Equipment, inventoryPresenter, statusPresenter);
 
-        inventoryPresenter.SetEquipmentPresenter(equipmentPresenter);
+            playerFSM.SetInventoryPresenter(inventoryPresenter);
+            inventoryPresenter.SetEquipmentPresenter(equipmentPresenter);
+                
+            // PlayerFSM
+            playerFSM.SetPlayerData(playerData); // PlayerFSM에 PlayerData 전달
+    
+            InitializeInventory();
+            InitializeEquipment();
+            InitializeStatus();
+        }
+        else
+        {
+            Debug.LogError("PlayerData가 초기화되지 않았습니다.");
+        }
+    }
 
-        // PlayerFSM
-        playerFSM.SetPlayerData(playerData); // PlayerFSM에 PlayerData 전달
-
-        InitializeInventory();
-        InitializeEquipment();
-        InitializeStatus();
+    public PlayerData GetPlayerData()
+    {
+        return playerData;
     }
 
     public void InitializeInventory()

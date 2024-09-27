@@ -78,6 +78,7 @@
     <Compile Include="Assets\Scripts\Interface\ICombatant.cs" />
     <Compile Include="Assets\Scripts\ItemPickup.cs" />
     <Compile Include="Assets\Scripts\EquipmentSlot.cs" />
+    <Compile Include="Assets\Scripts\Manager\GameTitleManager.cs" />
     <Compile Include="Assets\Scripts\Interface\IStatusView.cs" />
     <Compile Include="Assets\Scripts\Equipment.cs" />
     <Compile Include="Assets\Scripts\Manager\UIInputManager.cs" />
@@ -91,6 +92,7 @@
     <Compile Include="Assets\Scripts\Manager\GameManager.cs" />
     <Compile Include="Assets\Scripts\Enemy\EnemyAnimation.cs" />
     <Compile Include="Assets\Scripts\Item.cs" />
+    <Compile Include="Assets\Scripts\Player\PlayerSpawner.cs" />
     <Compile Include="Assets\Scripts\Model\InventoryModel.cs" />
     <Compile Include="Assets\Scripts\EquipmentModel.cs" />
     <Compile Include="Assets\Scripts\Consumable.cs" />

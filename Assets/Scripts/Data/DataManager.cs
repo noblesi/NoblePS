@@ -2,46 +2,43 @@ using UnityEngine;
 
 public class DataManager : Singleton<DataManager>
 {
-    private StatusModel statusModel;
-    private InventoryModel inventoryModel;
-    private EquipmentModel equipmentModel;
+    private PlayerData playerData;
 
     private void Awake()
     {
         LoadAllData();
     }
 
-    private void LoadAllData()
+    public void LoadAllData()
     {
-        inventoryModel = new InventoryModel(); // 인벤토리 데이터 로드
-        inventoryModel.LoadInventoryData();
-
-        statusModel = new StatusModel(); // 스탯 데이터 로드
-        statusModel.LoadStatusData();
-
-        equipmentModel = new EquipmentModel(); // 장비 데이터 로드
-        equipmentModel.LoadEquipmentData();
+        playerData = new PlayerData();
+        Debug.Log("모든 게임 데이터가 로드되었습니다.");
     }
 
     public void SaveAllData()
     {
-        inventoryModel.SaveInventoryData(); // 인벤토리 데이터 저장
-        statusModel.SaveStatusData(); // 스탯 데이터 저장
-        equipmentModel.SaveEquipmentData(); // 장비 데이터 저장
+        if (playerData != null)
+        {
+            playerData.SavePlayerData();
+            Debug.Log("모든 게임 데이터가 저장되었습니다.");
+        }
     }
 
-    public InventoryModel GetInventoryModel()
+    public void ResetAllData()
     {
-        return inventoryModel;
+        playerData = new PlayerData();
+        SaveAllData();
+        Debug.Log("모든 게임 데이터가 초기화되었습니다.");
     }
 
-    public StatusModel GetStatusModel()
+    public PlayerData GetPlayerData()
     {
-        return statusModel;
+        return playerData;
     }
 
-    public EquipmentModel GetEquipmentModel()
+    public bool HasSaveData()
     {
-        return equipmentModel;
+        string filePath = System.IO.Path.Combine(Application.persistentDataPath, "playerData.json");
+        return System.IO.File.Exists(filePath);
     }
 }
