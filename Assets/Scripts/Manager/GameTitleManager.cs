@@ -27,7 +27,6 @@ public class GameTitleManager : MonoBehaviour
 
     private void Start()
     {
-        gameManager = GameManager.Instance;
         dataManager = DataManager.Instance;
 
         loadGameButton.interactable = IsSaveDataAvailable();
@@ -103,10 +102,6 @@ public class GameTitleManager : MonoBehaviour
     private void StartNewGame()
     {
         dataManager.ResetAllData();
-
-        gameManager.InitializeStatus();
-        gameManager.InitializeInventory();
-        gameManager.InitializeEquipment();
 
         SceneManager.LoadScene("MainGameScene");
 

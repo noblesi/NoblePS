@@ -23,5 +23,10 @@ public class UIInputManager : MonoBehaviour
         {
             UIManager.Instance.ToggleStatus();
         }
+
+        if(Input.GetKeyDown(KeyCode.Escape))
+        {
+            UIManager.Instance.ToggleQuit();
+        }
     }
 }
