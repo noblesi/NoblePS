@@ -41,7 +41,15 @@ public class EquipmentView : MonoBehaviour
     {
         if(slotDictionary.TryGetValue(equipmentType, out EquipmentSlot slot))
         {
-            slot.UpdateSlot(equipment);
+            if(equipment != null)
+            {
+                slot.gameObject.SetActive(true);
+                slot.UpdateSlot(equipment);
+            }
+            else
+            {
+                slot.ClearSlot();
+            }
         }
     }
 

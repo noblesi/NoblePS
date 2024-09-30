@@ -14,7 +14,6 @@ public class InventoryView : MonoBehaviour, IInventoryView
     public void Initialize(InventoryPresenter presenter)
     {
         inventoryPresenter = presenter;
-        inventoryPresenter.Initialize();
 
         slotDictionary.Clear();
 

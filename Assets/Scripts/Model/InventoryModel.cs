@@ -52,6 +52,7 @@ public class InventoryModel
             items = data.ToDictionary();
         }
     }
+
 }
 
 [System.Serializable]
@@ -92,6 +93,9 @@ public class InventoryItemData
     public EquipmentType EquipmentType;
     public int Quantity;
 
+    public string IconPath;
+    public string Description;
+
     public int StrengthBonus;
     public int DexterityBonus;
     public int IntelligenceBonus;
@@ -111,6 +115,8 @@ public class InventoryItemData
         ItemName = item.ItemName;
         Type = item.Type;
         Quantity = item.Quantity;
+        IconPath = item.IconPath;
+        Description = item.Description;
         
         if(item is Equipment equipment)
         {
@@ -131,14 +137,14 @@ public class InventoryItemData
         switch (Type)
         {
             case ItemType.Equipment:
-                return new Equipment(ItemID, ItemName, null, null, "", Quantity, EquipmentType, StrengthBonus, DexterityBonus, IntelligenceBonus);
+                return new Equipment(ItemID, ItemName, IconPath, null, Description, Quantity, EquipmentType, StrengthBonus, DexterityBonus, IntelligenceBonus);
             case ItemType.Consumable:
-                return new Consumable(ItemID, ItemName, null, null, "", Quantity, HealthRestore, ManaRestore);
+                return new Consumable(ItemID, ItemName, IconPath, null, Description, Quantity, HealthRestore, ManaRestore);
             case ItemType.Misc:
-                return new Misc(ItemID, ItemName, null, null, "", Quantity);
+                return new Misc(ItemID, ItemName, IconPath, null, Description, Quantity);
             default:
                 Debug.LogError($"Invalid ItemType : {Type}");
-                return new Misc(ItemID, "Unknown Item", null, null, "", Quantity);
+                return new Misc(ItemID, "Unknown Item", null, null, Description, Quantity);
         }
     }
 }

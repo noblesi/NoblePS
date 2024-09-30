@@ -22,7 +22,6 @@ public class GameTitleManager : MonoBehaviour
     public Toggle fullscreenToggle;
     public Toggle windowedToggle;
 
-    private GameManager gameManager;
     private DataManager dataManager;
 
     private void Start()

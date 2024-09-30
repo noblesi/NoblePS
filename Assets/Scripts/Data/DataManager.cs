@@ -27,7 +27,7 @@ public class DataManager : Singleton<DataManager>
     public void ResetAllData()
     {
         playerData = new PlayerData();
-        SaveAllData();
+
         Debug.Log("모든 게임 데이터가 초기화되었습니다.");
     }
 

@@ -86,21 +86,21 @@ public class PlayerData
 [System.Serializable]
 public class PlayerDataSerializable
 {
-    public StatusModel Status;
-    public InventoryModel Inventory;
-    public EquipmentModel Equipment;
+    public StatusData Status;
+    public InventoryData Inventory;
+    public EquipmentData Equipment;
 
     public PlayerDataSerializable(StatusModel status, InventoryModel inventory, EquipmentModel equipment)
     {
-        Status = status ?? new StatusModel(1, 100, 50, 10, 10, 10); 
-        Inventory = inventory ?? new InventoryModel(); 
-        Equipment = equipment ?? new EquipmentModel(); 
+        Status = new StatusData(status);
+        Inventory = new InventoryData(inventory.GetAllItems());
+        Equipment = new EquipmentData(equipment.GetEquippedAllItems());
     }
 
     public void ApplyTo(PlayerData playerData)
     {
-        playerData.Status = Status ?? new StatusModel(1, 100, 50, 10, 10, 10); 
-        playerData.Inventory = Inventory ?? new InventoryModel(); 
-        playerData.Equipment = Equipment ?? new EquipmentModel(); 
+        Status.ApplyTo(playerData.Status);
+        playerData.Inventory.LoadInventoryData();
+        playerData.Equipment.LoadEquipmentData();
     }
 }

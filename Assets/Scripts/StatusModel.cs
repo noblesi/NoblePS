@@ -1,26 +1,26 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
+[System.Serializable]
 public class StatusModel
 {
-    public int Level {  get; set; }
-    public int HP {  get; set; }
-    public int MaxHP { get; set; }
-    public int MP {  get; set; }
-    public int MaxMP { get; set; }
-    public int BaseStrength { get; private set; }
-    public int BaseDexterity { get; private set; }
-    public int BaseIntelligence {  get; private set; }
+    [SerializeField] public int Level;
+    [SerializeField] public int HP;
+    [SerializeField] public int MaxHP;
+    [SerializeField] public int MP;
+    [SerializeField] public int MaxMP;
+    [SerializeField] public int BaseStrength;
+    [SerializeField] public int BaseDexterity;
+    [SerializeField] public int BaseIntelligence;
 
-    private int currentExp;
-    private int expToNextLevel;
-    private int statPoints;
+    [SerializeField] private int currentExp;
+    [SerializeField] private int expToNextLevel;
+    [SerializeField] private int statPoints;
 
-    private int strengthBonus;
-    private int dexterityBonus;
-    private int intelligenceBonus;
+    [SerializeField] private int strengthBonus;
+    [SerializeField] private int dexterityBonus;
+    [SerializeField] private int intelligenceBonus;
 
     public int AttackPower => Mathf.RoundToInt((BaseStrength + strengthBonus) * 0.7f + (BaseDexterity + dexterityBonus) * 0.3f);
     public int Defence => Mathf.RoundToInt((BaseStrength + strengthBonus) * 0.3f + (BaseDexterity + dexterityBonus) * 0.7f);
@@ -122,13 +122,13 @@ public class StatusModel
     {
         int multiplier = equip ? 1 : -1;
 
-        if(equip && equippedItems.ContainsKey(item.EquipmentType))
+        if (equip && equippedItems.ContainsKey(item.EquipmentType))
         {
             Debug.LogWarning("this item is already equipped.");
             return;
         }
 
-        if(!equip && !equippedItems.ContainsKey(item.EquipmentType))
+        if (!equip && !equippedItems.ContainsKey(item.EquipmentType))
         {
             Debug.LogWarning("This item is not currently equipped.");
             return;
@@ -184,8 +184,15 @@ public class StatusModel
 
     public void SaveStatusData()
     {
+        string filePath = Path.Combine(Application.persistentDataPath, SaveFileName);
+
+        StatusData data = new StatusData(this);
         string json = JsonUtility.ToJson(this);
-        File.WriteAllText(Path.Combine(Application.persistentDataPath, SaveFileName), json);
+
+        File.WriteAllText(filePath, json);
+
+        Debug.Log("Status data saved: " + json); 
+        Debug.Log("Status data saved to: " + filePath);
     }
 
     public void LoadStatusData()
@@ -194,24 +201,101 @@ public class StatusModel
         if (File.Exists(filePath))
         {
             string json = File.ReadAllText(filePath);
-            JsonUtility.FromJsonOverwrite(json, this);
+
+            StatusData data = JsonUtility.FromJson<StatusData>(json);
+            data.ApplyTo(this);
+
+            Debug.Log("Status data loaded: " + json);
+            Debug.Log("Status data loaded from: " + filePath);
         }
         else
         {
-            // 파일이 없을 경우 기본 초기화
-            Level = 1;
-            MaxHP = 100;
-            HP = MaxHP;
-            MaxMP = 50;
-            MP = MaxMP;
-            BaseStrength = 10;
-            BaseDexterity = 10;
-            BaseIntelligence = 10;
-            currentExp = 0;
-            expToNextLevel = CalculateExpToNextLevel();
-            statPoints = 0;
+            Debug.LogWarning("Status data file not found. Initializing with default values.");
+            Debug.LogWarning("Status data file not found at: " + filePath);
+            InitializeDefaultValues();
         }
     }
 
+    private void InitializeDefaultValues()
+    {
+        Level = 1;
+        MaxHP = 100;
+        HP = MaxHP;
+        MaxMP = 50;
+        MP = MaxMP;
+        BaseStrength = 10;
+        BaseDexterity = 10;
+        BaseIntelligence = 10;
+        currentExp = 0;
+        expToNextLevel = CalculateExpToNextLevel();
+        statPoints = 0;
+    }
 
+    public void SetCurrentExp(int exp) { currentExp = exp; }
+    public void SetExpToNextLevel(int expToNext) { expToNextLevel = expToNext; }
+    public void SetStatPoints(int points) { statPoints = points; }
+    public void SetStrengthBonus(int bonus) { strengthBonus = bonus; }
+    public void SetDexterityBonus(int bonus) { dexterityBonus = bonus; }
+    public void SetIntelligenceBonus(int bonus) { intelligenceBonus = bonus; }
+}
+
+[System.Serializable]
+public class StatusData
+{
+    public int Level;
+    public int HP;
+    public int MaxHP;
+    public int MP;
+    public int MaxMP;
+    public int BaseStrength;
+    public int BaseDexterity;
+    public int BaseIntelligence;
+
+    public int CurrentExp;
+    public int ExpToNextLevel;
+    public int StatPoints;
+
+    public int StrengthBonus;
+    public int DexterityBonus;
+    public int IntelligenceBonus;
+
+    public StatusData(StatusModel statusModel)
+    {
+        Level = statusModel.Level;
+        HP = statusModel.HP;
+        MaxHP = statusModel.MaxHP;
+        MP = statusModel.MP;
+        MaxMP = statusModel.MaxMP;
+        BaseStrength = statusModel.BaseStrength;
+        BaseDexterity = statusModel.BaseDexterity;
+        BaseIntelligence = statusModel.BaseIntelligence;
+
+        CurrentExp = statusModel.GetCurrentExp();
+        ExpToNextLevel = statusModel.GetExpToNextLevel();
+        StatPoints = statusModel.GetStatPoints();
+
+        StrengthBonus = statusModel.GetStrengthBonus();
+        DexterityBonus = statusModel.GetDexterityBonus();
+        IntelligenceBonus = statusModel.GetIntelligenceBonus();
+    }
+
+    public void ApplyTo(StatusModel statusModel)
+    {
+        statusModel.Level = Level;
+        statusModel.HP = HP;
+        statusModel.MaxHP = MaxHP;
+        statusModel.MP = MP;
+        statusModel.MaxMP = MaxMP;
+        statusModel.BaseStrength = BaseStrength;
+        statusModel.BaseDexterity = BaseDexterity;
+        statusModel.BaseIntelligence = BaseIntelligence;
+
+        statusModel.SetCurrentExp(CurrentExp);
+        statusModel.SetExpToNextLevel(ExpToNextLevel);
+        statusModel.SetStatPoints(StatPoints);
+
+        statusModel.SetStrengthBonus(StrengthBonus);
+        statusModel.SetDexterityBonus(DexterityBonus);
+        statusModel.SetIntelligenceBonus(IntelligenceBonus);
+    }
 }

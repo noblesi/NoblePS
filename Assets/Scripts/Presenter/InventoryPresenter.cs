@@ -24,6 +24,7 @@ public class InventoryPresenter
 
     public void Initialize()
     {
+        inventoryModel.LoadInventoryData();
         inventoryView.ShowItems(inventoryModel.GetAllItems());
     }
 

@@ -17,12 +17,24 @@ public class EquipmentPresenter
 
     public void Initialize()
     {
+        equipmentModel.LoadEquipmentData();
         equipmentView.DisplayEquipment(equipmentModel.GetEquippedAllItems());
+
+        foreach(var equipmentType in equipmentModel.GetEquippedAllItems().Keys)
+        {
+            Equipment equipment = equipmentModel.GetEquipmentInSlot(equipmentType);
+            if(equipment != null)
+            {
+                equipmentView.UpdateSlot(equipmentType, equipment);
+            }
+        }
     }
 
     public void EquipItem(Item item)
     {
         if (item == null || !(item is Equipment equipment)) return;
+
+        if (equipmentModel.GetEquipmentInSlot(equipment.EquipmentType) == equipment) return;
 
         Equipment previousItem = equipmentModel.Equip(equipment);
 

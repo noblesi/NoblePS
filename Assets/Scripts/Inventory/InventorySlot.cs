@@ -122,7 +122,7 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler, IPointerEnterH
 
     private void ShowTooltipIfNeeded()
     {
-        if (item != null && !string.IsNullOrEmpty(item.Description) && tooltip != null)
+        if (item != null && tooltip != null)
         {
             tooltip.ShowTooltip(item);
         }

@@ -57,6 +57,7 @@ public class EquipmentModel
         {
             equippedItems.Remove(equipmentType);
             SaveEquipmentData();
+
             return unequippedItem;
         }
 
@@ -77,8 +78,7 @@ public class EquipmentModel
         {
             string json = File.ReadAllText(filePath);
             EquipmentData data = JsonUtility.FromJson<EquipmentData>(json);
-
-            equippedItems = data.ToDictionary();  // Dictionary·Î ·Îµå
+            equippedItems = data.ToDictionary();
         }
     }
 }

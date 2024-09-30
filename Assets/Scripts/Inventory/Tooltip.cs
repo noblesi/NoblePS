@@ -30,13 +30,13 @@ public class Tooltip : MonoBehaviour
             return;
         }
 
-        gameObject.SetActive(true);
-        
         string tooltipContent = $"<b>{item.ItemName}</b>\n" +
                                 $"Type: {item.Type}\n" +
                                 $"{item.Description}";
 
         tooltipText.text = tooltipContent;
+
+        gameObject.SetActive(true);
     }
 
     public void HideTooltip()

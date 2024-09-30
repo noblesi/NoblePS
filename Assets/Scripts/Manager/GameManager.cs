@@ -26,13 +26,18 @@ public class GameManager : Singleton<GameManager>
         {
             // Status
             statusPresenter = new StatusPresenter(statusView, playerData.Status);
+            statusView.Initialize(statusPresenter);
 
             // Inventory
             List<InventorySlot> inventorySlots = inventoryView.GetSlots();
             inventoryPresenter = new InventoryPresenter(inventoryView, playerData.Inventory, inventorySlots);
+            inventoryView.Initialize(inventoryPresenter);
+            inventoryPresenter.Initialize();
 
             // Equipment
             equipmentPresenter = new EquipmentPresenter(equipmentView, playerData.Equipment, inventoryPresenter, statusPresenter);
+            equipmentView.Initialize(equipmentPresenter);
+            inventoryPresenter.Initialize();
 
             playerFSM.SetInventoryPresenter(inventoryPresenter);
             inventoryPresenter.SetEquipmentPresenter(equipmentPresenter);
