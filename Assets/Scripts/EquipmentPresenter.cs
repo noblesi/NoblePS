@@ -34,16 +34,17 @@ public class EquipmentPresenter
     {
         if (item == null || !(item is Equipment equipment)) return;
 
-        if (equipmentModel.GetEquipmentInSlot(equipment.EquipmentType) == equipment) return;
+        var currentSlot = inventoryPresenter.GetItemSlot(equipment);
+        if (currentSlot == -1) return;
 
         Equipment previousItem = equipmentModel.Equip(equipment);
 
-        if (previousItem != null)
+        if(previousItem != null)
         {
             int nextSlot = inventoryPresenter.GetNextEmptySlot();
-            if (nextSlot != -1)
+            if(nextSlot != -1)
             {
-                inventoryPresenter.AddItem(previousItem, nextSlot);  // 해제된 아이템을 빈 슬롯에 추가
+                inventoryPresenter.AddItem(previousItem, nextSlot);
                 statusPresenter.ApplyItemBonus(previousItem, false);
             }
             else
@@ -52,7 +53,7 @@ public class EquipmentPresenter
             }
         }
 
-        inventoryPresenter.RemoveItem(inventoryPresenter.GetItemSlot(equipment));  // 착용한 아이템을 인벤토리에서 제거
+        inventoryPresenter.RemoveItem(currentSlot);
         statusPresenter.ApplyItemBonus(equipment, true);
         equipmentView.UpdateSlot(equipment.EquipmentType, equipment);
     }

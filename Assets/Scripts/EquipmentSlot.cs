@@ -21,8 +21,8 @@ public class EquipmentSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     {
         if (equipment != null)
         {
-            icon.sprite = equipment.GetIcon();
             icon.gameObject.SetActive(true);
+            icon.sprite = equipment.GetIcon();
             itemDescription = equipment.Description;
         }
         else

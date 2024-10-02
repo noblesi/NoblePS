@@ -37,7 +37,7 @@ public class GameManager : Singleton<GameManager>
             // Equipment
             equipmentPresenter = new EquipmentPresenter(equipmentView, playerData.Equipment, inventoryPresenter, statusPresenter);
             equipmentView.Initialize(equipmentPresenter);
-            inventoryPresenter.Initialize();
+            equipmentPresenter.Initialize();
 
             playerFSM.SetInventoryPresenter(inventoryPresenter);
             inventoryPresenter.SetEquipmentPresenter(equipmentPresenter);

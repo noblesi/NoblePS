@@ -126,6 +126,10 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler, IPointerEnterH
         {
             tooltip.ShowTooltip(item);
         }
+        else
+        {
+            tooltip.HideTooltip();
+        }
     }
 
     private void HideTooltipIfNeeded()

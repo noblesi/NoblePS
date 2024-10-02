@@ -63,9 +63,9 @@ public class InventoryData
     public InventoryData(Dictionary<int, Item> inventoryItems)
     {
         items = new List<InventoryItemData>();
-        foreach(var item in inventoryItems.Values)
+        foreach(var kvp in inventoryItems)
         {
-            items.Add(new InventoryItemData(item));
+            items.Add(new InventoryItemData(kvp.Key,  kvp.Value));
         }
     }
 
@@ -77,7 +77,7 @@ public class InventoryData
             Item item = itemData.ToItem();
             if(item != null)
             {
-                inventoryItems[inventoryItems.Count] = item;
+                inventoryItems[itemData.SlotIndex] = item;
             }
         }
         return inventoryItems;
@@ -87,10 +87,11 @@ public class InventoryData
 [System.Serializable]
 public class InventoryItemData
 {
+    public int SlotIndex;
+    public EquipmentType EquipmentType;
     public int ItemID;
     public string ItemName;
     public ItemType Type;
-    public EquipmentType EquipmentType;
     public int Quantity;
 
     public string IconPath;
@@ -103,7 +104,7 @@ public class InventoryItemData
     public int HealthRestore;
     public int ManaRestore;
 
-    public InventoryItemData(Item item)
+    public InventoryItemData(int slotIndex, Item item)
     {
         if(item == null)
         {
@@ -111,6 +112,7 @@ public class InventoryItemData
             return;
         }
 
+        SlotIndex = slotIndex;
         ItemID = item.ItemID;
         ItemName = item.ItemName;
         Type = item.Type;
@@ -130,6 +132,21 @@ public class InventoryItemData
             HealthRestore = consumable.HealthRestore;
             ManaRestore = consumable.ManaRestore;
         }
+    }
+
+    public InventoryItemData(EquipmentType equipmentType, Equipment equipment)
+    {
+        EquipmentType = equipmentType; 
+        ItemID = equipment.ItemID;
+        ItemName = equipment.ItemName;
+        Type = ItemType.Equipment;
+        Quantity = 1; 
+        IconPath = equipment.IconPath;
+        Description = equipment.Description;
+        EquipmentType = equipment.EquipmentType;
+        StrengthBonus = equipment.StrengthBonus;
+        DexterityBonus = equipment.DexterityBonus;
+        IntelligenceBonus = equipment.IntelligenceBonus;
     }
 
     public Item ToItem()

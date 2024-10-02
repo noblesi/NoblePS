@@ -28,7 +28,10 @@ public class StatusPresenter
 
     public void AllocateStatPoint(string statType)
     {
-        statusModel.AllocateStatPoint(statType);
-        statusView.DisplayStatus(statusModel);
+        if (statusModel.GetStatPoints() > 0)
+        {
+            statusModel.AllocateStatPoint(statType);
+            statusView.DisplayStatus(statusModel);
+        }
     }
 }

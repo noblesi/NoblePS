@@ -122,21 +122,14 @@ public class StatusModel
     {
         int multiplier = equip ? 1 : -1;
 
-        if (equip && equippedItems.ContainsKey(item.EquipmentType))
+        if(equip && equippedItems.ContainsKey(item.EquipmentType))
         {
-            Debug.LogWarning("this item is already equipped.");
-            return;
+            Equipment currentItem = equippedItems[item.EquipmentType];
+
+            ApplyStatBonus(currentItem, false);
         }
 
-        if (!equip && !equippedItems.ContainsKey(item.EquipmentType))
-        {
-            Debug.LogWarning("This item is not currently equipped.");
-            return;
-        }
-
-        strengthBonus += item.StrengthBonus * multiplier;
-        dexterityBonus += item.DexterityBonus * multiplier;
-        intelligenceBonus += item.IntelligenceBonus * multiplier;
+        ApplyStatBonus(item, equip);
 
         if (equip)
         {
@@ -148,6 +141,14 @@ public class StatusModel
         }
 
         SaveStatusData();
+    }
+
+    private void ApplyStatBonus(Equipment item, bool apply)
+    {
+        int multiplier = apply ? 1 : -1;
+        strengthBonus += item.StrengthBonus * multiplier;
+        dexterityBonus += item.DexterityBonus * multiplier;
+        intelligenceBonus += item.IntelligenceBonus * multiplier;
     }
 
     public int GetStatPoints() => statPoints;

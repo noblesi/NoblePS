@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
@@ -91,9 +90,9 @@ public class EquipmentData
     public EquipmentData(Dictionary<EquipmentType, Equipment> equippedItems)
     {
         items = new List<InventoryItemData>();
-        foreach(var item in equippedItems.Values)
+        foreach(var kvp in equippedItems)
         {
-            items.Add(new InventoryItemData(item));
+            items.Add(new InventoryItemData(kvp.Key, kvp.Value));
         }
     }
 
