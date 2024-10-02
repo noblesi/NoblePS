@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -46,30 +47,6 @@ public class PlayerData
         {
             Debug.LogWarning("Player data file not found. Using default values.");
         }
-    }
-
-    public void ApplyDamage(int damage)
-    {
-        Status.TakeDamage(damage);
-        if(Status.HP <= 0)
-        {
-            Debug.Log("Player is dead");
-        }
-    }
-
-    public void HealPlayer(int amount)
-    {
-        Status.Heal(amount);
-    }
-
-    public void UseMana(int amount)
-    {
-        Status.UseMana(amount);
-    }
-
-    public void RestoreMana(int amount)
-    {
-        Status.RestoreMana(amount);
     }
 
     public int GetAttackPower()

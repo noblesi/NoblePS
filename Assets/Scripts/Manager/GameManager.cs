@@ -7,6 +7,7 @@ public class GameManager : Singleton<GameManager>
     public StatusView statusView;
     public InventoryView inventoryView;
     public EquipmentView equipmentView;
+    public PlayerHUD playerHUD;
 
     private PlayerData playerData;
     private StatusPresenter statusPresenter;
@@ -27,6 +28,8 @@ public class GameManager : Singleton<GameManager>
             // Status
             statusPresenter = new StatusPresenter(statusView, playerData.Status);
             statusView.Initialize(statusPresenter);
+
+            playerHUD.Initialize(playerData.Status);
 
             // Inventory
             List<InventorySlot> inventorySlots = inventoryView.GetSlots();

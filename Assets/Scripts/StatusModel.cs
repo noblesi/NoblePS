@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
@@ -21,6 +22,11 @@ public class StatusModel
     [SerializeField] private int strengthBonus;
     [SerializeField] private int dexterityBonus;
     [SerializeField] private int intelligenceBonus;
+
+    public event Action OnHealthChanged;
+    public event Action OnManaChanged;
+    public event Action OnExperienceChanged;
+    public event Action OnStatPointsChanged;
 
     public int AttackPower => Mathf.RoundToInt((BaseStrength + strengthBonus) * 0.7f + (BaseDexterity + dexterityBonus) * 0.3f);
     public int Defence => Mathf.RoundToInt((BaseStrength + strengthBonus) * 0.3f + (BaseDexterity + dexterityBonus) * 0.7f);
@@ -70,6 +76,7 @@ public class StatusModel
         {
             LevelUp();
         }
+        OnExperienceChanged?.Invoke();
         SaveStatusData();
     }
 
@@ -88,6 +95,7 @@ public class StatusModel
         BaseDexterity += 2;
         BaseIntelligence += 2;
         statPoints += 5; // 레벨업 시 스탯 포인트 추가
+        OnStatPointsChanged?.Invoke();
 
         SaveStatusData();
     }
@@ -95,6 +103,7 @@ public class StatusModel
     public void GainStatPoints(int points)
     {
         statPoints += points;
+        OnStatPointsChanged?.Invoke();
     }
 
     public void AllocateStatPoint(string statType)
@@ -114,6 +123,7 @@ public class StatusModel
                     break;
             }
             statPoints--;
+            OnStatPointsChanged?.Invoke();
             SaveStatusData();
         }
     }
@@ -162,24 +172,28 @@ public class StatusModel
     public void TakeDamage(int damage)
     {
         HP = Mathf.Max(HP - damage, 0);
+        OnHealthChanged?.Invoke();
         SaveStatusData();
     }
 
     public void Heal(int amount)
     {
         HP = Mathf.Min(HP + amount, MaxHP);
+        OnHealthChanged?.Invoke();
         SaveStatusData();
     }
 
     public void UseMana(int amount)
     {
         MP = Mathf.Max(MP - amount, 0);
+        OnManaChanged?.Invoke();
         SaveStatusData();
     }
 
     public void RestoreMana(int amount)
     {
         MP = Mathf.Min(MP + amount, MaxMP);
+        OnManaChanged?.Invoke();
         SaveStatusData();
     }
 
@@ -191,9 +205,6 @@ public class StatusModel
         string json = JsonUtility.ToJson(this);
 
         File.WriteAllText(filePath, json);
-
-        Debug.Log("Status data saved: " + json); 
-        Debug.Log("Status data saved to: " + filePath);
     }
 
     public void LoadStatusData()
@@ -205,14 +216,9 @@ public class StatusModel
 
             StatusData data = JsonUtility.FromJson<StatusData>(json);
             data.ApplyTo(this);
-
-            Debug.Log("Status data loaded: " + json);
-            Debug.Log("Status data loaded from: " + filePath);
         }
         else
         {
-            Debug.LogWarning("Status data file not found. Initializing with default values.");
-            Debug.LogWarning("Status data file not found at: " + filePath);
             InitializeDefaultValues();
         }
     }
