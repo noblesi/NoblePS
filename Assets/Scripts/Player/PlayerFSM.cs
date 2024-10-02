@@ -72,7 +72,7 @@ public class PlayerFSM : MonoBehaviour, ICombatant
     {
         int calculateDamage = Mathf.Max(0, damage - Defence);
         Debug.Log($"[PlayerFSM] {damage} 피해 입음. 방어력 {Defence} 적용 후 최종 피해: {calculateDamage}");
-        playerData.ApplyDamage(calculateDamage);
+        playerData.Status.TakeDamage(calculateDamage);
         if(playerData.Status.HP <= 0)
         {
             Debug.Log("[PlayerFSM] 플레이어 사망");
