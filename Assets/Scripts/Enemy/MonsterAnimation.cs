@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyAnimation : MonoBehaviour
+public class MonsterAnimation : MonoBehaviour
 {
     public const int ANIM_IDLE = 0;
     public const int ANIM_MOVE = 1;
@@ -10,15 +10,15 @@ public class EnemyAnimation : MonoBehaviour
     public const int ANIM_HIT = 3;
     public const int ANIM_DIE = 4;
 
-    private Animator EnemyAnim;
+    private Animator monsterAnim;
 
     private void Start()
     {
-        EnemyAnim = GetComponent<Animator>();
+        monsterAnim = GetComponent<Animator>();
     }
 
     public void ChangeAnim(int animNum)
     {
-        EnemyAnim.SetInteger("animName", animNum);
+        monsterAnim.SetInteger("animName", animNum);
     }
 }

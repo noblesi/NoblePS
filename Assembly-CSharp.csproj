@@ -64,11 +64,11 @@
     <Compile Include="Assets\Scripts\Inventory\InventorySlot.cs" />
     <Compile Include="Assets\Scripts\StatusView.cs" />
     <Compile Include="Assets\Scripts\Player\PlayerData.cs" />
-    <Compile Include="Assets\Scripts\Enemy\EnemyFSM.cs" />
     <Compile Include="Assets\Scripts\Misc.cs" />
     <Compile Include="Assets\_Sources\GUI\Fantasy Wooden GUI  Package\Script\FontPressed.cs" />
     <Compile Include="Assets\Scripts\EquipmentPresenter.cs" />
     <Compile Include="Assets\Scripts\Player\PlayerFSM.cs" />
+    <Compile Include="Assets\Scripts\Enemy\MonsterFSM.cs" />
     <Compile Include="Assets\Scripts\Manager\UIManager.cs" />
     <Compile Include="Assets\Scripts\EquipmentView.cs" />
     <Compile Include="Assets\Scripts\Inventory\Tooltip.cs" />
@@ -91,7 +91,6 @@
     <Compile Include="Assets\Scripts\View\InventoryView.cs" />
     <Compile Include="Assets\Scripts\ItemLoader.cs" />
     <Compile Include="Assets\Scripts\Manager\GameManager.cs" />
-    <Compile Include="Assets\Scripts\Enemy\EnemyAnimation.cs" />
     <Compile Include="Assets\Scripts\Item.cs" />
     <Compile Include="Assets\Scripts\Player\PlayerSpawner.cs" />
     <Compile Include="Assets\Scripts\Model\InventoryModel.cs" />
@@ -99,6 +98,7 @@
     <Compile Include="Assets\Scripts\Consumable.cs" />
     <Compile Include="Assets\Scripts\Presenter\InventoryPresenter.cs" />
     <Compile Include="Assets\Scripts\Player\PlayerAnimation.cs" />
+    <Compile Include="Assets\Scripts\Enemy\MonsterAnimation.cs" />
     <Compile Include="Assets\Scripts\Monster.cs" />
     <Compile Include="Assets\Scripts\Interface\IInventoryView.cs" />
   </ItemGroup>

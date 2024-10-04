@@ -2,12 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyFSM : MonoBehaviour, ICombatant
+public class MonsterFSM : MonoBehaviour, ICombatant
 {
     public enum State { Idle, Chase, Attack, Hit, Dead }
     public State currentState = State.Idle;
 
-    private EnemyAnimation enemyAnim;
+    private MonsterAnimation enemyAnim;
     private Transform player;
 
     private float rotAnglePerSecond = 360f;
@@ -43,7 +43,7 @@ public class EnemyFSM : MonoBehaviour, ICombatant
 
     private void Start()
     {
-        enemyAnim = GetComponent<EnemyAnimation>();
+        enemyAnim = GetComponent<MonsterAnimation>();
         animator = GetComponent<Animator>();
         monsterLoader = FindObjectOfType<MonsterLoader>();
         itemLoader = FindObjectOfType<ItemLoader>();
@@ -56,7 +56,7 @@ public class EnemyFSM : MonoBehaviour, ICombatant
             if (monsterData != null)
             {
                 monsterData.TakeDamage(0);
-                ChangeState(State.Idle, EnemyAnimation.ANIM_IDLE);
+                ChangeState(State.Idle, MonsterAnimation.ANIM_IDLE);
                 player = GameObject.FindGameObjectWithTag("Player").transform;
             }
         }
@@ -102,15 +102,16 @@ public class EnemyFSM : MonoBehaviour, ICombatant
         int calculatedDamage = Mathf.Max(0, damage - Defence);
         Debug.Log($"[EnemyFSM] {damage} 피해 입음. 방어력 {Defence} 적용 후 최종 피해: {calculatedDamage}");
         monsterData.TakeDamage(calculatedDamage);
+
         if (monsterData.HP <= 0)
         {
             Debug.Log("[EnemyFSM] 몬스터 사망");
-            ChangeState(State.Dead, EnemyAnimation.ANIM_DIE);
+            ChangeState(State.Dead, MonsterAnimation.ANIM_DIE);
         }
         else
         {
             Debug.Log("[EnemyFSM] 몬스터 피격 상태로 전환");
-            ChangeState(State.Hit, EnemyAnimation.ANIM_HIT);
+            ChangeState(State.Hit, MonsterAnimation.ANIM_HIT);
         }
     }
 
@@ -135,7 +136,7 @@ public class EnemyFSM : MonoBehaviour, ICombatant
         if (GetDistanceFromPlayer() < 5f)
         {
             Debug.Log("[EnemyFSM] 플레이어 감지! 추격 상태로 전환");
-            ChangeState(State.Chase, EnemyAnimation.ANIM_MOVE);
+            ChangeState(State.Chase, MonsterAnimation.ANIM_MOVE);
         }
     }
 
@@ -144,7 +145,7 @@ public class EnemyFSM : MonoBehaviour, ICombatant
         if(GetDistanceFromPlayer() < 2.5f)
         {
             Debug.Log("[EnemyFSM] 플레이어 접근! 공격 상태로 전환");
-            ChangeState(State.Attack, EnemyAnimation.ANIM_ATTACK);
+            ChangeState(State.Attack, MonsterAnimation.ANIM_ATTACK);
         }
         else
         {
@@ -158,7 +159,7 @@ public class EnemyFSM : MonoBehaviour, ICombatant
         if (GetDistanceFromPlayer() > 3f)
         {
             Debug.Log("[EnemyFSM] 플레이어 멀어짐! 추격 상태로 전환");
-            ChangeState(State.Chase, EnemyAnimation.ANIM_MOVE);
+            ChangeState(State.Chase, MonsterAnimation.ANIM_MOVE);
         }
 
         if(weaponScript != null)
@@ -168,7 +169,7 @@ public class EnemyFSM : MonoBehaviour, ICombatant
 
         if (!IsAnimationPlaying(attackAnimName))
         {
-            ChangeState(State.Idle, EnemyAnimation.ANIM_IDLE);
+            ChangeState(State.Idle, MonsterAnimation.ANIM_IDLE);
 
             if(weaponScript != null)
             {
@@ -188,7 +189,7 @@ public class EnemyFSM : MonoBehaviour, ICombatant
         if (currentState == State.Hit)
         {
             Debug.Log("[EnemyFSM] 피격 회복! 추격 상태로 전환");
-            ChangeState(State.Chase, EnemyAnimation.ANIM_MOVE);
+            ChangeState(State.Chase, MonsterAnimation.ANIM_MOVE);
         }
     }
 
@@ -198,7 +199,7 @@ public class EnemyFSM : MonoBehaviour, ICombatant
         {
             isDead = true;
             Debug.Log("[EnemyFSM] 몬스터 죽음 애니메이션 실행");
-            enemyAnim.ChangeAnim(EnemyAnimation.ANIM_DIE);
+            enemyAnim.ChangeAnim(MonsterAnimation.ANIM_DIE);
             //GrantPlayerEXP(); //추후에 제대로 구현할 예정.
 
             StartCoroutine(HandleDeath());
@@ -276,7 +277,7 @@ public class EnemyFSM : MonoBehaviour, ICombatant
     private void SimulateDeath()
     {
         HP = 0;
-        ChangeState(State.Dead, EnemyAnimation.ANIM_DIE);
+        ChangeState(State.Dead, MonsterAnimation.ANIM_DIE);
     }
 
     private bool IsAnimationPlaying(string animationName)

@@ -13,7 +13,6 @@ public class PlayerFSM : MonoBehaviour, ICombatant
     public State currentState = State.Idle;
 
     private Vector3 currentTargetPos;
-    private ICombatant currentEnemy;
 
     public float rotAnglePerSecond = 360f;
     public float moveSpeed = 2f;
@@ -38,7 +37,6 @@ public class PlayerFSM : MonoBehaviour, ICombatant
 
     private Animator animator;
     private readonly string attackAnimName = "Attack";
-    private bool isAttackActive = false;
 
     private void Start()
     {
@@ -205,7 +203,6 @@ public class PlayerFSM : MonoBehaviour, ICombatant
 
     public void MoveTo(Vector3 targetPos)
     {
-        currentEnemy = null;
         currentTargetPos = targetPos;
         ChangeState(State.Move, PlayerAnimation.ANIM_MOVE);
     }

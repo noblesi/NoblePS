@@ -22114,6 +22114,9 @@ MonoBehaviour:
   hpText: {fileID: 690073175}
   mpText: {fileID: 61017828}
   expText: {fileID: 1612283954}
+  hpFill: {fileID: 1680151827}
+  mpFill: {fileID: 175180243}
+  expFill: {fileID: 709552362}
 --- !u!4 &1068160613 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400000, guid: 843818fdbd74c8c41a90a53d26c1b5c0,

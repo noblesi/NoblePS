@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditor.PackageManager;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,9 +6,18 @@ public class PlayerHUD : MonoBehaviour
     public Slider hpSlider;
     public Slider mpSlider;
     public Slider expSlider;
+
     public Text hpText;
     public Text mpText;
     public Text expText;
+
+    public Image hpFill;
+    public Image mpFill;
+    public Image expFill;
+
+    private Color hpColor = new Color(0.8f, 0f, 0f, 1f);
+    private Color mpColor = new Color(0f, 0.5f, 1f, 1f);
+    private Color expColor = new Color(0.7f, 1f, 0f, 1f);
 
     private StatusModel status;
 
@@ -26,6 +32,8 @@ public class PlayerHUD : MonoBehaviour
         UpdateHealth();
         UpdateMana();
         UpdateExperience();
+
+        SetSliderColors();
     }
 
     private void OnDestroy()
@@ -35,6 +43,24 @@ public class PlayerHUD : MonoBehaviour
             status.OnHealthChanged -= UpdateHealth;
             status.OnManaChanged -= UpdateMana;
             status.OnExperienceChanged -= UpdateExperience;
+        }
+    }
+
+    private void SetSliderColors()
+    {
+        if (hpFill != null)
+        {
+            hpFill.color = hpColor;  // 체력바 빨간색
+        }
+
+        if (mpFill != null)
+        {
+            mpFill.color = mpColor;  // 마나바 파란색
+        }
+
+        if (expFill != null)
+        {
+            expFill.color = expColor;  // 경험치바 형광색 (연두색)
         }
     }
 
