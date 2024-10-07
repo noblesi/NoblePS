@@ -268,4 +268,14 @@ public class PlayerFSM : MonoBehaviour, ICombatant
         }
         return false;
     }
+
+    public void HealPlayer(int amount)
+    {
+        playerData.Status.Heal(amount);
+    }
+
+    public void RestoreMana(int amount)
+    {
+        playerData.Status.RestoreMana(amount);
+    }
 }

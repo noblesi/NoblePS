@@ -56,31 +56,51 @@ public class InventoryPresenter
 
     public void AddItem(Item item, int slotIndex)
     {
-        Debug.Log($"Trying to add item {item.ItemName} to slot {slotIndex}");
+        if(item is Consumable consumableItem)
+        {
+            if(inventoryModel.GetItemInSlot(slotIndex) is Consumable existingItem)
+            {
+                int totalQuantity = existingItem.Quantity + consumableItem.Quantity;
+                if(totalQuantity <= 99)
+                {
+                    existingItem.Quantity = totalQuantity;
+                    inventoryView.OnItemAdded(slotIndex, existingItem);
+                }
+                else
+                {
+                    int remaining = totalQuantity - 99;
+                    existingItem.Quantity = 99;
+                    consumableItem.Quantity = remaining;
+                    inventoryView.OnItemAdded(slotIndex, existingItem);
+                    AddItemToNewSlot(consumableItem);
+                }
+            }
+            else
+            {
+                inventoryModel.AddItemToSlot(slotIndex, item);
+                inventoryView.OnItemAdded(slotIndex, item);
+            }
+        }
+        else if(item is Equipment)
+        {
+            inventoryModel.AddItemToSlot(slotIndex, item);
+            inventoryView.OnItemAdded(slotIndex, item);
+        }
+    }
 
-        inventoryModel.AddItemToSlot(slotIndex, item);
-        inventoryView.OnItemAdded(slotIndex, item);
-        //playerData.SavePlayerData(); // 데이터 저장
-
-        Debug.Log($"Item {item.ItemName} added to slot {slotIndex}");
+    private void AddItemToNewSlot(Item item)
+    {
+        int nextSlot = GetNextEmptySlot();
+        if(nextSlot != -1)
+        {
+            AddItem(item, nextSlot);
+        }
     }
 
     public void RemoveItem(int slotIndex)
     {
         inventoryModel.RemoveItemFromSlot(slotIndex);
         inventoryView.OnItemRemoved(slotIndex);
-    }
-
-    public void SwapItems(int slotIndex1, int slotIndex2)
-    {
-        Item item1 = inventoryModel.GetItemInSlot(slotIndex1);
-        Item item2 = inventoryModel.GetItemInSlot(slotIndex2);
-
-        inventoryModel.AddItemToSlot(slotIndex1, item2);
-        inventoryModel.AddItemToSlot(slotIndex2, item1);
-
-        inventoryView.OnItemAdded(slotIndex1, item2);
-        inventoryView.OnItemAdded(slotIndex2, item1);
     }
 
     public bool CanEquipItem(Item item)

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
-[System.Serializable]
 public class StatusModel
 {
     [SerializeField] public int Level;
@@ -47,7 +46,7 @@ public class StatusModel
     {
         Level = level;
         MaxHP = maxHP;
-        HP = maxMP;
+        HP = maxHP;
         MaxMP = maxMP;
         MP = maxMP;
         BaseStrength = strength;

@@ -63,9 +63,9 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler, IPointerEnterH
         {
             EquipItem();
         }
-        else if(item is Consumable)
+        else if(item is Consumable consumableItem)
         {
-            UseConsumable();
+            UseConsumable(consumableItem);
         }
     }
 
@@ -86,28 +86,32 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler, IPointerEnterH
         }
     }
 
-    private void UseConsumable()
+    private void UseConsumable(Consumable consumableItem)
     {
-        Consumable consumableItem = item as Consumable;
-        if(consumableItem != null)
+        PlayerFSM player = FindObjectOfType<PlayerFSM>();
+        if(player != null)
         {
-            ApplyConsumableEffects(consumableItem);
+            if(consumableItem.HealthRestore > 0)
+            {
+                player.HealPlayer(consumableItem.HealthRestore);
+            }
+
+            if(consumableItem.ManaRestore > 0)
+            {
+                player.RestoreMana(consumableItem.ManaRestore);
+            }
 
             item.Quantity--;
+
             if(item.Quantity <= 0)
             {
-                ClearSlot();
+                inventoryPresenter.RemoveItem(slotIndex);
             }
             else
             {
                 UpdateSlot(item);
             }
         }
-    }
-
-    private void ApplyConsumableEffects(Consumable consumable)
-    {
-        Debug.Log($"Used {consumable.ItemName}: Restored {consumable.HealthRestore} HP and {consumable.ManaRestore} MP");
     }
 
     public void OnPointerEnter(PointerEventData eventData)
@@ -144,11 +148,5 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler, IPointerEnterH
     public void AddItem(Item newItem)
     {
         UpdateSlot(newItem);
-    }
-
-    // 아이템 제거
-    public void RemoveItem()
-    {
-        ClearSlot();
     }
 }

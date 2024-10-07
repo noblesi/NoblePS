@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,9 +13,6 @@ public class MonsterFSM : MonoBehaviour, ICombatant
 
     private float rotAnglePerSecond = 360f;
     private float moveSpeed = 1.3f;
-
-    public GameObject weapon;
-    private Weapon weaponScript;
 
     public LayerMask playerLayer;
 
@@ -33,7 +31,10 @@ public class MonsterFSM : MonoBehaviour, ICombatant
         get => monsterData?.HP ?? 0;
         set
         {
-            if (monsterData != null) monsterData.HP = value;
+            if (monsterData != null)
+            {
+                monsterData.HP = value;
+            }
         }
     }
     public int AttackPower => monsterData?.AttackPower ?? 0;
@@ -47,8 +48,6 @@ public class MonsterFSM : MonoBehaviour, ICombatant
         animator = GetComponent<Animator>();
         monsterLoader = FindObjectOfType<MonsterLoader>();
         itemLoader = FindObjectOfType<ItemLoader>();
-
-        weaponScript = weapon.GetComponent<Weapon>();
 
         if (monsterLoader != null)
         {
@@ -162,19 +161,10 @@ public class MonsterFSM : MonoBehaviour, ICombatant
             ChangeState(State.Chase, MonsterAnimation.ANIM_MOVE);
         }
 
-        if(weaponScript != null)
-        {
-            weaponScript.OnWeaponEnable();
-        }
 
         if (!IsAnimationPlaying(attackAnimName))
         {
             ChangeState(State.Idle, MonsterAnimation.ANIM_IDLE);
-
-            if(weaponScript != null)
-            {
-                weaponScript.OnWeaponDisable();
-            }
         }
     }
 

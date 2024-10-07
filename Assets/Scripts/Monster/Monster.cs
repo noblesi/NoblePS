@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -28,6 +29,7 @@ public class Monster
     public void TakeDamage(int damage)
     {
         HP = Mathf.Max(HP - damage, 0);
+
         if(HP <= 0)
         {
             Debug.Log($"{MonsterName} is dead");
@@ -40,7 +42,7 @@ public class Monster
 
         foreach(var dropItem in DropList)
         {
-            int chance = Random.Range(0, 100);
+            int chance = UnityEngine.Random.Range(0, 100);
             if(chance < dropItem.DropRate)
             {
                 Item item = itemLoader.GetItemByID(dropItem.ItemID);

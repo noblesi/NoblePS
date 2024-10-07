@@ -8,6 +8,7 @@ public class GameManager : Singleton<GameManager>
     public InventoryView inventoryView;
     public EquipmentView equipmentView;
     public PlayerHUD playerHUD;
+    public MonsterSpawner monsterSpawner;
 
     private PlayerData playerData;
     private StatusPresenter statusPresenter;
@@ -28,7 +29,6 @@ public class GameManager : Singleton<GameManager>
             // Status
             statusPresenter = new StatusPresenter(statusView, playerData.Status);
             statusView.Initialize(statusPresenter);
-
             playerHUD.Initialize(playerData.Status);
 
             // Inventory
@@ -44,13 +44,9 @@ public class GameManager : Singleton<GameManager>
 
             playerFSM.SetInventoryPresenter(inventoryPresenter);
             inventoryPresenter.SetEquipmentPresenter(equipmentPresenter);
-                
-            // PlayerFSM
-            playerFSM.SetPlayerData(playerData); // PlayerFSM¿¡ PlayerData Àü´Þ
-    
-            InitializeInventory();
-            InitializeEquipment();
-            InitializeStatus();
+            playerFSM.SetPlayerData(playerData);
+
+            monsterSpawner.SpawnMonsters();
         }
         else
         {
@@ -61,20 +57,5 @@ public class GameManager : Singleton<GameManager>
     public PlayerData GetPlayerData()
     {
         return playerData;
-    }
-
-    public void InitializeInventory()
-    {
-        inventoryView.Initialize(inventoryPresenter);
-    }
-
-    public void InitializeEquipment()
-    {
-        equipmentView.Initialize(equipmentPresenter);
-    }
-
-    public void InitializeStatus()
-    {
-        statusView.Initialize(statusPresenter);
     }
 }

@@ -20,11 +20,24 @@ public class InventoryModel
 
     public void AddItemToSlot(int slotIndex, Item item)
     {
-        if (!items.ContainsKey(slotIndex))
+        if(item is Consumable consumable)
+        {
+            if (items.ContainsKey(slotIndex) && items[slotIndex] is Consumable existingConsumable)
+            {
+                int newQuantity = existingConsumable.Quantity + consumable.Quantity;
+                existingConsumable.Quantity = Mathf.Min(newQuantity, 99);
+            }
+            else
+            {
+                items[slotIndex] = consumable;
+            }
+        }
+        else if(!items.ContainsKey(slotIndex) && item is Equipment)
         {
             items[slotIndex] = item;
-            SaveInventoryData();
         }
+
+        SaveInventoryData();
     }
 
     public void RemoveItemFromSlot(int slotIndex)
