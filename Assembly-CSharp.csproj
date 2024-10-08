@@ -61,8 +61,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\Player\PlayerHUD.cs" />
-    <Compile Include="Assets\Scripts\Inventory\InventorySlot.cs" />
     <Compile Include="Assets\Scripts\Equipment\EquipmentSlot.cs" />
+    <Compile Include="Assets\Scripts\Inventory\InventorySlot.cs" />
     <Compile Include="Assets\Scripts\Monster\MonsterSpawner.cs" />
     <Compile Include="Assets\Scripts\Monster\MonsterFSM.cs" />
     <Compile Include="Assets\Scripts\Player\PlayerData.cs" />
@@ -71,8 +71,8 @@
     <Compile Include="Assets\Scripts\Item\ItemPickup.cs" />
     <Compile Include="Assets\Scripts\Status\StatusView.cs" />
     <Compile Include="Assets\Scripts\Manager\UIManager.cs" />
-    <Compile Include="Assets\Scripts\Item\Misc.cs" />
     <Compile Include="Assets\Scripts\Monster\MonsterLoader.cs" />
+    <Compile Include="Assets\Scripts\Item\Misc.cs" />
     <Compile Include="Assets\Scripts\Inventory\Tooltip.cs" />
     <Compile Include="Assets\Scripts\Inventory\InventoryModel.cs" />
     <Compile Include="Assets\Scripts\Manager\InputManager.cs" />
@@ -85,6 +85,7 @@
     <Compile Include="Assets\Scripts\Manager\GameTitleManager.cs" />
     <Compile Include="Assets\Scripts\Interface\IStatusView.cs" />
     <Compile Include="Assets\Scripts\Equipment\Equipment.cs" />
+    <Compile Include="Assets\Scripts\Monster\MonsterHpBar.cs" />
     <Compile Include="Assets\Scripts\Manager\UIInputManager.cs" />
     <Compile Include="Assets\Scripts\Status\StatusModel.cs" />
     <Compile Include="Assets\Scripts\Inventory\InventoryPresenter.cs" />

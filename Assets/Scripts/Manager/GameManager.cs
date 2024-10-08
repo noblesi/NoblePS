@@ -43,6 +43,7 @@ public class GameManager : Singleton<GameManager>
             equipmentPresenter.Initialize();
 
             playerFSM.SetInventoryPresenter(inventoryPresenter);
+            playerFSM.SetStatusPresenter(statusPresenter);
             inventoryPresenter.SetEquipmentPresenter(equipmentPresenter);
             playerFSM.SetPlayerData(playerData);
 

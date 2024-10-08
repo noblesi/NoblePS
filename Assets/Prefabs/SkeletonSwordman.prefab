@@ -625,6 +625,7 @@ GameObject:
   - component: {fileID: 5882119155609582293}
   - component: {fileID: 3888612981581532538}
   - component: {fileID: 3943275443876767631}
+  - component: {fileID: 7521826497781968145}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -715,6 +716,18 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &7521826497781968145
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1916565544767007061}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e26bd8edc46ee0443a9524746459a51a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2095670906852059849
 GameObject:
   m_ObjectHideFlags: 0
@@ -1428,10 +1441,10 @@ Animator:
   m_GameObject: {fileID: 4389056476029205342}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 22100000, guid: 585d629a25aeda54b89bf658ffd1ff56, type: 2}
+  m_Controller: {fileID: 9100000, guid: b86f96768752d3a4096112e8d8adf8d8, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
-  m_ApplyRootMotion: 0
+  m_ApplyRootMotion: 1
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
   m_WarningMessage: 
@@ -1597,11 +1610,11 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 0}
   m_FillRect: {fileID: 3321436606508209471}
   m_HandleRect: {fileID: 0}
-  m_Direction: 1
+  m_Direction: 0
   m_MinValue: 0
   m_MaxValue: 1
   m_WholeNumbers: 0
-  m_Value: 0.045
+  m_Value: 1
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []

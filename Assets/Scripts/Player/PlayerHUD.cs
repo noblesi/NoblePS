@@ -87,7 +87,7 @@ public class PlayerHUD : MonoBehaviour
 
     private void UpdateExperience()
     {
-        if(expSlider != null)
+        if (expSlider != null)
         {
             expSlider.maxValue = status.GetExpToNextLevel();
             expSlider.value = status.GetCurrentExp();

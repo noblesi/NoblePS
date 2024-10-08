@@ -28,7 +28,8 @@ public class MonsterLoader : MonoBehaviour
                     monsterData.HP,
                     monsterData.AttackPower,
                     monsterData.Defence,
-                    monsterData.DropList
+                    monsterData.DropList,
+                    monsterData.ExperienceReward
                 );
 
                 monsters.Add(monster.MonsterID, monster);
@@ -68,6 +69,7 @@ public class MonsterData
     public int AttackPower;
     public int Defence;
     public List<DropItemData> DropList;
+    public int ExperienceReward;
 }
 
 [System.Serializable]

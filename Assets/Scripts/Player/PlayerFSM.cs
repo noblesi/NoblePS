@@ -34,6 +34,7 @@ public class PlayerFSM : MonoBehaviour, ICombatant
 
     private PlayerData playerData;
     private InventoryPresenter inventoryPresenter;
+    private StatusPresenter statusPresenter;
 
     private Animator animator;
     private readonly string attackAnimName = "Attack";
@@ -64,6 +65,11 @@ public class PlayerFSM : MonoBehaviour, ICombatant
     public void SetInventoryPresenter(InventoryPresenter presenter)
     {
         inventoryPresenter = presenter;
+    }
+
+    public void SetStatusPresenter(StatusPresenter presenter)
+    {
+        statusPresenter = presenter;
     }
 
     public void TakeDamage(int damage)
@@ -233,8 +239,7 @@ public class PlayerFSM : MonoBehaviour, ICombatant
 
     public void GainEXP(int exp)
     {
-        playerData.Status.GainExp(exp);
-        playerData.SavePlayerData();
+        statusPresenter.GainExperience(exp);
     }
 
     public void SetPlayerData(PlayerData data)

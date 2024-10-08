@@ -75,6 +75,7 @@ public class StatusModel
         {
             LevelUp();
         }
+
         OnExperienceChanged?.Invoke();
         SaveStatusData();
     }
@@ -85,15 +86,19 @@ public class StatusModel
         currentExp = 0;
         expToNextLevel = CalculateExpToNextLevel();
 
-        HP += 10;
+        MaxHP += 10;
         HP = MaxHP;
-        MP += 5;
+        MaxMP += 5;
         MP = MaxMP;
 
         BaseStrength += 2;
         BaseDexterity += 2;
         BaseIntelligence += 2;
         statPoints += 5; // 레벨업 시 스탯 포인트 추가
+
+        OnHealthChanged?.Invoke();
+        OnManaChanged?.Invoke();
+        OnExperienceChanged?.Invoke();
         OnStatPointsChanged?.Invoke();
 
         SaveStatusData();

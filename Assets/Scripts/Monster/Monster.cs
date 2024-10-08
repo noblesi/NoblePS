@@ -14,7 +14,9 @@ public class Monster
     public int Defence {  get; set; }
     public List<DropItemData> DropList { get; set; }
 
-    public Monster(int monsterID, string monsterName, int level, int maxHP, int attackPower, int defence, List<DropItemData> dropList)
+    public int ExperienceReward {  get; set; }
+
+    public Monster(int monsterID, string monsterName, int level, int maxHP, int attackPower, int defence, List<DropItemData> dropList, int experienceReward)
     {
         MonsterID = monsterID;
         MonsterName = monsterName;
@@ -24,16 +26,7 @@ public class Monster
         AttackPower = attackPower;
         Defence = defence;
         DropList = dropList;
-    }
-
-    public void TakeDamage(int damage)
-    {
-        HP = Mathf.Max(HP - damage, 0);
-
-        if(HP <= 0)
-        {
-            Debug.Log($"{MonsterName} is dead");
-        }
+        ExperienceReward = experienceReward;
     }
 
     public List<Item> GetDroppedItems(ItemLoader itemLoader)

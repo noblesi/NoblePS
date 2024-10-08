@@ -21,8 +21,6 @@ public class MonsterFSM : MonoBehaviour, ICombatant
     private ItemLoader itemLoader;
     private Monster monsterData;
 
-    private int monsterEXP = 50;
-
     private Animator animator;
     private readonly string attackAnimName = "Attack";
 
@@ -34,6 +32,7 @@ public class MonsterFSM : MonoBehaviour, ICombatant
             if (monsterData != null)
             {
                 monsterData.HP = value;
+                OnHealthChanged?.Invoke(monsterData.HP, monsterData.MaxHP);
             }
         }
     }
@@ -42,6 +41,9 @@ public class MonsterFSM : MonoBehaviour, ICombatant
 
     private bool isDead = false;
 
+    public event Action<int, int> OnHealthChanged;
+
+
     private void Start()
     {
         enemyAnim = GetComponent<MonsterAnimation>();
@@ -49,15 +51,23 @@ public class MonsterFSM : MonoBehaviour, ICombatant
         monsterLoader = FindObjectOfType<MonsterLoader>();
         itemLoader = FindObjectOfType<ItemLoader>();
 
+        MonsterHpBar hpBar = GetComponent<MonsterHpBar>();
+
         if (monsterLoader != null)
         {
             monsterData = monsterLoader.GetMonsterByID(MonsterID);
             if (monsterData != null)
             {
-                monsterData.TakeDamage(0);
                 ChangeState(State.Idle, MonsterAnimation.ANIM_IDLE);
                 player = GameObject.FindGameObjectWithTag("Player").transform;
+
+                OnHealthChanged?.Invoke(monsterData.HP, monsterData.MaxHP);
             }
+        }
+
+        if(hpBar != null)
+        {
+            hpBar.Initialize(this);
         }
     }
 
@@ -100,16 +110,14 @@ public class MonsterFSM : MonoBehaviour, ICombatant
     {
         int calculatedDamage = Mathf.Max(0, damage - Defence);
         Debug.Log($"[EnemyFSM] {damage} 피해 입음. 방어력 {Defence} 적용 후 최종 피해: {calculatedDamage}");
-        monsterData.TakeDamage(calculatedDamage);
+        HP -= calculatedDamage;
 
-        if (monsterData.HP <= 0)
+        if (HP <= 0)
         {
-            Debug.Log("[EnemyFSM] 몬스터 사망");
             ChangeState(State.Dead, MonsterAnimation.ANIM_DIE);
         }
         else
         {
-            Debug.Log("[EnemyFSM] 몬스터 피격 상태로 전환");
             ChangeState(State.Hit, MonsterAnimation.ANIM_HIT);
         }
     }
@@ -125,7 +133,8 @@ public class MonsterFSM : MonoBehaviour, ICombatant
     {
         if (currentState == newState) return;
 
-        Debug.Log($"[EnemyFSM] 상태 변경: {currentState} -> {newState}");
+        if (currentState == State.Dead) return;
+
         currentState = newState;
         enemyAnim.ChangeAnim(animNum);
     }
@@ -134,7 +143,6 @@ public class MonsterFSM : MonoBehaviour, ICombatant
     {
         if (GetDistanceFromPlayer() < 5f)
         {
-            Debug.Log("[EnemyFSM] 플레이어 감지! 추격 상태로 전환");
             ChangeState(State.Chase, MonsterAnimation.ANIM_MOVE);
         }
     }
@@ -170,7 +178,11 @@ public class MonsterFSM : MonoBehaviour, ICombatant
 
     private void HitState()
     {
-        Debug.Log("[EnemyFSM] 피격 상태 유지");
+        if(HP <= 0)
+        {
+            ChangeState(State.Dead, MonsterAnimation.ANIM_DIE);
+        }
+
         Invoke(nameof(RecoverFromHit), 1f);
     }
 
@@ -188,9 +200,9 @@ public class MonsterFSM : MonoBehaviour, ICombatant
         if (!isDead)
         {
             isDead = true;
-            Debug.Log("[EnemyFSM] 몬스터 죽음 애니메이션 실행");
-            enemyAnim.ChangeAnim(MonsterAnimation.ANIM_DIE);
-            //GrantPlayerEXP(); //추후에 제대로 구현할 예정.
+            Debug.Log("Monster is dead");
+
+            if(player != null) GrantPlayerEXP();
 
             StartCoroutine(HandleDeath());
         }
@@ -198,7 +210,9 @@ public class MonsterFSM : MonoBehaviour, ICombatant
 
     private IEnumerator HandleDeath()
     {
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(1.5f);
+
+        Destroy(gameObject);
 
         if (monsterData != null && itemLoader != null)
         {
@@ -224,8 +238,6 @@ public class MonsterFSM : MonoBehaviour, ICombatant
                 }
             }
         }
-
-        Destroy(gameObject);
     }
 
     private void GrantPlayerEXP()
@@ -233,7 +245,8 @@ public class MonsterFSM : MonoBehaviour, ICombatant
         PlayerFSM playerFSM = player.GetComponent<PlayerFSM>();
         if(playerFSM != null)
         {
-            playerFSM.GainEXP(monsterEXP);
+            playerFSM.GainEXP(monsterData.ExperienceReward);
+            Debug.Log($"[EnemyFSM] 플레이어에게 {monsterData.ExperienceReward} 경험치 지급");
         }
     }
 
@@ -261,6 +274,12 @@ public class MonsterFSM : MonoBehaviour, ICombatant
             Debug.Log("디버깅 : 몬스터가 즉시 사망합니다.");
             SimulateDeath();
         }
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            Debug.Log("디버깅 : 몬스터에게 데미지를 줍니다.");
+            SimulateDamage();
+        }
+
         UpdateState();
     }
 
@@ -268,6 +287,11 @@ public class MonsterFSM : MonoBehaviour, ICombatant
     {
         HP = 0;
         ChangeState(State.Dead, MonsterAnimation.ANIM_DIE);
+    }
+
+    private void SimulateDamage()
+    {
+        HP -= 10;
     }
 
     private bool IsAnimationPlaying(string animationName)
