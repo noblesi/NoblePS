@@ -11,6 +11,11 @@ public class StatusPresenter
 
     public void Initialize()
     {
+        statusModel.OnHealthChanged += () => statusView.DisplayStatus(statusModel);
+        statusModel.OnManaChanged += () => statusView.DisplayStatus(statusModel);
+        statusModel.OnExperienceChanged += () => statusView.DisplayStatus(statusModel);
+        statusModel.OnStatPointsChanged += () => statusView.DisplayStatus(statusModel);
+
         statusView.DisplayStatus(statusModel);
     }
 

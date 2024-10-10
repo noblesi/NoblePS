@@ -1404,9 +1404,9 @@ GameObject:
   - component: {fileID: -830446300163478387}
   - component: {fileID: 8373374393386674912}
   - component: {fileID: 2237761907086486020}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: SkeletonSwordman
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1891,6 +1891,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5778760931218396660}
   - component: {fileID: 3205411610009552452}
+  - component: {fileID: 7588880154940111781}
   m_Layer: 0
   m_Name: skeleton_swordsman_sword
   m_TagString: Untagged
@@ -2020,6 +2021,27 @@ SkinnedMeshRenderer:
     m_Center: {x: 1.3348404, y: 1.6591151, z: 0.40096307}
     m_Extent: {x: 0.36614037, y: 0.126778, z: 0.8765726}
   m_DirtyAABB: 0
+--- !u!65 &7588880154940111781
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6234965821775719145}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.73228073, y: 0.253556, z: 1.7531452}
+  m_Center: {x: 1.3348404, y: 1.6591151, z: 0.40096307}
 --- !u!1 &6263219329065949538
 GameObject:
   m_ObjectHideFlags: 0

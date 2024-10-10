@@ -13,6 +13,7 @@ public class MonsterFSM : MonoBehaviour, ICombatant
 
     private float rotAnglePerSecond = 360f;
     private float moveSpeed = 1.3f;
+    private float attackRange = 2f;
 
     public LayerMask playerLayer;
 
@@ -22,7 +23,6 @@ public class MonsterFSM : MonoBehaviour, ICombatant
     private Monster monsterData;
 
     private Animator animator;
-    private readonly string attackAnimName = "Attack";
 
     public int HP
     {
@@ -42,7 +42,6 @@ public class MonsterFSM : MonoBehaviour, ICombatant
     private bool isDead = false;
 
     public event Action<int, int> OnHealthChanged;
-
 
     private void Start()
     {
@@ -71,17 +70,26 @@ public class MonsterFSM : MonoBehaviour, ICombatant
         }
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void AttackPlayerInRange()
     {
-        if(currentState == State.Attack && other.CompareTag("PlayerBody"))
+        Collider[] hitColliders = Physics.OverlapSphere(transform.position, attackRange, playerLayer);
+        foreach (var hitCollider in hitColliders)
         {
-            ICombatant player = other.GetComponentInParent<ICombatant>();
-            if(player != null)
+            ICombatant player = hitCollider.GetComponent<ICombatant>();
+            if (player != null)
             {
-                Debug.Log($"[EnemyFSM] 무기로 플레이어 타격: {player}");
-                Attack(player);
+                int damage = CalculateDamage(AttackPower, player.Defence);
+                if (damage > 0)
+                {
+                    player.TakeDamage(damage);
+                }
             }
         }
+    }
+
+    public int CalculateDamage(int attackerPower, int defenderDefence)
+    {
+        return Mathf.Max(0, attackerPower - defenderDefence);
     }
 
     private void UpdateState()
@@ -108,25 +116,19 @@ public class MonsterFSM : MonoBehaviour, ICombatant
 
     public void TakeDamage(int damage)
     {
-        int calculatedDamage = Mathf.Max(0, damage - Defence);
-        Debug.Log($"[EnemyFSM] {damage} 피해 입음. 방어력 {Defence} 적용 후 최종 피해: {calculatedDamage}");
-        HP -= calculatedDamage;
-
-        if (HP <= 0)
+        if (damage > 0)
         {
-            ChangeState(State.Dead, MonsterAnimation.ANIM_DIE);
-        }
-        else
-        {
-            ChangeState(State.Hit, MonsterAnimation.ANIM_HIT);
-        }
-    }
+            HP -= damage;
 
-    public void Attack(ICombatant target)
-    {
-        int damage = Mathf.Max(0, AttackPower - target.Defence);
-        Debug.Log($"[EnemyFSM] 공격! 공격력: {AttackPower}, 상대방 방어력: {target.Defence}, 최종 피해: {damage}");
-        target.TakeDamage(damage);
+            if (HP <= 0)
+            {
+                ChangeState(State.Dead, MonsterAnimation.ANIM_DIE);
+            }
+            else
+            {
+                ChangeState(State.Hit, MonsterAnimation.ANIM_HIT);
+            }
+        }
     }
 
     public void ChangeState(State newState, int animNum)
@@ -151,7 +153,6 @@ public class MonsterFSM : MonoBehaviour, ICombatant
     {
         if(GetDistanceFromPlayer() < 2.5f)
         {
-            Debug.Log("[EnemyFSM] 플레이어 접근! 공격 상태로 전환");
             ChangeState(State.Attack, MonsterAnimation.ANIM_ATTACK);
         }
         else
@@ -165,15 +166,11 @@ public class MonsterFSM : MonoBehaviour, ICombatant
     {
         if (GetDistanceFromPlayer() > 3f)
         {
-            Debug.Log("[EnemyFSM] 플레이어 멀어짐! 추격 상태로 전환");
             ChangeState(State.Chase, MonsterAnimation.ANIM_MOVE);
+            return;
         }
 
-
-        if (!IsAnimationPlaying(attackAnimName))
-        {
-            ChangeState(State.Idle, MonsterAnimation.ANIM_IDLE);
-        }
+        AttackPlayerInRange();
     }
 
     private void HitState()
@@ -190,7 +187,6 @@ public class MonsterFSM : MonoBehaviour, ICombatant
     {
         if (currentState == State.Hit)
         {
-            Debug.Log("[EnemyFSM] 피격 회복! 추격 상태로 전환");
             ChangeState(State.Chase, MonsterAnimation.ANIM_MOVE);
         }
     }
@@ -200,9 +196,7 @@ public class MonsterFSM : MonoBehaviour, ICombatant
         if (!isDead)
         {
             isDead = true;
-            Debug.Log("Monster is dead");
-
-            if(player != null) GrantPlayerEXP();
+            GrantPlayerEXP();
 
             StartCoroutine(HandleDeath());
         }
@@ -210,10 +204,15 @@ public class MonsterFSM : MonoBehaviour, ICombatant
 
     private IEnumerator HandleDeath()
     {
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(animator.GetCurrentAnimatorStateInfo(0).length + 1f);
+
+        DropItems();
 
         Destroy(gameObject);
+    }
 
+    private void DropItems()
+    {
         if (monsterData != null && itemLoader != null)
         {
             List<Item> droppedItems = monsterData.GetDroppedItems(itemLoader);
@@ -228,7 +227,7 @@ public class MonsterFSM : MonoBehaviour, ICombatant
 
                 ItemPickup itemPickup = instantiatedItem.GetComponent<ItemPickup>();
 
-                if(itemPickup != null)
+                if (itemPickup != null)
                 {
                     itemPickup.Initialize(item);
                 }
@@ -246,7 +245,6 @@ public class MonsterFSM : MonoBehaviour, ICombatant
         if(playerFSM != null)
         {
             playerFSM.GainEXP(monsterData.ExperienceReward);
-            Debug.Log($"[EnemyFSM] 플레이어에게 {monsterData.ExperienceReward} 경험치 지급");
         }
     }
 
@@ -292,15 +290,5 @@ public class MonsterFSM : MonoBehaviour, ICombatant
     private void SimulateDamage()
     {
         HP -= 10;
-    }
-
-    private bool IsAnimationPlaying(string animationName)
-    {
-        if (animator.GetCurrentAnimatorStateInfo(0).IsName(animationName) &&
-            animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1.0f)
-        {
-            return true;
-        }
-        return false;
     }
 }

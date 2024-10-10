@@ -8,6 +8,7 @@ public interface ICombatant
     int AttackPower {  get; }
     int Defence { get; }
 
+    int CalculateDamage(int attackerPower, int defenderDefence);
+
     void TakeDamage(int damage);
-    void Attack(ICombatant target);
 }
