@@ -35,11 +35,21 @@ public class PlayerFSM : MonoBehaviour, ICombatant
     private StatusPresenter statusPresenter;
     private Animator animator;
 
+    private PlayerHUD playerHUD;
+
+    private bool hasDealtDamage = false;
+
     private void Start()
     {
         playerAnim = GetComponent<PlayerAnimation>();
         animator = GetComponent<Animator>();
         playerData = new PlayerData();
+
+        playerHUD = FindObjectOfType<PlayerHUD>();
+        if(playerHUD != null)
+        {
+            playerHUD.Initialize(playerData.Status);
+        }
 
         respawnPosition = transform.position;
 
@@ -48,18 +58,24 @@ public class PlayerFSM : MonoBehaviour, ICombatant
 
     private void AttackEnemiesInRange()
     {
-        Collider[] hitColliders = Physics.OverlapSphere(transform.position, attackRange, enemyLayer);
-        foreach (var hitCollider in hitColliders)
+        if (!hasDealtDamage)
         {
-            ICombatant enemy = hitCollider.GetComponent<ICombatant>();
-            if (enemy != null)
+            Collider[] hitColliders = Physics.OverlapSphere(transform.position, attackRange, enemyLayer);
+            foreach (var hitCollider in hitColliders)
             {
-                int damage = CalculateDamage(AttackPower, enemy.Defence);
-                if(damage > 0)
+                ICombatant enemy = hitCollider.GetComponent<ICombatant>();
+                if (enemy != null)
                 {
-                    enemy.TakeDamage(damage);
+                    int damage = CalculateDamage(AttackPower, enemy.Defence);
+                    Debug.Log($"[PlayerFSM] 공격 중: 공격력 {AttackPower}, 상대방 방어력 {enemy.Defence}, 계산된 데미지 {damage}");
+
+                    if (damage > 0)
+                    {
+                        enemy.TakeDamage(damage);
+                    }
                 }
             }
+            hasDealtDamage = true;
         }
     }
 
@@ -73,9 +89,13 @@ public class PlayerFSM : MonoBehaviour, ICombatant
 
     public void TakeDamage(int damage)
     {
+        Debug.Log($"[PlayerFSM] 피격: 받은 데미지 {damage}, 현재 HP {playerData.Status.HP}");
+
         if (damage > 0)
         {
             playerData.Status.TakeDamage(damage);
+
+            playerHUD?.Initialize(playerData.Status);
 
             if (playerData.Status.HP <= 0)
             {
@@ -90,6 +110,9 @@ public class PlayerFSM : MonoBehaviour, ICombatant
 
     public void PerformAttack()
     {
+        if (currentState == State.Attack) return;
+
+        hasDealtDamage = false;
         ChangeState(State.Attack, PlayerAnimation.ANIM_ATTACK);
     }
 
@@ -103,6 +126,8 @@ public class PlayerFSM : MonoBehaviour, ICombatant
 
     private void UpdateState()
     {
+        if (currentState == State.Dead) return;
+
         switch (currentState)
         {
             case State.Idle:

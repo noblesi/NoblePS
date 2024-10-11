@@ -23,6 +23,7 @@ public class MonsterFSM : MonoBehaviour, ICombatant
     private Monster monsterData;
 
     private Animator animator;
+    private MonsterHpBar hpBar;
 
     public int HP
     {
@@ -40,6 +41,7 @@ public class MonsterFSM : MonoBehaviour, ICombatant
     public int Defence => monsterData?.Defence ?? 0;
 
     private bool isDead = false;
+    private bool hasDealtDamage = false;
 
     public event Action<int, int> OnHealthChanged;
 
@@ -49,8 +51,8 @@ public class MonsterFSM : MonoBehaviour, ICombatant
         animator = GetComponent<Animator>();
         monsterLoader = FindObjectOfType<MonsterLoader>();
         itemLoader = FindObjectOfType<ItemLoader>();
-
-        MonsterHpBar hpBar = GetComponent<MonsterHpBar>();
+        
+        hpBar = GetComponent<MonsterHpBar>();
 
         if (monsterLoader != null)
         {
@@ -70,6 +72,11 @@ public class MonsterFSM : MonoBehaviour, ICombatant
         }
     }
 
+    public void OnAttackHit()
+    {
+        AttackPlayerInRange();
+    }
+
     private void AttackPlayerInRange()
     {
         Collider[] hitColliders = Physics.OverlapSphere(transform.position, attackRange, playerLayer);
@@ -79,6 +86,8 @@ public class MonsterFSM : MonoBehaviour, ICombatant
             if (player != null)
             {
                 int damage = CalculateDamage(AttackPower, player.Defence);
+                Debug.Log($"[MonsterFSM] 공격 중: 공격력 {AttackPower}, 상대방 방어력 {player.Defence}, 계산된 데미지 {damage}");
+
                 if (damage > 0)
                 {
                     player.TakeDamage(damage);
@@ -116,9 +125,12 @@ public class MonsterFSM : MonoBehaviour, ICombatant
 
     public void TakeDamage(int damage)
     {
+        Debug.Log($"[MonsterFSM] 피격: 받은 데미지 {damage}, 현재 HP {HP}");
+
         if (damage > 0)
         {
             HP -= damage;
+            hpBar?.Initialize(this);
 
             if (HP <= 0)
             {
@@ -169,8 +181,6 @@ public class MonsterFSM : MonoBehaviour, ICombatant
             ChangeState(State.Chase, MonsterAnimation.ANIM_MOVE);
             return;
         }
-
-        AttackPlayerInRange();
     }
 
     private void HitState()
