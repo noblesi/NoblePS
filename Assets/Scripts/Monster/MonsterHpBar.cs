@@ -28,7 +28,7 @@ public class MonsterHpBar : MonoBehaviour
         }
     }
 
-    private void UpdateHpBar(int currentHP, int maxHP)
+    public void UpdateHpBar(int currentHP, int maxHP)
     {
         if(hpSlider != null)
         {

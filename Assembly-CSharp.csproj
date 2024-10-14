@@ -94,7 +94,6 @@
     <Compile Include="Assets\Scripts\Item\ItemLoader.cs" />
     <Compile Include="Assets\_Sources\Map\L_FG_Assets_Pack1.0\Demo\cameraMove.cs" />
     <Compile Include="Assets\Scripts\Interface\IEquipmentView.cs" />
-    <Compile Include="Assets\Scripts\Weapon.cs" />
     <Compile Include="Assets\Scripts\Equipment\EquipmentModel.cs" />
     <Compile Include="Assets\Scripts\Manager\GameManager.cs" />
     <Compile Include="Assets\Scripts\Player\PlayerSpawner.cs" />

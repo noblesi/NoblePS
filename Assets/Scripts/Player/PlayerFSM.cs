@@ -61,13 +61,13 @@ public class PlayerFSM : MonoBehaviour, ICombatant
         if (!hasDealtDamage)
         {
             Collider[] hitColliders = Physics.OverlapSphere(transform.position, attackRange, enemyLayer);
+            Debug.Log("1234");
             foreach (var hitCollider in hitColliders)
             {
                 ICombatant enemy = hitCollider.GetComponent<ICombatant>();
                 if (enemy != null)
                 {
                     int damage = CalculateDamage(AttackPower, enemy.Defence);
-                    Debug.Log($"[PlayerFSM] 공격 중: 공격력 {AttackPower}, 상대방 방어력 {enemy.Defence}, 계산된 데미지 {damage}");
 
                     if (damage > 0)
                     {
@@ -89,8 +89,6 @@ public class PlayerFSM : MonoBehaviour, ICombatant
 
     public void TakeDamage(int damage)
     {
-        Debug.Log($"[PlayerFSM] 피격: 받은 데미지 {damage}, 현재 HP {playerData.Status.HP}");
-
         if (damage > 0)
         {
             playerData.Status.TakeDamage(damage);

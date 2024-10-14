@@ -33,7 +33,7 @@ public class MonsterFSM : MonoBehaviour, ICombatant
             if (monsterData != null)
             {
                 monsterData.HP = value;
-                OnHealthChanged?.Invoke(monsterData.HP, monsterData.MaxHP);
+                hpBar?.UpdateHpBar(monsterData.HP, monsterData.MaxHP);
             }
         }
     }
@@ -41,7 +41,6 @@ public class MonsterFSM : MonoBehaviour, ICombatant
     public int Defence => monsterData?.Defence ?? 0;
 
     private bool isDead = false;
-    private bool hasDealtDamage = false;
 
     public event Action<int, int> OnHealthChanged;
 
@@ -52,7 +51,7 @@ public class MonsterFSM : MonoBehaviour, ICombatant
         monsterLoader = FindObjectOfType<MonsterLoader>();
         itemLoader = FindObjectOfType<ItemLoader>();
         
-        hpBar = GetComponent<MonsterHpBar>();
+        hpBar = GetComponentInChildren<MonsterHpBar>();
 
         if (monsterLoader != null)
         {
@@ -63,12 +62,8 @@ public class MonsterFSM : MonoBehaviour, ICombatant
                 player = GameObject.FindGameObjectWithTag("Player").transform;
 
                 OnHealthChanged?.Invoke(monsterData.HP, monsterData.MaxHP);
+                hpBar?.Initialize(this);
             }
-        }
-
-        if(hpBar != null)
-        {
-            hpBar.Initialize(this);
         }
     }
 
@@ -125,12 +120,10 @@ public class MonsterFSM : MonoBehaviour, ICombatant
 
     public void TakeDamage(int damage)
     {
-        Debug.Log($"[MonsterFSM] 피격: 받은 데미지 {damage}, 현재 HP {HP}");
-
         if (damage > 0)
         {
             HP -= damage;
-            hpBar?.Initialize(this);
+            OnHealthChanged?.Invoke(HP, monsterData.MaxHP);
 
             if (HP <= 0)
             {
@@ -185,20 +178,20 @@ public class MonsterFSM : MonoBehaviour, ICombatant
 
     private void HitState()
     {
-        if(HP <= 0)
+        if (HP <= 0)
         {
             ChangeState(State.Dead, MonsterAnimation.ANIM_DIE);
+            return;
         }
 
-        Invoke(nameof(RecoverFromHit), 1f);
+        StartCoroutine(RecoverFromHit());
     }
 
-    private void RecoverFromHit()
+    private IEnumerator RecoverFromHit()
     {
-        if (currentState == State.Hit)
-        {
-            ChangeState(State.Chase, MonsterAnimation.ANIM_MOVE);
-        }
+        yield return new WaitForSeconds(animator.GetCurrentAnimatorStateInfo(0).length);
+
+        ChangeState(State.Idle, MonsterAnimation.ANIM_IDLE);
     }
 
     private void DeadState()
@@ -214,7 +207,7 @@ public class MonsterFSM : MonoBehaviour, ICombatant
 
     private IEnumerator HandleDeath()
     {
-        yield return new WaitForSeconds(animator.GetCurrentAnimatorStateInfo(0).length + 1f);
+        yield return new WaitForSeconds(animator.GetCurrentAnimatorStateInfo(0).length);
 
         DropItems();
 

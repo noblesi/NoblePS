@@ -13,7 +13,7 @@ public class PlayerData
 
     public PlayerData()
     {
-        Status = new StatusModel(1, 100, 50, 10, 10, 10);
+        Status = new StatusModel(1, 100, 50, 20, 20, 20);
         Inventory = new InventoryModel();
         Equipment = new EquipmentModel();
         LoadPlayerData();

@@ -234,9 +234,9 @@ public class StatusModel
         HP = MaxHP;
         MaxMP = 50;
         MP = MaxMP;
-        BaseStrength = 10;
-        BaseDexterity = 10;
-        BaseIntelligence = 10;
+        BaseStrength = 20;
+        BaseDexterity = 20;
+        BaseIntelligence = 20;
         currentExp = 0;
         expToNextLevel = CalculateExpToNextLevel();
         statPoints = 0;
